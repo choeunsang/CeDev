@@ -1,0 +1,8 @@
+                    gvUser.Columns["UserSeq"].HeaderText = "회원번호";
+                    gvUser.Columns["UserId"].HeaderText = "아이디";
+                    gvUser.Columns["UserName"].HeaderText = "회원명";
+                    
+                    gvUser.Columns["RoleCd"].HeaderText = "권한";
+                    gvUser.Columns["UseYn"].HeaderText = "사용여부";
+                    gvUser.Columns["RegDate"].HeaderText = "등록일";
+                    gvUser.Columns["UpdateDate"].HeaderText = "수정일";

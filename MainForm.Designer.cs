@@ -1,0 +1,201 @@
+﻿namespace CeDev
+{
+    partial class MainForm
+    {
+        /// <summary>
+        ///  Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        ///  Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        ///  Required method for Designer support - do not modify
+        ///  the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            menuStrip1 = new MenuStrip();
+            부동산ToolStripMenuItem = new ToolStripMenuItem();
+            주택거래량ToolStripMenuItem = new ToolStripMenuItem();
+            주택거래량시별통계ToolStripMenuItem = new ToolStripMenuItem();
+            주택가격변동상세ToolStripMenuItem = new ToolStripMenuItem();
+            매매ToolStripMenuItem = new ToolStripMenuItem();
+            주택거래량ToolStripMenuItem1 = new ToolStripMenuItem();
+            주택거래량시별통계ToolStripMenuItem1 = new ToolStripMenuItem();
+            주택가격변동상세ToolStripMenuItem1 = new ToolStripMenuItem();
+            전월세ToolStripMenuItem = new ToolStripMenuItem();
+            전월세거래량ToolStripMenuItem = new ToolStripMenuItem();
+            전월세정보ToolStripMenuItem = new ToolStripMenuItem();
+            데이터ToolStripMenuItem = new ToolStripMenuItem();
+            자료업데이트ToolStripMenuItem = new ToolStripMenuItem();
+            회원정보ToolStripMenuItem = new ToolStripMenuItem();
+            회원관리ToolStripMenuItem = new ToolStripMenuItem();
+            주택전월세갱신신규현황ToolStripMenuItem = new ToolStripMenuItem();
+            menuStrip1.SuspendLayout();
+            SuspendLayout();
+            // 
+            // menuStrip1
+            // 
+            menuStrip1.Items.AddRange(new ToolStripItem[] { 부동산ToolStripMenuItem, 매매ToolStripMenuItem, 전월세ToolStripMenuItem, 데이터ToolStripMenuItem, 회원정보ToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(901, 24);
+            menuStrip1.TabIndex = 0;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // 부동산ToolStripMenuItem
+            // 
+            부동산ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { 주택거래량ToolStripMenuItem, 주택거래량시별통계ToolStripMenuItem, 주택가격변동상세ToolStripMenuItem });
+            부동산ToolStripMenuItem.Name = "부동산ToolStripMenuItem";
+            부동산ToolStripMenuItem.Size = new Size(43, 20);
+            부동산ToolStripMenuItem.Text = "파일";
+            // 
+            // 주택거래량ToolStripMenuItem
+            // 
+            주택거래량ToolStripMenuItem.Name = "주택거래량ToolStripMenuItem";
+            주택거래량ToolStripMenuItem.Size = new Size(67, 22);
+            // 
+            // 주택거래량시별통계ToolStripMenuItem
+            // 
+            주택거래량시별통계ToolStripMenuItem.Name = "주택거래량시별통계ToolStripMenuItem";
+            주택거래량시별통계ToolStripMenuItem.Size = new Size(67, 22);
+            // 
+            // 주택가격변동상세ToolStripMenuItem
+            // 
+            주택가격변동상세ToolStripMenuItem.Name = "주택가격변동상세ToolStripMenuItem";
+            주택가격변동상세ToolStripMenuItem.Size = new Size(67, 22);
+            // 
+            // 매매ToolStripMenuItem
+            // 
+            매매ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { 주택거래량ToolStripMenuItem1, 주택거래량시별통계ToolStripMenuItem1, 주택가격변동상세ToolStripMenuItem1 });
+            매매ToolStripMenuItem.Name = "매매ToolStripMenuItem";
+            매매ToolStripMenuItem.Size = new Size(43, 20);
+            매매ToolStripMenuItem.Text = "매매";
+            // 
+            // 주택거래량ToolStripMenuItem1
+            // 
+            주택거래량ToolStripMenuItem1.Name = "주택거래량ToolStripMenuItem1";
+            주택거래량ToolStripMenuItem1.Size = new Size(194, 22);
+            주택거래량ToolStripMenuItem1.Text = "주택 거래량";
+            주택거래량ToolStripMenuItem1.Click += 주택거래량ToolStripMenuItem1_Click;
+            // 
+            // 주택거래량시별통계ToolStripMenuItem1
+            // 
+            주택거래량시별통계ToolStripMenuItem1.Name = "주택거래량시별통계ToolStripMenuItem1";
+            주택거래량시별통계ToolStripMenuItem1.Size = new Size(194, 22);
+            주택거래량시별통계ToolStripMenuItem1.Text = "주택 거래량 시별 통계";
+            주택거래량시별통계ToolStripMenuItem1.Click += 주택거래량시별통계ToolStripMenuItem1_Click;
+            // 
+            // 주택가격변동상세ToolStripMenuItem1
+            // 
+            주택가격변동상세ToolStripMenuItem1.Name = "주택가격변동상세ToolStripMenuItem1";
+            주택가격변동상세ToolStripMenuItem1.Size = new Size(194, 22);
+            주택가격변동상세ToolStripMenuItem1.Text = "주택가격 변동상세";
+            주택가격변동상세ToolStripMenuItem1.Click += 주택가격변동상세ToolStripMenuItem1_Click;
+            // 
+            // 전월세ToolStripMenuItem
+            // 
+            전월세ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { 전월세거래량ToolStripMenuItem, 전월세정보ToolStripMenuItem, 주택전월세갱신신규현황ToolStripMenuItem });
+            전월세ToolStripMenuItem.Name = "전월세ToolStripMenuItem";
+            전월세ToolStripMenuItem.Size = new Size(55, 20);
+            전월세ToolStripMenuItem.Text = "전월세";
+            // 
+            // 전월세거래량ToolStripMenuItem
+            // 
+            전월세거래량ToolStripMenuItem.Name = "전월세거래량ToolStripMenuItem";
+            전월세거래량ToolStripMenuItem.Size = new Size(223, 22);
+            전월세거래량ToolStripMenuItem.Text = "전월세 거래량";
+            전월세거래량ToolStripMenuItem.Click += 전월세거래량ToolStripMenuItem_Click;
+            // 
+            // 전월세정보ToolStripMenuItem
+            // 
+            전월세정보ToolStripMenuItem.Name = "전월세정보ToolStripMenuItem";
+            전월세정보ToolStripMenuItem.Size = new Size(223, 22);
+            전월세정보ToolStripMenuItem.Text = "주택 전월세 거래조회";
+            전월세정보ToolStripMenuItem.Click += 주택_전월세_거래조회ToolStripMenuItem_Click;
+            // 
+            // 데이터ToolStripMenuItem
+            // 
+            데이터ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { 자료업데이트ToolStripMenuItem });
+            데이터ToolStripMenuItem.Name = "데이터ToolStripMenuItem";
+            데이터ToolStripMenuItem.Size = new Size(83, 20);
+            데이터ToolStripMenuItem.Text = "데이터 관리";
+            // 
+            // 자료업데이트ToolStripMenuItem
+            // 
+            자료업데이트ToolStripMenuItem.Name = "자료업데이트ToolStripMenuItem";
+            자료업데이트ToolStripMenuItem.Size = new Size(150, 22);
+            자료업데이트ToolStripMenuItem.Text = "자료 업데이트";
+            자료업데이트ToolStripMenuItem.Click += 자료업데이트ToolStripMenuItem_Click;
+            // 
+            // 회원정보ToolStripMenuItem
+            // 
+            회원정보ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { 회원관리ToolStripMenuItem });
+            회원정보ToolStripMenuItem.Name = "회원정보ToolStripMenuItem";
+            회원정보ToolStripMenuItem.Size = new Size(67, 20);
+            회원정보ToolStripMenuItem.Text = "회원관리";
+            // 
+            // 회원관리ToolStripMenuItem
+            // 
+            회원관리ToolStripMenuItem.Name = "회원관리ToolStripMenuItem";
+            회원관리ToolStripMenuItem.Size = new Size(122, 22);
+            회원관리ToolStripMenuItem.Text = "회원정보";
+            회원관리ToolStripMenuItem.Click += 회원정보ToolStripMenuItem_Click;
+            // 
+            // 주택전월세갱신신규현황ToolStripMenuItem
+            // 
+            주택전월세갱신신규현황ToolStripMenuItem.Name = "주택전월세갱신신규현황ToolStripMenuItem";
+            주택전월세갱신신규현황ToolStripMenuItem.Size = new Size(223, 22);
+            주택전월세갱신신규현황ToolStripMenuItem.Text = "주택 전월세 갱신/신규 현황";
+            주택전월세갱신신규현황ToolStripMenuItem.Click += 주택전월세갱신신규현황ToolStripMenuItem_Click;
+            // 
+            // MainForm
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(901, 482);
+            Controls.Add(menuStrip1);
+            MainMenuStrip = menuStrip1;
+            Name = "MainForm";
+            Text = "CeDev 부동산";
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #endregion
+
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem 부동산ToolStripMenuItem;
+        private ToolStripMenuItem 주택거래량ToolStripMenuItem;        
+        private ToolStripMenuItem 주택거래량시별통계ToolStripMenuItem;        
+        private ToolStripMenuItem 주택가격변동상세ToolStripMenuItem;
+        private ToolStripMenuItem 회원정보ToolStripMenuItem;
+        private ToolStripMenuItem 회원관리ToolStripMenuItem;
+        private ToolStripMenuItem 데이터ToolStripMenuItem;
+        private ToolStripMenuItem 자료업데이트ToolStripMenuItem;
+        private ToolStripMenuItem 매매ToolStripMenuItem;
+        private ToolStripMenuItem 주택거래량ToolStripMenuItem1;
+        private ToolStripMenuItem 주택거래량시별통계ToolStripMenuItem1;
+        private ToolStripMenuItem 전월세ToolStripMenuItem;
+        private ToolStripMenuItem 주택가격변동상세ToolStripMenuItem1;
+        private ToolStripMenuItem 전월세거래량ToolStripMenuItem;
+        private ToolStripMenuItem 전월세정보ToolStripMenuItem;
+        private ToolStripMenuItem 주택전월세갱신신규현황ToolStripMenuItem;
+    }
+}
