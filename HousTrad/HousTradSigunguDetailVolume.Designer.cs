@@ -38,6 +38,7 @@
             cboSido = new ComboBox();
             label1 = new Label();
             chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            lblCnt = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)chart1).BeginInit();
             SuspendLayout();
@@ -57,7 +58,7 @@
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Location = new Point(37, 61);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(1064, 310);
+            dataGridView1.Size = new Size(1064, 307);
             dataGridView1.TabIndex = 1;
             // 
             // lblYear
@@ -99,21 +100,32 @@
             chart1.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             chart1.Legends.Add(legend1);
-            chart1.Location = new Point(37, 377);
+            chart1.Location = new Point(37, 396);
             chart1.Name = "chart1";
             series1.ChartArea = "ChartArea1";
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             chart1.Series.Add(series1);
-            chart1.Size = new Size(1064, 396);
+            chart1.Size = new Size(1064, 377);
             chart1.TabIndex = 27;
             chart1.Text = "chart1";
+            // 
+            // lblCnt
+            // 
+            lblCnt.AutoSize = true;
+            lblCnt.Location = new Point(974, 371);
+            lblCnt.Name = "lblCnt";
+            lblCnt.Size = new Size(47, 15);
+            lblCnt.TabIndex = 32;
+            lblCnt.Text = "총 건수";
+            lblCnt.TextAlign = ContentAlignment.TopRight;
             // 
             // HousTradSigunguDetailVolume
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1134, 785);
+            Controls.Add(lblCnt);
             Controls.Add(chart1);
             Controls.Add(cboSido);
             Controls.Add(label1);
@@ -138,5 +150,6 @@
         private ComboBox cboSido;
         private Label label1;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private Label lblCnt;
     }
 }

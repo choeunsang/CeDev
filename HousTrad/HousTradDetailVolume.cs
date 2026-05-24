@@ -1,5 +1,6 @@
 ﻿using CeDev.Models;
 using Newtonsoft.Json;
+using System.Diagnostics;
 using System.Web;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -183,9 +184,12 @@ namespace CeDev
             //-------------------------------------------------------------------------------------------
             using (HttpClient client = new HttpClient())
             {
-                string json = await client.GetStringAsync(url);
+                Stopwatch stopwatch = Stopwatch.StartNew();
 
+                string json = await client.GetStringAsync(url);
                 List<HousingTradeVolumeMonthlyDto> list = JsonConvert.DeserializeObject<List<HousingTradeVolumeMonthlyDto>>(json);
+
+                stopwatch.Stop();
 
                 if (list == null || list.Count == 0)
                 {
@@ -195,7 +199,11 @@ namespace CeDev
                     return;
                 }
 
+                long elapsedMs = stopwatch.ElapsedMilliseconds;
+                double seconds = elapsedMs / 1000.0; // 초 단위 변환 (0.8초)
+
                 dataGridView1.DataSource = list;
+                lblCnt.Text = $"{list.Count:N0} 건({seconds:0.0}초)";
 
                 SetGridHeader();
                 DrawChart(list);

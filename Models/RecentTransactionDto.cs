@@ -16,6 +16,7 @@
 
         public string amount { get; set; }
 
+        //
         public string floor { get; set; }
     }
 }

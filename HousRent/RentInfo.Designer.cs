@@ -133,11 +133,12 @@
             // lblCnt
             // 
             lblCnt.AutoSize = true;
-            lblCnt.Location = new Point(1054, 526);
+            lblCnt.Location = new Point(999, 514);
             lblCnt.Name = "lblCnt";
             lblCnt.Size = new Size(47, 15);
             lblCnt.TabIndex = 31;
             lblCnt.Text = "총 건수";
+            lblCnt.TextAlign = ContentAlignment.TopRight;
             // 
             // progressBar1
             // 

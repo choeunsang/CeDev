@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Web;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -82,9 +83,7 @@ namespace CeDev
                 return;
             }
 
-            SigunguMonthlyTradeVolumeDto item =
-                dataGridView1.CurrentRow.DataBoundItem
-                as SigunguMonthlyTradeVolumeDto;
+            SigunguMonthlyTradeVolumeDto item = dataGridView1.CurrentRow.DataBoundItem as SigunguMonthlyTradeVolumeDto;
 
             if (item == null)
             {
@@ -93,25 +92,25 @@ namespace CeDev
 
             string[] months =
             {
-        "1월", "2월", "3월", "4월", "5월", "6월",
-        "7월", "8월", "9월", "10월", "11월", "12월"
-    };
+                "1월", "2월", "3월", "4월", "5월", "6월",
+                "7월", "8월", "9월", "10월", "11월", "12월"
+            };
 
-            int[] values =
-            {
-        item.month01,
-        item.month02,
-        item.month03,
-        item.month04,
-        item.month05,
-        item.month06,
-        item.month07,
-        item.month08,
-        item.month09,
-        item.month10,
-        item.month11,
-        item.month12
-    };
+                    int[] values =
+                    {
+                item.month01,
+                item.month02,
+                item.month03,
+                item.month04,
+                item.month05,
+                item.month06,
+                item.month07,
+                item.month08,
+                item.month09,
+                item.month10,
+                item.month11,
+                item.month12
+            };
 
             //-------------------------------------------------------------------------------------------
             // Processing
@@ -185,10 +184,12 @@ namespace CeDev
             //-------------------------------------------------------------------------------------------
             using (HttpClient client = new HttpClient())
             {
-                string json = await client.GetStringAsync(url);
+                Stopwatch stopwatch = Stopwatch.StartNew();
 
-                List<SigunguMonthlyTradeVolumeDto> list =
-                    JsonConvert.DeserializeObject<List<SigunguMonthlyTradeVolumeDto>>(json);
+                string json = await client.GetStringAsync(url);
+                List<SigunguMonthlyTradeVolumeDto> list = JsonConvert.DeserializeObject<List<SigunguMonthlyTradeVolumeDto>>(json);
+
+                stopwatch.Stop();
 
                 if (list == null || list.Count == 0)
                 {
@@ -198,7 +199,12 @@ namespace CeDev
                     return;
                 }
 
+                long elapsedMs = stopwatch.ElapsedMilliseconds;
+                double seconds = elapsedMs / 1000.0; // 초 단위 변환 (0.8초)
+
                 dataGridView1.DataSource = list;
+                lblCnt.Text = $"{list.Count:N0} 건({seconds:0.0}초)";
+
                 SetGridHeader();
 
                 dataGridView1.Columns["sigungu"].HeaderText = "시군구";

@@ -11,7 +11,9 @@
         public int RenewContractCnt { get; set; }
         public int UsedRightCnt { get; set; }
 
-        
+        public double UsePercent { get; set; }
+
+
 
     }
 }

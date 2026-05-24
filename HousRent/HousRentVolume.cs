@@ -1,5 +1,7 @@
 ﻿using CeDev.Models;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Web;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -177,31 +179,61 @@ namespace CeDev
             string baseUrl = "http://localhost:9081/api/housing-rent-volume/monthly";
             string queryString = BuildQueryString(model);
 
-
             string url = $"{baseUrl}?{queryString}";
+
 
             //-------------------------------------------------------------------------------------------
             // Processing
+            //-------------------------------------------------------------------------------------------            
+            Stopwatch stopwatch = Stopwatch.StartNew();
+
+            HttpClient client = new HttpClient();
+            string json = await client.GetStringAsync(url);
+            List<HousingTradeVolumeMonthlyDto> list = JsonConvert.DeserializeObject<List<HousingTradeVolumeMonthlyDto>>(json);
+
+            stopwatch.Stop();
             //-------------------------------------------------------------------------------------------
-            using (HttpClient client = new HttpClient())
+            // Output
+            //-------------------------------------------------------------------------------------------            
+            if (list == null || list.Count == 0)
             {
-                string json = await client.GetStringAsync(url);
-
-                List<HousingTradeVolumeMonthlyDto> list = JsonConvert.DeserializeObject<List<HousingTradeVolumeMonthlyDto>>(json);
-
-                if (list == null || list.Count == 0)
-                {
-                    MessageBox.Show("조회된 데이터가 없습니다.");
-                    dataGridView1.DataSource = null;
-                    chart1.Series.Clear();
-                    return;
-                }
-
-                dataGridView1.DataSource = list;
-
-                SetGridHeader();
-                DrawChart(list);
+                lblCnt.Text = "0 건";
+                dataGridView1.DataSource = null;
+                MessageBox.Show("조회된 데이터가 없습니다.");
+                return;
             }
+
+            long elapsedMs = stopwatch.ElapsedMilliseconds;
+            double seconds = elapsedMs / 1000.0; // 초 단위 변환 (0.8초)
+
+            dataGridView1.DataSource = list;
+            lblCnt.Text = $"{list.Count:N0} 건({seconds:0.0}초)";
+
+            SetGridHeader();
+            DrawChart(list);
+
+            ////-------------------------------------------------------------------------------------------
+            //// Processing
+            ////-------------------------------------------------------------------------------------------
+            //using (HttpClient client = new HttpClient())
+            //{
+            //    string json = await client.GetStringAsync(url);
+
+            //    List<HousingTradeVolumeMonthlyDto> list = JsonConvert.DeserializeObject<List<HousingTradeVolumeMonthlyDto>>(json);
+
+            //    if (list == null || list.Count == 0)
+            //    {
+            //        MessageBox.Show("조회된 데이터가 없습니다.");
+            //        dataGridView1.DataSource = null;
+            //        chart1.Series.Clear();
+            //        return;
+            //    }
+
+            //    dataGridView1.DataSource = list;
+
+            //    SetGridHeader();
+            //    DrawChart(list);
+            //}
         }
 
         private string BuildQueryString(HousTradeVolumeSearchModel model)
@@ -308,5 +340,6 @@ namespace CeDev
 
             chart1.Series.Add(series);
         }
+
     }
 }

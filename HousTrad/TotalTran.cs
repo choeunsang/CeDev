@@ -1,7 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using CeDev.Models;
+using Newtonsoft.Json;
+using System.Diagnostics;
+using System.Runtime.Intrinsics.X86;
 using System.Web;
-using CeDev.Models;
-
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace CeDev
@@ -36,9 +37,7 @@ namespace CeDev
             await DoSearch();
         }
 
-        private async void dataGridView1_SelectionChanged(
-            object sender,
-            EventArgs e)
+        private async void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
             //-------------------------------------------------------------------------------------------
             // Declare and initialize variables
@@ -48,9 +47,7 @@ namespace CeDev
                 return;
             }
 
-            RecentTransactionDto item =
-                dataGridView1.CurrentRow.DataBoundItem
-                as RecentTransactionDto;
+            RecentTransactionDto item = dataGridView1.CurrentRow.DataBoundItem as RecentTransactionDto;
 
             if (item == null)
             {
@@ -110,8 +107,7 @@ namespace CeDev
             //-------------------------------------------------------------------------------------------
             // Declare and initialize variables
             //-------------------------------------------------------------------------------------------
-            RecentTransactionSearchModel model =
-                new RecentTransactionSearchModel();
+            RecentTransactionSearchModel model = new RecentTransactionSearchModel();
 
             model.Sido = cboSido.SelectedItem?.ToString() ?? "";
             model.Sigungu = cboSigungu.SelectedItem?.ToString() ?? "";
@@ -128,15 +124,11 @@ namespace CeDev
             }
 
             model.Dangi = txtDangi.Text.Trim();
-
             model.StartYearMonth = txtFrom.Text.Trim();
             model.EndYearMonth = txtTo.Text.Trim();
 
-            string baseUrl =
-                "http://localhost:9081/api/recent-transactions";
-
+            string baseUrl = "http://localhost:9081/api/recent-transactions";
             string queryString = BuildQueryString(model);
-
             string url = $"{baseUrl}?{queryString}";
 
             //-------------------------------------------------------------------------------------------
@@ -144,16 +136,22 @@ namespace CeDev
             //-------------------------------------------------------------------------------------------
             using (HttpClient client = new HttpClient())
             {
-                string json = await client.GetStringAsync(url);
+                Stopwatch stopwatch = Stopwatch.StartNew();
 
-                List<RecentTransactionDto> list =
-                    JsonConvert.DeserializeObject<List<RecentTransactionDto>>(json);
+                string json = await client.GetStringAsync(url);
+                List<RecentTransactionDto> list = JsonConvert.DeserializeObject<List<RecentTransactionDto>>(json);
+
+                stopwatch.Stop();
+                long elapsedMs = stopwatch.ElapsedMilliseconds;
+                double seconds = elapsedMs / 1000.0; // 초 단위 변환 (0.8초)
 
                 if (list == null || list.Count == 0)
                 {
                     MessageBox.Show("조회된 데이터가 없습니다.");
 
-                    lblResult.Text = "0 건";
+                    dataGridView1.DataSource = list;
+                    lblResult.Text = $"{list.Count:N0} 건({seconds:0.0}초)";
+
                     dataGridView1.DataSource = null;
                     dataGridView2.DataSource = null;
 
@@ -167,10 +165,9 @@ namespace CeDev
                 }
 
                 dataGridView1.DataSource = list;
-
                 SetMainGrid();
 
-                lblResult.Text = list.Count + " 건";
+                lblResult.Text = $"{list.Count:N0} 건({seconds:0.0}초)";
             }
         }
 

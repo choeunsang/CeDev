@@ -42,6 +42,7 @@
             label2 = new Label();
             cboSido = new ComboBox();
             label1 = new Label();
+            lblCnt = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)chart1).BeginInit();
             SuspendLayout();
@@ -59,9 +60,9 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(28, 414);
+            dataGridView1.Location = new Point(28, 401);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(618, 153);
+            dataGridView1.Size = new Size(618, 157);
             dataGridView1.TabIndex = 1;
             // 
             // lblYear
@@ -147,11 +148,22 @@
             label1.TabIndex = 25;
             label1.Text = "시도";
             // 
+            // lblCnt
+            // 
+            lblCnt.AutoSize = true;
+            lblCnt.Location = new Point(534, 561);
+            lblCnt.Name = "lblCnt";
+            lblCnt.Size = new Size(47, 15);
+            lblCnt.TabIndex = 32;
+            lblCnt.Text = "총 건수";
+            lblCnt.TextAlign = ContentAlignment.TopRight;
+            // 
             // HousTradDetailVolume
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1134, 579);
+            Controls.Add(lblCnt);
             Controls.Add(cboDong);
             Controls.Add(label5);
             Controls.Add(cboSigungu);
@@ -184,5 +196,6 @@
         private Label label2;
         private ComboBox cboSido;
         private Label label1;
+        private Label lblCnt;
     }
 }

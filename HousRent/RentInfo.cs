@@ -1,5 +1,7 @@
 ﻿using CeDev.Models;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Web;
 
 namespace CeDev
@@ -169,8 +171,8 @@ namespace CeDev
             btnSearch.Enabled = false;
 
             try
-            {
-                await GetRentInfoList();
+            {                
+                await GetRentInfoList();                
             }
             finally
             {
@@ -203,44 +205,37 @@ namespace CeDev
 
             string baseUrl = "http://localhost:9081/api/rent-info";
             string queryString = BuildQueryString(model);
-
             string url = $"{baseUrl}?{queryString}";
-
 
             //-------------------------------------------------------------------------------------------
             // Processing
+            //-------------------------------------------------------------------------------------------            
+            Stopwatch stopwatch = Stopwatch.StartNew();
+
+            HttpClient client = new HttpClient();
+            string json = await client.GetStringAsync(url);
+            List<RentInfoDto> list = JsonConvert.DeserializeObject<List<RentInfoDto>>(json);
+
+            stopwatch.Stop();
+
             //-------------------------------------------------------------------------------------------
-            using (HttpClient client = new HttpClient())
+            // Output
+            //-------------------------------------------------------------------------------------------            
+            if (list == null || list.Count == 0)
             {
-                string json = await client.GetStringAsync(url);
-
-                //DataTable dt = JsonConvert.DeserializeObject<DataTable>(json);
-                List<RentInfoDto> list = JsonConvert.DeserializeObject<List<RentInfoDto>>(json);
-
-                //if (dt == null || dt.Rows.Count == 0)
-                //{
-                //    lblCnt.Text = "0 건";
-                //    dataGridView1.DataSource = null;
-                //    MessageBox.Show("조회된 데이터가 없습니다.");
-                //    return;
-                //}
-
-                //dataGridView1.DataSource = dt;
-                //lblCnt.Text = dt.Rows.Count + " 건";
-
-                if (list == null || list.Count == 0)
-                {
-                    lblCnt.Text = "0 건";
-                    dataGridView1.DataSource = null;
-                    MessageBox.Show("조회된 데이터가 없습니다.");
-                    return;
-                }
-
-                dataGridView1.DataSource = list;
-                lblCnt.Text = list.Count + " 건";
-
-                SetGridHeader();
+                lblCnt.Text = "0 건";
+                dataGridView1.DataSource = null;
+                MessageBox.Show("조회된 데이터가 없습니다.");
+                return;
             }
+
+            long elapsedMs = stopwatch.ElapsedMilliseconds;
+            double seconds = elapsedMs / 1000.0; // 초 단위 변환 (0.8초)
+
+            dataGridView1.DataSource = list;            
+            lblCnt.Text = $"{list.Count:N0} 건({seconds:0.0}초)";
+
+            SetGridHeader();
         }
 
         private string BuildQueryString(RentInfoSearchModel model)
