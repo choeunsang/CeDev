@@ -171,8 +171,8 @@ namespace CeDev
             btnSearch.Enabled = false;
 
             try
-            {                
-                await GetRentInfoList();                
+            {
+                await GetRentInfoList();
             }
             finally
             {
@@ -232,7 +232,7 @@ namespace CeDev
             long elapsedMs = stopwatch.ElapsedMilliseconds;
             double seconds = elapsedMs / 1000.0; // 초 단위 변환 (0.8초)
 
-            dataGridView1.DataSource = list;            
+            dataGridView1.DataSource = list;
             lblCnt.Text = $"{list.Count:N0} 건({seconds:0.0}초)";
 
             SetGridHeader();
@@ -290,7 +290,7 @@ namespace CeDev
             dataGridView1.Columns["Term"].HeaderText = "계약기간";
             dataGridView1.Columns["TermGubun"].HeaderText = "계약구분";
 
-            dataGridView1.Columns["RightRequ"].HeaderText = "갱신요구권";
+            dataGridView1.Columns["RightRequ"].HeaderText = "갱신요구권";            
 
             dataGridView1.Columns["PrevDeposit"].HeaderText = "종전보증금";
             dataGridView1.Columns["PrevMonPay"].HeaderText = "종전월세";
@@ -339,5 +339,7 @@ namespace CeDev
 
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
         }
+
+
     }
 }

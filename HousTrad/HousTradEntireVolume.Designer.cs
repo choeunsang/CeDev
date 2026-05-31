@@ -1,6 +1,6 @@
 ﻿namespace CeDev
 {
-    partial class RentGbunInfo
+    partial class HousTradEntireVolume
     {
         /// <summary>
         ///  Required designer variable.
@@ -28,15 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             btnSearch = new Button();
             dataGridView1 = new DataGridView();
             lblYear = new Label();
             txtYear = new TextBox();
-            cboSido = new ComboBox();
-            label1 = new Label();
             lblCnt = new Label();
-            progressBar1 = new ProgressBar();
+            chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)chart1).BeginInit();
             SuspendLayout();
             // 
             // btnSearch
@@ -52,15 +54,15 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(28, 77);
+            dataGridView1.Location = new Point(37, 61);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(1073, 434);
+            dataGridView1.Size = new Size(1064, 306);
             dataGridView1.TabIndex = 1;
             // 
             // lblYear
             // 
             lblYear.AutoSize = true;
-            lblYear.Location = new Point(766, 31);
+            lblYear.Location = new Point(36, 31);
             lblYear.Name = "lblYear";
             lblYear.Size = new Size(31, 15);
             lblYear.TabIndex = 2;
@@ -68,62 +70,52 @@
             // 
             // txtYear
             // 
-            txtYear.Location = new Point(818, 26);
+            txtYear.Location = new Point(88, 26);
             txtYear.Name = "txtYear";
             txtYear.Size = new Size(114, 23);
             txtYear.TabIndex = 5;
             // 
-            // cboSido
-            // 
-            cboSido.FormattingEnabled = true;
-            cboSido.Location = new Point(81, 26);
-            cboSido.Name = "cboSido";
-            cboSido.Size = new Size(110, 23);
-            cboSido.TabIndex = 26;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(37, 29);
-            label1.Name = "label1";
-            label1.Size = new Size(31, 15);
-            label1.TabIndex = 25;
-            label1.Text = "시도";
-            // 
             // lblCnt
             // 
-            lblCnt.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             lblCnt.AutoSize = true;
-            lblCnt.Location = new Point(28, 518);
+            lblCnt.Location = new Point(37, 370);
             lblCnt.Name = "lblCnt";
             lblCnt.Size = new Size(47, 15);
-            lblCnt.TabIndex = 31;
+            lblCnt.TabIndex = 32;
             lblCnt.Text = "총 건수";
-            lblCnt.TextAlign = ContentAlignment.BottomRight;
+            lblCnt.TextAlign = ContentAlignment.TopRight;
             // 
-            // progressBar1
+            // chart1
             // 
-            progressBar1.Location = new Point(913, 518);
-            progressBar1.Name = "progressBar1";
-            progressBar1.Size = new Size(188, 23);
-            progressBar1.TabIndex = 32;
+            chartArea1.Name = "ChartArea1";
+            chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            chart1.Legends.Add(legend1);
+            chart1.Location = new Point(37, 400);
+            chart1.Name = "chart1";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            chart1.Series.Add(series1);
+            chart1.Size = new Size(1064, 330);
+            chart1.TabIndex = 33;
+            chart1.Text = "chart1";
             // 
-            // RentGbunInfo
+            // HousTradEntireVolume
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1134, 579);
-            Controls.Add(progressBar1);
+            ClientSize = new Size(1134, 742);
+            Controls.Add(chart1);
             Controls.Add(lblCnt);
-            Controls.Add(cboSido);
-            Controls.Add(label1);
             Controls.Add(txtYear);
             Controls.Add(lblYear);
             Controls.Add(dataGridView1);
             Controls.Add(btnSearch);
-            Name = "RentGbunInfo";
-            Text = "주택 전월세 갱신/신규 현황";
+            Name = "HousTradEntireVolume";
+            Text = "전국 주택 거래량";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)chart1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -134,9 +126,7 @@
         private DataGridView dataGridView1;
         private Label lblYear;
         private TextBox txtYear;
-        private ComboBox cboSido;
-        private Label label1;
         private Label lblCnt;
-        private ProgressBar progressBar1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
     }
 }

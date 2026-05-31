@@ -1,6 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using CeDev.Models;
+using Newtonsoft.Json;
 using System.Data;
-using CeDev.Models;
+using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace CeDev.Login
 {
@@ -64,13 +66,28 @@ namespace CeDev.Login
                         return;
                     }
 
+                    Stopwatch stopwatch = Stopwatch.StartNew();
+
                     string result = await response.Content.ReadAsStringAsync();
                     List<UserDto> list = JsonConvert.DeserializeObject<List<UserDto>>(result);
+
+                    stopwatch.Stop();
+
+                    if (list == null || list.Count == 0)
+                    {
+                        lblCnt.Text = "0 건";
+                        gvUser.DataSource = null;
+                        MessageBox.Show("조회된 데이터가 없습니다.");
+                        return;
+                    }
+
+                    long elapsedMs = stopwatch.ElapsedMilliseconds;
+                    double seconds = elapsedMs / 1000.0; // 초 단위 변환 (0.8초)
+   
                     gvUser.DataSource = list;
+                    lblCnt.Text = $"{list.Count:N0} 건({seconds:0.0}초)";
 
                     SetGridHeader();
-
-
                 }
             }
             catch (Exception ex)

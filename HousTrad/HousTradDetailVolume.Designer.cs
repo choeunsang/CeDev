@@ -151,7 +151,7 @@
             // lblCnt
             // 
             lblCnt.AutoSize = true;
-            lblCnt.Location = new Point(534, 561);
+            lblCnt.Location = new Point(28, 561);
             lblCnt.Name = "lblCnt";
             lblCnt.Size = new Size(47, 15);
             lblCnt.TabIndex = 32;
@@ -176,7 +176,7 @@
             Controls.Add(dataGridView1);
             Controls.Add(btnSearch);
             Name = "HousTradDetailVolume";
-            Text = "주택 매매 거래량";
+            Text = "시군구별 주택 거래량 상세";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)chart1).EndInit();
             ResumeLayout(false);

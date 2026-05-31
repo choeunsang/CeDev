@@ -33,6 +33,7 @@
             btnNew = new Button();
             btnDetail = new Button();
             btnDel = new Button();
+            lblCnt = new Label();
             ((System.ComponentModel.ISupportInitialize)gvUser).BeginInit();
             SuspendLayout();
             // 
@@ -84,11 +85,22 @@
             btnDel.UseVisualStyleBackColor = true;
             btnDel.Click += btnDel_Click;
             // 
+            // lblCnt
+            // 
+            lblCnt.AutoSize = true;
+            lblCnt.Location = new Point(23, 304);
+            lblCnt.Name = "lblCnt";
+            lblCnt.Size = new Size(47, 15);
+            lblCnt.TabIndex = 33;
+            lblCnt.Text = "총 건수";
+            lblCnt.TextAlign = ContentAlignment.TopRight;
+            // 
             // UserInfo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(973, 389);
+            Controls.Add(lblCnt);
             Controls.Add(btnDel);
             Controls.Add(btnDetail);
             Controls.Add(btnNew);
@@ -98,6 +110,7 @@
             Text = "회원정보";
             ((System.ComponentModel.ISupportInitialize)gvUser).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -107,5 +120,6 @@
         private Button btnNew;
         private Button btnDetail;
         private Button btnDel;
+        private Label lblCnt;
     }
 }

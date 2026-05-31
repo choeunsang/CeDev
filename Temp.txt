@@ -1,8 +1,19 @@
-                    gvUser.Columns["UserSeq"].HeaderText = "회원번호";
-                    gvUser.Columns["UserId"].HeaderText = "아이디";
-                    gvUser.Columns["UserName"].HeaderText = "회원명";
-                    
-                    gvUser.Columns["RoleCd"].HeaderText = "권한";
-                    gvUser.Columns["UseYn"].HeaderText = "사용여부";
-                    gvUser.Columns["RegDate"].HeaderText = "등록일";
-                    gvUser.Columns["UpdateDate"].HeaderText = "수정일";
+private String city;
+private String bungi;
+private String bonBun;
+private String buBun;
+private String dangi;
+private String dediArea;
+private String contYear;
+private String contDate;
+private String amount;
+private String floor;
+private String consYear;
+private String road;
+private String dateCancel;
+private String transType;
+private String brokerLoc;
+private String regiDt;
+private String sido;
+private String sigungu;
+private String dong;

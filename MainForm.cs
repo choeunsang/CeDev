@@ -26,7 +26,7 @@ namespace CeDev
 
         }
 
-
+        #region 회원관리
 
         private void 회원정보ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -36,26 +36,19 @@ namespace CeDev
             form.Show();
         }
 
-        private void 자료업데이트ToolStripMenuItem_Click(object sender, EventArgs e)
+        #endregion
+
+        #region 매매
+
+        private void 전국주택거래량ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DataUpdate form = new DataUpdate();
+            HousTradEntireVolume form = new HousTradEntireVolume();
 
             form.MdiParent = this;
             form.Show();
         }
 
-
-        private void 주택거래량ToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            HousTradDetailVolume form = new HousTradDetailVolume();
-
-            form.MdiParent = this;
-            form.Show();
-
-        }
-
-
-        private void 주택거래량시별통계ToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void 시도별거래량월별통계ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             HousTradSigunguDetailVolume form = new HousTradSigunguDetailVolume();
 
@@ -63,8 +56,14 @@ namespace CeDev
             form.Show();
         }
 
+        private void 시군구별주택거래량상세ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            HousTradDetailVolume form = new HousTradDetailVolume();
 
+            form.MdiParent = this;
+            form.Show();
 
+        }
 
         private void 주택가격변동상세ToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -74,6 +73,17 @@ namespace CeDev
             form.Show();
         }
 
+        private void 주택매매정보ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            HousTradInfo form = new HousTradInfo();
+
+            form.MdiParent = this;
+            form.Show();
+        }
+
+        #endregion
+
+        #region 전월세
         private void 전월세거래량ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             HousRentVolume form = new HousRentVolume();
@@ -97,5 +107,19 @@ namespace CeDev
             form.MdiParent = this;
             form.Show();
         }
+
+        #endregion
+
+        #region 데이터 관리
+
+        private void 자료업데이트ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DataUpdate form = new DataUpdate();
+
+            form.MdiParent = this;
+            form.Show();
+        }
+
+        #endregion
     }
 }

@@ -5,7 +5,8 @@
         //-------------------------------------------------------------------------------------------
         // Declare and initialize variables
         //-------------------------------------------------------------------------------------------
-        public string Sigungu { get; set; }
+        //public string Sigungu { get; set; }
+        public string RegionName { get; set; }
 
         public int NewContractCnt { get; set; }
         public int RenewContractCnt { get; set; }

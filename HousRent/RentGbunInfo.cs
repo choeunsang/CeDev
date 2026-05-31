@@ -49,113 +49,22 @@ namespace CeDev
                 var sidoList = JsonConvert.DeserializeObject<List<string>>(json);
 
                 cboSido.Items.Clear();
+                cboSido.Items.Add("전체");
+                cboSido.SelectedIndex = 0;
 
                 foreach (string sido in sidoList)
                 {
                     cboSido.Items.Add(sido);
                 }
 
-                if (cboSido.Items.Contains("서울특별시"))
-                {
-                    cboSido.SelectedItem = "서울특별시";
-                }
-
-                //cboSigungu.Items.Clear();
-                //cboSigungu.Items.Add("전체");
-                //cboSigungu.SelectedIndex = 0;
-
-                //cboDong.Items.Clear();
-                //cboDong.Items.Add("전체");
-                //cboDong.SelectedIndex = 0;
-
-                //txtYear.Text = "2025";
-                //txtYear.Text = "2026";
+                //if (cboSido.Items.Contains("서울특별시"))
+                //{
+                //    cboSido.SelectedItem = "서울특별시";
+                //}
 
                 txtYear.Text = DateTime.Now.Year.ToString();
             }
         }
-
-        //private async void cboSido_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    //-------------------------------------------------------------------------------------------
-        //    // Declare and initialize variables
-        //    //-------------------------------------------------------------------------------------------
-        //    string sido = cboSido.Text.Trim();
-
-        //    string url =
-        //        $"http://localhost:9081/api/region/sigungu" +
-        //        $"?sido={Uri.EscapeDataString(sido)}";
-
-        //    //-------------------------------------------------------------------------------------------
-        //    // Processing
-        //    //-------------------------------------------------------------------------------------------
-        //    using (HttpClient client = new HttpClient())
-        //    {
-        //        string json = await client.GetStringAsync(url);
-
-        //        cboSigungu.DataSource = null;
-        //        cboSigungu.Items.Clear();
-        //        cboSigungu.Items.Add("전체");
-
-        //        List<string> sigunguList = JsonConvert.DeserializeObject<List<string>>(json);
-
-        //        foreach (string sigungu in sigunguList)
-        //        {
-        //            cboSigungu.Items.Add(sigungu);
-        //        }
-
-        //        cboSigungu.SelectedIndex = 0;
-
-        //        cboDong.DataSource = null;
-        //        cboDong.Items.Clear();
-        //        cboDong.Items.Add("전체");
-        //        cboDong.SelectedIndex = 0;
-        //    }
-        //}
-
-        //private async void cboSigungu_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    //-------------------------------------------------------------------------------------------
-        //    // Declare and initialize variables
-        //    //-------------------------------------------------------------------------------------------
-        //    string sido = cboSido.Text.Trim();
-        //    string sigungu = cboSigungu.Text.Trim();
-
-        //    if (string.IsNullOrEmpty(sido) || sigungu == "전체")
-        //    {
-        //        cboDong.DataSource = null;
-        //        cboDong.Items.Clear();
-        //        cboDong.Items.Add("전체");
-        //        cboDong.SelectedIndex = 0;
-        //        return;
-        //    }
-
-        //    string url =
-        //        $"http://localhost:9081/api/region/dong" +
-        //        $"?sido={Uri.EscapeDataString(sido)}" +
-        //        $"&sigungu={Uri.EscapeDataString(sigungu)}";
-
-        //    //-------------------------------------------------------------------------------------------
-        //    // Processing
-        //    //-------------------------------------------------------------------------------------------
-        //    using (HttpClient client = new HttpClient())
-        //    {
-        //        string json = await client.GetStringAsync(url);
-
-        //        cboDong.DataSource = null;
-        //        cboDong.Items.Clear();
-        //        cboDong.Items.Add("전체");
-
-        //        List<string> dongList = JsonConvert.DeserializeObject<List<string>>(json);
-
-        //        foreach (string dong in dongList)
-        //        {
-        //            cboDong.Items.Add(dong);
-        //        }
-
-        //        cboDong.SelectedIndex = 0;
-        //    }
-        //}
 
         private async void btnSearch_Click(object sender, EventArgs e)
         {
@@ -178,7 +87,6 @@ namespace CeDev
                 btnSearch.Enabled = true;
             }
         }
-
         private async Task GetRentInfoList()
         {
             //-------------------------------------------------------------------------------------------
@@ -187,20 +95,8 @@ namespace CeDev
             RentInfoSearchModel model = new RentInfoSearchModel();
 
             model.Sido = cboSido.Text == "전체" ? "" : cboSido.Text.Trim();
-            //model.Sigungu = cboSigungu.Text == "전체" ? "" : cboSigungu.Text.Trim();
-            //model.Dong = cboDong.Text == "전체" ? "" : cboDong.Text.Trim();
             model.Year = txtYear.Text.Trim();
-            //model.Gubun = cboGubun.Text == "전체" ? "" : cboGubun.Text.Trim();
 
-            //string url =
-            //    $"http://localhost:9081/api/rent-info" +
-            //    $"?sido={Uri.EscapeDataString(model.Sido)}" +
-            //    $"&sigungu={Uri.EscapeDataString(model.Sigungu)}" +
-            //    $"&dong={Uri.EscapeDataString(model.Dong)}" +
-            //    $"&year={Uri.EscapeDataString(model.Year)}" +
-            //    $"&gubun={Uri.EscapeDataString(model.Gubun)}";
-
-            //string baseUrl = "http://localhost:9081/api/rent-info";
             string baseUrl = "http://localhost:9081/api/housing-rentGbun-status";
             string queryString = BuildQueryString(model);
             string url = $"{baseUrl}?{queryString}";
@@ -230,6 +126,8 @@ namespace CeDev
             double seconds = elapsedMs / 1000.0; // 초 단위 변환 (0.8초)
 
             dataGridView1.DataSource = list;
+            //dataGridView1.DataSource = new System.ComponentModel.BindingList<RentGbunItem>(list);
+
             lblCnt.Text = $"{list.Count:N0} 건({seconds:0.0}초)";
 
             SetGridHeader();
@@ -259,12 +157,17 @@ namespace CeDev
             //-------------------------------------------------------------------------------------------
             // 컬럼명 변경
             //-------------------------------------------------------------------------------------------
-            dataGridView1.Columns["sigungu"].HeaderText = "시군구";
+            //dataGridView1.Columns["sigungu"].HeaderText = "시군구";
+            dataGridView1.Columns["regionName"].HeaderText = "지역";
 
             dataGridView1.Columns["newContractCnt"].HeaderText = "신규";
             dataGridView1.Columns["renewContractCnt"].HeaderText = "갱신";
             dataGridView1.Columns["usedRightCnt"].HeaderText = "갱신요구권 사용";
+
             dataGridView1.Columns["usePercent"].HeaderText = "갱신요구권 사용률";
+
+            // [수정] 주석을 해제하고 고유 이름인 "usePercent"를 사용하여 정렬 모드를 자동(Automatic)으로 설정합니다.
+            //dataGridView1.Columns["usePercent"].SortMode = DataGridViewColumnSortMode.Automatic;
 
 
             //------------------------------------------------------------------------------------------- 

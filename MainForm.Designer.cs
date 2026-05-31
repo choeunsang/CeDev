@@ -32,19 +32,20 @@
             부동산ToolStripMenuItem = new ToolStripMenuItem();
             주택거래량ToolStripMenuItem = new ToolStripMenuItem();
             주택거래량시별통계ToolStripMenuItem = new ToolStripMenuItem();
-            주택가격변동상세ToolStripMenuItem = new ToolStripMenuItem();
             매매ToolStripMenuItem = new ToolStripMenuItem();
-            주택거래량ToolStripMenuItem1 = new ToolStripMenuItem();
-            주택거래량시별통계ToolStripMenuItem1 = new ToolStripMenuItem();
-            주택가격변동상세ToolStripMenuItem1 = new ToolStripMenuItem();
+            전국주택거래량ToolStripMenuItem = new ToolStripMenuItem();
+            시도별거래량월별통계ToolStripMenuItem = new ToolStripMenuItem();
+            시군구별주택거래량상세ToolStripMenuItem = new ToolStripMenuItem();
+            주택가격변동상세ToolStripMenuItem = new ToolStripMenuItem();
             전월세ToolStripMenuItem = new ToolStripMenuItem();
             전월세거래량ToolStripMenuItem = new ToolStripMenuItem();
             전월세정보ToolStripMenuItem = new ToolStripMenuItem();
+            주택전월세갱신신규현황ToolStripMenuItem = new ToolStripMenuItem();
             데이터ToolStripMenuItem = new ToolStripMenuItem();
             자료업데이트ToolStripMenuItem = new ToolStripMenuItem();
             회원정보ToolStripMenuItem = new ToolStripMenuItem();
             회원관리ToolStripMenuItem = new ToolStripMenuItem();
-            주택전월세갱신신규현황ToolStripMenuItem = new ToolStripMenuItem();
+            주택매매정보ToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -59,7 +60,7 @@
             // 
             // 부동산ToolStripMenuItem
             // 
-            부동산ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { 주택거래량ToolStripMenuItem, 주택거래량시별통계ToolStripMenuItem, 주택가격변동상세ToolStripMenuItem });
+            부동산ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { 주택거래량ToolStripMenuItem, 주택거래량시별통계ToolStripMenuItem });
             부동산ToolStripMenuItem.Name = "부동산ToolStripMenuItem";
             부동산ToolStripMenuItem.Size = new Size(43, 20);
             부동산ToolStripMenuItem.Text = "파일";
@@ -74,38 +75,40 @@
             주택거래량시별통계ToolStripMenuItem.Name = "주택거래량시별통계ToolStripMenuItem";
             주택거래량시별통계ToolStripMenuItem.Size = new Size(67, 22);
             // 
-            // 주택가격변동상세ToolStripMenuItem
-            // 
-            주택가격변동상세ToolStripMenuItem.Name = "주택가격변동상세ToolStripMenuItem";
-            주택가격변동상세ToolStripMenuItem.Size = new Size(67, 22);
-            // 
             // 매매ToolStripMenuItem
             // 
-            매매ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { 주택거래량ToolStripMenuItem1, 주택거래량시별통계ToolStripMenuItem1, 주택가격변동상세ToolStripMenuItem1 });
+            매매ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { 주택매매정보ToolStripMenuItem, 전국주택거래량ToolStripMenuItem, 시도별거래량월별통계ToolStripMenuItem, 시군구별주택거래량상세ToolStripMenuItem, 주택가격변동상세ToolStripMenuItem});
             매매ToolStripMenuItem.Name = "매매ToolStripMenuItem";
             매매ToolStripMenuItem.Size = new Size(43, 20);
             매매ToolStripMenuItem.Text = "매매";
             // 
-            // 주택거래량ToolStripMenuItem1
+            // 전국주택거래량ToolStripMenuItem
             // 
-            주택거래량ToolStripMenuItem1.Name = "주택거래량ToolStripMenuItem1";
-            주택거래량ToolStripMenuItem1.Size = new Size(194, 22);
-            주택거래량ToolStripMenuItem1.Text = "주택 거래량";
-            주택거래량ToolStripMenuItem1.Click += 주택거래량ToolStripMenuItem1_Click;
+            전국주택거래량ToolStripMenuItem.Name = "전국주택거래량ToolStripMenuItem";
+            전국주택거래량ToolStripMenuItem.Size = new Size(218, 22);
+            전국주택거래량ToolStripMenuItem.Text = "전국 주택 거래량";
+            전국주택거래량ToolStripMenuItem.Click += 전국주택거래량ToolStripMenuItem_Click;
             // 
-            // 주택거래량시별통계ToolStripMenuItem1
+            // 시도별거래량월별통계ToolStripMenuItem
             // 
-            주택거래량시별통계ToolStripMenuItem1.Name = "주택거래량시별통계ToolStripMenuItem1";
-            주택거래량시별통계ToolStripMenuItem1.Size = new Size(194, 22);
-            주택거래량시별통계ToolStripMenuItem1.Text = "주택 거래량 시별 통계";
-            주택거래량시별통계ToolStripMenuItem1.Click += 주택거래량시별통계ToolStripMenuItem1_Click;
+            시도별거래량월별통계ToolStripMenuItem.Name = "시도별거래량월별통계ToolStripMenuItem";
+            시도별거래량월별통계ToolStripMenuItem.Size = new Size(218, 22);
+            시도별거래량월별통계ToolStripMenuItem.Text = "시도별 거래량 월별 통계";
+            시도별거래량월별통계ToolStripMenuItem.Click += 시도별거래량월별통계ToolStripMenuItem_Click;
             // 
-            // 주택가격변동상세ToolStripMenuItem1
+            // 시군구별주택거래량상세ToolStripMenuItem
             // 
-            주택가격변동상세ToolStripMenuItem1.Name = "주택가격변동상세ToolStripMenuItem1";
-            주택가격변동상세ToolStripMenuItem1.Size = new Size(194, 22);
-            주택가격변동상세ToolStripMenuItem1.Text = "주택가격 변동상세";
-            주택가격변동상세ToolStripMenuItem1.Click += 주택가격변동상세ToolStripMenuItem1_Click;
+            시군구별주택거래량상세ToolStripMenuItem.Name = "시군구별주택거래량상세ToolStripMenuItem";
+            시군구별주택거래량상세ToolStripMenuItem.Size = new Size(218, 22);
+            시군구별주택거래량상세ToolStripMenuItem.Text = "시군구별 주택 거래량 상세";
+            시군구별주택거래량상세ToolStripMenuItem.Click += 시군구별주택거래량상세ToolStripMenuItem_Click;
+            // 
+            // 주택가격변동상세ToolStripMenuItem
+            // 
+            주택가격변동상세ToolStripMenuItem.Name = "주택가격변동상세ToolStripMenuItem";
+            주택가격변동상세ToolStripMenuItem.Size = new Size(218, 22);
+            주택가격변동상세ToolStripMenuItem.Text = "주택가격 변동상세";
+            주택가격변동상세ToolStripMenuItem.Click += 주택가격변동상세ToolStripMenuItem1_Click;
             // 
             // 전월세ToolStripMenuItem
             // 
@@ -127,6 +130,13 @@
             전월세정보ToolStripMenuItem.Size = new Size(223, 22);
             전월세정보ToolStripMenuItem.Text = "주택 전월세 거래조회";
             전월세정보ToolStripMenuItem.Click += 주택_전월세_거래조회ToolStripMenuItem_Click;
+            // 
+            // 주택전월세갱신신규현황ToolStripMenuItem
+            // 
+            주택전월세갱신신규현황ToolStripMenuItem.Name = "주택전월세갱신신규현황ToolStripMenuItem";
+            주택전월세갱신신규현황ToolStripMenuItem.Size = new Size(223, 22);
+            주택전월세갱신신규현황ToolStripMenuItem.Text = "주택 전월세 갱신/신규 현황";
+            주택전월세갱신신규현황ToolStripMenuItem.Click += 주택전월세갱신신규현황ToolStripMenuItem_Click;
             // 
             // 데이터ToolStripMenuItem
             // 
@@ -156,12 +166,12 @@
             회원관리ToolStripMenuItem.Text = "회원정보";
             회원관리ToolStripMenuItem.Click += 회원정보ToolStripMenuItem_Click;
             // 
-            // 주택전월세갱신신규현황ToolStripMenuItem
+            // 주택매매정보ToolStripMenuItem
             // 
-            주택전월세갱신신규현황ToolStripMenuItem.Name = "주택전월세갱신신규현황ToolStripMenuItem";
-            주택전월세갱신신규현황ToolStripMenuItem.Size = new Size(223, 22);
-            주택전월세갱신신규현황ToolStripMenuItem.Text = "주택 전월세 갱신/신규 현황";
-            주택전월세갱신신규현황ToolStripMenuItem.Click += 주택전월세갱신신규현황ToolStripMenuItem_Click;
+            주택매매정보ToolStripMenuItem.Name = "주택매매정보ToolStripMenuItem";
+            주택매매정보ToolStripMenuItem.Size = new Size(218, 22);
+            주택매매정보ToolStripMenuItem.Text = "주택 매매 정보";
+            주택매매정보ToolStripMenuItem.Click += 주택매매정보ToolStripMenuItem_Click;
             // 
             // MainForm
             // 
@@ -190,12 +200,14 @@
         private ToolStripMenuItem 데이터ToolStripMenuItem;
         private ToolStripMenuItem 자료업데이트ToolStripMenuItem;
         private ToolStripMenuItem 매매ToolStripMenuItem;
-        private ToolStripMenuItem 주택거래량ToolStripMenuItem1;
-        private ToolStripMenuItem 주택거래량시별통계ToolStripMenuItem1;
+        private ToolStripMenuItem 시군구별주택거래량상세ToolStripMenuItem;
+        private ToolStripMenuItem 시도별거래량월별통계ToolStripMenuItem;
         private ToolStripMenuItem 전월세ToolStripMenuItem;
-        private ToolStripMenuItem 주택가격변동상세ToolStripMenuItem1;
+        
         private ToolStripMenuItem 전월세거래량ToolStripMenuItem;
         private ToolStripMenuItem 전월세정보ToolStripMenuItem;
         private ToolStripMenuItem 주택전월세갱신신규현황ToolStripMenuItem;
+        private ToolStripMenuItem 전국주택거래량ToolStripMenuItem;
+        private ToolStripMenuItem 주택매매정보ToolStripMenuItem;
     }
 }

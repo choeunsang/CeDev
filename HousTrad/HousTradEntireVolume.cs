@@ -8,9 +8,9 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace CeDev
 {
-    public partial class HousTradSigunguDetailVolume : Form
+    public partial class HousTradEntireVolume : Form
     {
-        public HousTradSigunguDetailVolume()
+        public HousTradEntireVolume()
         {
             InitializeComponent();
             _ = InitCont();
@@ -24,48 +24,12 @@ namespace CeDev
 
         private async Task InitCont()
         {
-            //-------------------------------------------------------------------------------------------
-            // Declare and initialize variables
-            //-------------------------------------------------------------------------------------------
-            string url = "http://localhost:9081/api/region/sido";
-
-            //-------------------------------------------------------------------------------------------
-            // Processing
-            //-------------------------------------------------------------------------------------------
-            using (HttpClient client = new HttpClient())
-            {
-                string json = await client.GetStringAsync(url);
-
-                var sidoList = JsonConvert.DeserializeObject<List<string>>(json);
-
-                cboSido.Items.Clear();
-
-                foreach (string sido in sidoList)
-                {
-                    cboSido.Items.Add(sido);
-                }
-
-                if (cboSido.Items.Contains("서울특별시"))
-                {
-                    cboSido.SelectedItem = "서울특별시";
-                }
-
-                //cboSigungu.Items.Clear();
-                //cboSigungu.Items.Add("전체");
-                //cboSigungu.SelectedIndex = 0;
-
-                //cboDong.Items.Clear();
-                //cboDong.Items.Add("전체");
-                //cboDong.SelectedIndex = 0;
-
-                //txtYear.Text = "2025";
-                txtYear.Text = DateTime.Now.Year.ToString();
-            }
+            txtYear.Text = DateTime.Now.Year.ToString();            
         }
 
         private async void btnSearch_Click(object sender, EventArgs e)
         {
-            await GetSigunguMonthVolumn();
+            await GetEntireMonthVolumn();
         }
 
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
@@ -78,7 +42,7 @@ namespace CeDev
                 return;
             }
 
-            SigunguMonthlyTradeVolumeDto item = dataGridView1.CurrentRow.DataBoundItem as SigunguMonthlyTradeVolumeDto;
+            EntireMonthlyTradeVolumeDto item = dataGridView1.CurrentRow.DataBoundItem as EntireMonthlyTradeVolumeDto;
 
             if (item == null)
             {
@@ -135,7 +99,7 @@ namespace CeDev
 
             chart1.ChartAreas.Add(area);
 
-            Series series = new Series(item.sigungu);
+            Series series = new Series(item.sido);
 
             series.ChartType = SeriesChartType.Line;
             series.BorderWidth = 4;
@@ -154,20 +118,20 @@ namespace CeDev
         }
 
 
-        private async Task GetSigunguMonthVolumn()
+        private async Task GetEntireMonthVolumn()
         {
             //-------------------------------------------------------------------------------------------
             // Declare and initialize variables
             //-------------------------------------------------------------------------------------------
-            SigunguMonthlySearchModel model = new SigunguMonthlySearchModel();
+            EntireMonthlySearchModel model = new EntireMonthlySearchModel();
 
             string year = txtYear.Text.Trim();
 
-            model.Sido = cboSido.Text.Trim();
+            //model.Sido = cboSido.Text.Trim();
             model.StartYearMonth = year + "01";
             model.EndYearMonth = year + "12";
-
-            string baseUrl = "http://localhost:9081/api/housing-trade-volume/sigungu-monthly";
+            
+            string baseUrl = "http://localhost:9081/api/housing-trade-volume/entire-monthly";
 
             string queryString = BuildQueryString(model);
 
@@ -181,7 +145,7 @@ namespace CeDev
                 Stopwatch stopwatch = Stopwatch.StartNew();
 
                 string json = await client.GetStringAsync(url);
-                List<SigunguMonthlyTradeVolumeDto> list = JsonConvert.DeserializeObject<List<SigunguMonthlyTradeVolumeDto>>(json);
+                List<EntireMonthlyTradeVolumeDto> list = JsonConvert.DeserializeObject<List<EntireMonthlyTradeVolumeDto>>(json);
 
                 stopwatch.Stop();
 
@@ -201,8 +165,8 @@ namespace CeDev
 
                 SetGridHeader();
 
-                dataGridView1.Columns["sigungu"].HeaderText = "시군구";
-                dataGridView1.Columns["sigungu"].Width = 120;
+                dataGridView1.Columns["sido"].HeaderText = "시도";
+                dataGridView1.Columns["sido"].Width = 120;
             }
         }
 
@@ -275,7 +239,7 @@ namespace CeDev
             }
         }
 
-        private string BuildQueryString(SigunguMonthlySearchModel model)
+        private string BuildQueryString(EntireMonthlySearchModel model)
         {
             //-------------------------------------------------------------------------------------------
             // Declare and initialize variables
@@ -297,7 +261,7 @@ namespace CeDev
             //-------------------------------------------------------------------------------------------
             // 컬럼명 변경
             //-------------------------------------------------------------------------------------------
-            dataGridView1.Columns["sigungu"].HeaderText = "시군구";
+            dataGridView1.Columns["sido"].HeaderText = "시도";
 
             dataGridView1.Columns["month01"].HeaderText = "1월";
             dataGridView1.Columns["month02"].HeaderText = "2월";

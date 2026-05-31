@@ -1,6 +1,6 @@
 ﻿namespace CeDev
 {
-    partial class RentGbunInfo
+    partial class HousTradInfo
     {
         /// <summary>
         ///  Required designer variable.
@@ -32,10 +32,9 @@
             dataGridView1 = new DataGridView();
             lblYear = new Label();
             txtYear = new TextBox();
+            lblCnt = new Label();
             cboSido = new ComboBox();
             label1 = new Label();
-            lblCnt = new Label();
-            progressBar1 = new ProgressBar();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -52,15 +51,15 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(28, 77);
+            dataGridView1.Location = new Point(37, 61);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(1073, 434);
+            dataGridView1.Size = new Size(1064, 638);
             dataGridView1.TabIndex = 1;
             // 
             // lblYear
             // 
             lblYear.AutoSize = true;
-            lblYear.Location = new Point(766, 31);
+            lblYear.Location = new Point(36, 31);
             lblYear.Name = "lblYear";
             lblYear.Size = new Size(31, 15);
             lblYear.TabIndex = 2;
@@ -68,61 +67,53 @@
             // 
             // txtYear
             // 
-            txtYear.Location = new Point(818, 26);
+            txtYear.Location = new Point(88, 26);
             txtYear.Name = "txtYear";
             txtYear.Size = new Size(114, 23);
             txtYear.TabIndex = 5;
             // 
+            // lblCnt
+            // 
+            lblCnt.AutoSize = true;
+            lblCnt.Location = new Point(37, 702);
+            lblCnt.Name = "lblCnt";
+            lblCnt.Size = new Size(47, 15);
+            lblCnt.TabIndex = 32;
+            lblCnt.Text = "총 건수";
+            lblCnt.TextAlign = ContentAlignment.TopRight;
+            // 
             // cboSido
             // 
             cboSido.FormattingEnabled = true;
-            cboSido.Location = new Point(81, 26);
+            cboSido.Location = new Point(293, 26);
             cboSido.Name = "cboSido";
-            cboSido.Size = new Size(110, 23);
-            cboSido.TabIndex = 26;
+            cboSido.Size = new Size(123, 23);
+            cboSido.TabIndex = 34;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(37, 29);
+            label1.Location = new Point(245, 31);
             label1.Name = "label1";
             label1.Size = new Size(31, 15);
-            label1.TabIndex = 25;
+            label1.TabIndex = 33;
             label1.Text = "시도";
             // 
-            // lblCnt
-            // 
-            lblCnt.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            lblCnt.AutoSize = true;
-            lblCnt.Location = new Point(28, 518);
-            lblCnt.Name = "lblCnt";
-            lblCnt.Size = new Size(47, 15);
-            lblCnt.TabIndex = 31;
-            lblCnt.Text = "총 건수";
-            lblCnt.TextAlign = ContentAlignment.BottomRight;
-            // 
-            // progressBar1
-            // 
-            progressBar1.Location = new Point(913, 518);
-            progressBar1.Name = "progressBar1";
-            progressBar1.Size = new Size(188, 23);
-            progressBar1.TabIndex = 32;
-            // 
-            // RentGbunInfo
+            // HousTradInfo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1134, 579);
-            Controls.Add(progressBar1);
-            Controls.Add(lblCnt);
+            ClientSize = new Size(1134, 742);
             Controls.Add(cboSido);
             Controls.Add(label1);
+            Controls.Add(lblCnt);
             Controls.Add(txtYear);
             Controls.Add(lblYear);
             Controls.Add(dataGridView1);
             Controls.Add(btnSearch);
-            Name = "RentGbunInfo";
-            Text = "주택 전월세 갱신/신규 현황";
+            Name = "HousTradInfo";
+            Text = "주택 매매 정보";
+            Load += HousTradInfo_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -134,9 +125,8 @@
         private DataGridView dataGridView1;
         private Label lblYear;
         private TextBox txtYear;
+        private Label lblCnt;
         private ComboBox cboSido;
         private Label label1;
-        private Label lblCnt;
-        private ProgressBar progressBar1;
     }
 }

@@ -133,7 +133,7 @@
             // lblCnt
             // 
             lblCnt.AutoSize = true;
-            lblCnt.Location = new Point(999, 514);
+            lblCnt.Location = new Point(28, 514);
             lblCnt.Name = "lblCnt";
             lblCnt.Size = new Size(47, 15);
             lblCnt.TabIndex = 31;
@@ -142,7 +142,7 @@
             // 
             // progressBar1
             // 
-            progressBar1.Location = new Point(28, 518);
+            progressBar1.Location = new Point(913, 517);
             progressBar1.Name = "progressBar1";
             progressBar1.Size = new Size(188, 23);
             progressBar1.TabIndex = 32;

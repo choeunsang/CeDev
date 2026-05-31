@@ -113,7 +113,7 @@
             // lblCnt
             // 
             lblCnt.AutoSize = true;
-            lblCnt.Location = new Point(974, 371);
+            lblCnt.Location = new Point(37, 371);
             lblCnt.Name = "lblCnt";
             lblCnt.Size = new Size(47, 15);
             lblCnt.TabIndex = 32;
@@ -134,7 +134,7 @@
             Controls.Add(dataGridView1);
             Controls.Add(btnSearch);
             Name = "HousTradSigunguDetailVolume";
-            Text = "주택 매매 거래량 시별 통계";
+            Text = "시도 거래량 월별 통계";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)chart1).EndInit();
             ResumeLayout(false);

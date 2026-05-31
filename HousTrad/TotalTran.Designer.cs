@@ -137,7 +137,7 @@
             // lblResult
             // 
             lblResult.AutoSize = true;
-            lblResult.Location = new Point(900, 297);
+            lblResult.Location = new Point(28, 297);
             lblResult.Name = "lblResult";
             lblResult.Size = new Size(55, 15);
             lblResult.TabIndex = 10;
