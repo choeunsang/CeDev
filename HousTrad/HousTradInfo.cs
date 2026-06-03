@@ -13,13 +13,23 @@ namespace CeDev
         public HousTradInfo()
         {
             InitializeComponent();
-            _ = InitCont();
             InitEvent();
+            _ = InitCont();
+            
         }
 
         private void InitEvent()
         {
+            //this.Load += HousTradInfo_Load1;
             //dataGridView1.SelectionChanged += dataGridView1_SelectionChanged;
+
+            cboSido.SelectedIndexChanged += cboSido_SelectedIndexChanged;
+            cboSigungu.SelectedIndexChanged += cboSigungu_SelectedIndexChanged;
+        }
+
+        private async void HousTradInfo_Load1(object? sender, EventArgs e)
+        {
+            //await GetHousTradeInfo();
         }
 
         private async Task InitCont()
@@ -50,22 +60,48 @@ namespace CeDev
                     cboSido.SelectedItem = "서울특별시";
                 }
 
-                //cboSigungu.Items.Clear();
-                //cboSigungu.Items.Add("전체");
-                //cboSigungu.SelectedIndex = 0;
+                cboSigungu.Items.Clear();
+                cboSigungu.Items.Add("전체");
+                cboSigungu.SelectedIndex = 0;
 
-                //cboDong.Items.Clear();
-                //cboDong.Items.Add("전체");
-                //cboDong.SelectedIndex = 0;
+                cboDong.Items.Clear();
+                cboDong.Items.Add("전체");
+                cboDong.SelectedIndex = 0;
 
                 //txtYear.Text = "2025";
                 txtYear.Text = DateTime.Now.Year.ToString();
             }
+
+            //-------------------------------------------------------------------------------------------
+            // Output
+            //-------------------------------------------------------------------------------------------
+            await DoSearch();
         }
 
         private async void btnSearch_Click(object sender, EventArgs e)
         {
-            await GetHousTradeInfo();
+            await DoSearch();
+        }
+
+        private async Task DoSearch()
+        {
+            //Declare and initialize variables 
+            progressBar1.Visible = true;
+            progressBar1.Style = ProgressBarStyle.Marquee;
+            progressBar1.MarqueeAnimationSpeed = 30;
+            btnSearch.Enabled = false;
+
+            //Processingg
+            try
+            {
+                await GetHousTradeInfo();
+            }
+            finally
+            {
+                progressBar1.Visible = false;
+                progressBar1.MarqueeAnimationSpeed = 0;
+                btnSearch.Enabled = true;
+            }
         }
 
         private async Task GetHousTradeInfo()
@@ -78,12 +114,15 @@ namespace CeDev
             string year = txtYear.Text.Trim();
 
             model.Sido = cboSido.Text.Trim();
+            model.Sigungu = cboSigungu.Text == "전체" ? "" : cboSigungu.Text.Trim();
+            model.Dong = cboDong.Text == "전체" ? "" : cboDong.Text.Trim();
             model.StartYearMonth = year + "01";
             model.EndYearMonth = year + "12";
 
-            //string baseUrl = "http://localhost:9081/api/housing-trade-volume/entire-monthly";
+            model.StartYearMonth = year + "01";
+            model.EndYearMonth = year + "12";
+            
             string baseUrl = "http://localhost:9081/api/housing-trade-info";
-
             string queryString = BuildQueryString(model);
 
             string url = $"{baseUrl}?{queryString}";
@@ -115,9 +154,6 @@ namespace CeDev
                 lblCnt.Text = $"{list.Count:N0} 건({seconds:0.0}초)";
 
                 SetGridHeader();
-
-                dataGridView1.Columns["sido"].HeaderText = "시도";
-                dataGridView1.Columns["sido"].Width = 120;
             }
         }
 
@@ -133,6 +169,8 @@ namespace CeDev
             // Processing
             //-------------------------------------------------------------------------------------------
             query["sido"] = model.Sido;
+            query["sigungu"] = model.Sigungu;
+            query["dong"] = model.Dong;
             query["startYearMonth"] = model.StartYearMonth;
             query["endYearMonth"] = model.EndYearMonth;
 
@@ -164,11 +202,94 @@ namespace CeDev
             if (dataGridView1.Columns["Sigungu"] != null) dataGridView1.Columns["Sigungu"].HeaderText = "시군구코드";
             if (dataGridView1.Columns["Dong"] != null) dataGridView1.Columns["Dong"].HeaderText = "법정동코드";
 
+
+
+            // 데이터 바인딩 또는 조회 완료 후 실행
+            dataGridView1.Columns["City"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dataGridView1.Columns["Dangi"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
         }
 
-        private void HousTradInfo_Load(object sender, EventArgs e)
+        private async void cboSido_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //-------------------------------------------------------------------------------------------
+            // Declare and initialize variables
+            //-------------------------------------------------------------------------------------------
+            string sido = cboSido.Text.Trim();
 
+            string url =
+                $"http://localhost:9081/api/region/sigungu" +
+                $"?sido={Uri.EscapeDataString(sido)}";
+
+            //-------------------------------------------------------------------------------------------
+            // Processing
+            //-------------------------------------------------------------------------------------------
+            using (HttpClient client = new HttpClient())
+            {
+                string json = await client.GetStringAsync(url);
+
+                cboSigungu.DataSource = null;
+                cboSigungu.Items.Clear();
+                cboSigungu.Items.Add("전체");
+
+                List<string> sigunguList = JsonConvert.DeserializeObject<List<string>>(json);
+
+                foreach (string sigungu in sigunguList)
+                {
+                    cboSigungu.Items.Add(sigungu);
+                }
+
+                cboSigungu.SelectedIndex = 0;
+
+                cboDong.DataSource = null;
+                cboDong.Items.Clear();
+                cboDong.Items.Add("전체");
+                cboDong.SelectedIndex = 0;
+            }
         }
+
+        private async void cboSigungu_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //-------------------------------------------------------------------------------------------
+            // Declare and initialize variables
+            //-------------------------------------------------------------------------------------------
+            string sido = cboSido.Text.Trim();
+            string sigungu = cboSigungu.Text.Trim();
+
+            if (string.IsNullOrEmpty(sido) || sigungu == "전체")
+            {
+                cboDong.DataSource = null;
+                cboDong.Items.Clear();
+                cboDong.Items.Add("전체");
+                cboDong.SelectedIndex = 0;
+                return;
+            }
+
+            string url =
+                $"http://localhost:9081/api/region/dong" +
+                $"?sido={Uri.EscapeDataString(sido)}" +
+                $"&sigungu={Uri.EscapeDataString(sigungu)}";
+
+            //-------------------------------------------------------------------------------------------
+            // Processing
+            //-------------------------------------------------------------------------------------------
+            using (HttpClient client = new HttpClient())
+            {
+                string json = await client.GetStringAsync(url);
+
+                cboDong.DataSource = null;
+                cboDong.Items.Clear();
+                cboDong.Items.Add("전체");
+
+                List<string> dongList = JsonConvert.DeserializeObject<List<string>>(json);
+
+                foreach (string dong in dongList)
+                {
+                    cboDong.Items.Add(dong);
+                }
+
+                cboDong.SelectedIndex = 0;
+            }
+        }
+
     }
 }

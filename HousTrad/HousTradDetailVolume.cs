@@ -20,11 +20,7 @@ namespace CeDev
         private async void HousTradDetailVolume_Load(object? sender, EventArgs e)
         {
             await CeDev.Common.AuthManager.CheckAuthAsync(this);
-
-
         }
-
-
 
         private void InitEvent()
         {
