@@ -10,15 +10,19 @@ namespace CeDev
         public RentGbunInfo()
         {
             InitializeComponent();
-            InitEvent();
-            _ = InitCont();
-
+            InitEvent();            
         }
 
         private void InitEvent()
         {
-            //cboSido.SelectedIndexChanged += cboSido_SelectedIndexChanged;
-            //cboSigungu.SelectedIndexChanged += cboSigungu_SelectedIndexChanged;
+            this.Load += RentGbunInfo_Load;
+        }
+
+        private async void RentGbunInfo_Load(object? sender, EventArgs e)
+        {
+            await CeDev.Common.AuthManager.CheckAuthAsync(this);
+            await InitCont();
+            await DoSearch();
         }
 
         private async Task InitCont()
@@ -67,15 +71,19 @@ namespace CeDev
         }
 
         private async void btnSearch_Click(object sender, EventArgs e)
+        {            
+            await DoSearch();
+        }
+
+        private async Task DoSearch()
         {
-            //-------------------------------------------------------------------------------------------
-            // Processing
-            //-------------------------------------------------------------------------------------------
+            //Declare and initialize variables 
             progressBar1.Visible = true;
             progressBar1.Style = ProgressBarStyle.Marquee;
             progressBar1.MarqueeAnimationSpeed = 30;
             btnSearch.Enabled = false;
 
+            //Processingg
             try
             {
                 await GetRentInfoList();
@@ -87,6 +95,7 @@ namespace CeDev
                 btnSearch.Enabled = true;
             }
         }
+
         private async Task GetRentInfoList()
         {
             //-------------------------------------------------------------------------------------------

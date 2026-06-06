@@ -40,6 +40,22 @@ namespace CeDev
 
         #region 매매
 
+        private void 주택매매정보ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            HousTradInfo form = new HousTradInfo();
+
+            form.MdiParent = this;
+            form.Show();
+        }
+
+        private void 주택매매평균가격ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            HousTradPriceInfo form = new HousTradPriceInfo();
+
+            form.MdiParent = this;
+            form.Show();
+        }
+
         private void 전국주택거래량ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             HousTradEntireVolume form = new HousTradEntireVolume();
@@ -47,6 +63,8 @@ namespace CeDev
             form.MdiParent = this;
             form.Show();
         }
+
+
 
         private void 시도별거래량월별통계ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -73,13 +91,7 @@ namespace CeDev
             form.Show();
         }
 
-        private void 주택매매정보ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            HousTradInfo form = new HousTradInfo();
 
-            form.MdiParent = this;
-            form.Show();
-        }
 
         #endregion
 
@@ -121,5 +133,7 @@ namespace CeDev
         }
 
         #endregion
+
+
     }
 }

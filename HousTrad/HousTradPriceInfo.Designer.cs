@@ -1,6 +1,6 @@
 ﻿namespace CeDev
 {
-    partial class HousTradDetailVolume
+    partial class HousTradPriceInfo
     {
         /// <summary>
         ///  Required designer variable.
@@ -28,24 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             btnSearch = new Button();
             dataGridView1 = new DataGridView();
             lblYear = new Label();
             txtYear = new TextBox();
-            chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            cboDong = new ComboBox();
-            label5 = new Label();
-            cboSigungu = new ComboBox();
-            label2 = new Label();
             cboSido = new ComboBox();
             label1 = new Label();
             lblCnt = new Label();
+            dataGridView2 = new DataGridView();
+            lblCnt2 = new Label();
             progressBar1 = new ProgressBar();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)chart1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             SuspendLayout();
             // 
             // btnSearch
@@ -61,9 +55,9 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(28, 401);
+            dataGridView1.Location = new Point(37, 61);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(618, 157);
+            dataGridView1.Size = new Size(1064, 307);
             dataGridView1.TabIndex = 1;
             // 
             // lblYear
@@ -81,56 +75,6 @@
             txtYear.Name = "txtYear";
             txtYear.Size = new Size(114, 23);
             txtYear.TabIndex = 5;
-            // 
-            // chart1
-            // 
-            chartArea1.Name = "ChartArea1";
-            chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            chart1.Legends.Add(legend1);
-            chart1.Location = new Point(28, 72);
-            chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            chart1.Series.Add(series1);
-            chart1.Size = new Size(1073, 323);
-            chart1.TabIndex = 6;
-            chart1.Text = "chart1";
-            // 
-            // cboDong
-            // 
-            cboDong.FormattingEnabled = true;
-            cboDong.Location = new Point(471, 26);
-            cboDong.Name = "cboDong";
-            cboDong.Size = new Size(166, 23);
-            cboDong.TabIndex = 30;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(434, 29);
-            label5.Name = "label5";
-            label5.Size = new Size(19, 15);
-            label5.TabIndex = 29;
-            label5.Text = "동";
-            // 
-            // cboSigungu
-            // 
-            cboSigungu.FormattingEnabled = true;
-            cboSigungu.Location = new Point(278, 26);
-            cboSigungu.Name = "cboSigungu";
-            cboSigungu.Size = new Size(150, 23);
-            cboSigungu.TabIndex = 28;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(215, 29);
-            label2.Name = "label2";
-            label2.Size = new Size(43, 15);
-            label2.TabIndex = 27;
-            label2.Text = "시군구";
             // 
             // cboSido
             // 
@@ -152,42 +96,57 @@
             // lblCnt
             // 
             lblCnt.AutoSize = true;
-            lblCnt.Location = new Point(28, 561);
+            lblCnt.Location = new Point(37, 371);
             lblCnt.Name = "lblCnt";
             lblCnt.Size = new Size(47, 15);
             lblCnt.TabIndex = 32;
             lblCnt.Text = "총 건수";
             lblCnt.TextAlign = ContentAlignment.TopRight;
             // 
+            // dataGridView2
+            // 
+            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView2.Location = new Point(37, 410);
+            dataGridView2.Name = "dataGridView2";
+            dataGridView2.Size = new Size(1064, 307);
+            dataGridView2.TabIndex = 33;
+            // 
+            // lblCnt2
+            // 
+            lblCnt2.AutoSize = true;
+            lblCnt2.Location = new Point(37, 720);
+            lblCnt2.Name = "lblCnt2";
+            lblCnt2.Size = new Size(47, 15);
+            lblCnt2.TabIndex = 34;
+            lblCnt2.Text = "총 건수";
+            lblCnt2.TextAlign = ContentAlignment.TopRight;
+            // 
             // progressBar1
             // 
-            progressBar1.Location = new Point(913, 401);
+            progressBar1.Location = new Point(913, 374);
             progressBar1.Name = "progressBar1";
             progressBar1.Size = new Size(188, 23);
             progressBar1.TabIndex = 36;
             // 
-            // HousTradDetailVolume
+            // HousTradPriceInfo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1134, 579);
+            ClientSize = new Size(1134, 785);
             Controls.Add(progressBar1);
+            Controls.Add(lblCnt2);
+            Controls.Add(dataGridView2);
             Controls.Add(lblCnt);
-            Controls.Add(cboDong);
-            Controls.Add(label5);
-            Controls.Add(cboSigungu);
-            Controls.Add(label2);
             Controls.Add(cboSido);
             Controls.Add(label1);
-            Controls.Add(chart1);
             Controls.Add(txtYear);
             Controls.Add(lblYear);
             Controls.Add(dataGridView1);
             Controls.Add(btnSearch);
-            Name = "HousTradDetailVolume";
-            Text = "시군구별 주택 거래량 상세";
+            Name = "HousTradPriceInfo";
+            Text = "주택 매매 평균가격";            
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)chart1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -198,14 +157,11 @@
         private DataGridView dataGridView1;
         private Label lblYear;
         private TextBox txtYear;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-        private ComboBox cboDong;
-        private Label label5;
-        private ComboBox cboSigungu;
-        private Label label2;
         private ComboBox cboSido;
         private Label label1;
         private Label lblCnt;
+        private DataGridView dataGridView2;
+        private Label lblCnt2;
         private ProgressBar progressBar1;
     }
 }

@@ -13,13 +13,19 @@ namespace CeDev
         public HousTradSigunguDetailVolume()
         {
             InitializeComponent();
-            _ = InitCont();
             InitEvent();
         }
 
         private void InitEvent()
         {
+            this.Load += HousTradSigunguDetailVolume_Load;
             dataGridView1.SelectionChanged += dataGridView1_SelectionChanged;
+        }
+
+        private async void HousTradSigunguDetailVolume_Load(object? sender, EventArgs e)
+        {
+            await InitCont();
+            await DoSearch();
         }
 
         private async Task InitCont()
@@ -65,7 +71,28 @@ namespace CeDev
 
         private async void btnSearch_Click(object sender, EventArgs e)
         {
-            await GetSigunguMonthVolumn();
+            await DoSearch();
+        }
+
+        private async Task DoSearch()
+        {
+            //Declare and initialize variables 
+            progressBar1.Visible = true;
+            progressBar1.Style = ProgressBarStyle.Marquee;
+            progressBar1.MarqueeAnimationSpeed = 30;
+            btnSearch.Enabled = false;
+
+            //Processingg
+            try
+            {
+                await GetSigunguMonthVolumn();
+            }
+            finally
+            {
+                progressBar1.Visible = false;
+                progressBar1.MarqueeAnimationSpeed = 0;
+                btnSearch.Enabled = true;
+            }
         }
 
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)

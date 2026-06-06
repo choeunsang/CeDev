@@ -13,28 +13,73 @@ namespace CeDev
         {
             InitializeComponent();
             InitEvent();
-            InitCont();
-        }
-
-        private async void InitCont()
-        {
-            await LoadSido();
-
-            //temp
-            txtFrom.Text = "202604";
-            txtTo.Text = "202604";
+            //InitCont();
         }
 
         private void InitEvent()
         {
+            this.Load += TotalTran_Load;
+
             dataGridView1.SelectionChanged += dataGridView1_SelectionChanged;
+
             cboSido.SelectedIndexChanged += cboSido_SelectedIndexChanged;
             cboSigungu.SelectedIndexChanged += cboSigungu_SelectedIndexChanged;
         }
 
-        private async void btnSearch_Click(object sender, EventArgs e)
+        private async void TotalTran_Load(object? sender, EventArgs e)
         {
+            await InitCont();
             await DoSearch();
+        }
+
+        private async Task InitCont()
+        {
+            //-------------------------------------------------------------------------------------------
+            // Declare and initialize variables
+            //-------------------------------------------------------------------------------------------
+            string url = "http://localhost:9081/api/region/sido";
+
+            //-------------------------------------------------------------------------------------------
+            // Processing
+            //-------------------------------------------------------------------------------------------
+            using (HttpClient client = new HttpClient())
+            {
+                string json = await client.GetStringAsync(url);
+
+                var sidoList = JsonConvert.DeserializeObject<List<string>>(json);
+
+                cboSido.Items.Clear();
+
+                foreach (string sido in sidoList)
+                {
+                    cboSido.Items.Add(sido);
+                }
+
+                if (cboSido.Items.Contains("서울특별시"))
+                {
+                    cboSido.SelectedItem = "서울특별시";
+                }
+
+                //cboSigungu.Items.Clear();
+                //cboSigungu.Items.Add("전체");
+                //cboSigungu.SelectedIndex = 0;
+
+                //cboDong.Items.Clear();
+                //cboDong.Items.Add("전체");
+                //cboDong.SelectedIndex = 0;
+
+                //txtYear.Text = "2025";
+                //txtYear.Text = DateTime.Now.Year.ToString();
+
+                //temp
+                txtFrom.Text = "202604";
+                txtTo.Text = "202604";
+            }
+
+            //-------------------------------------------------------------------------------------------
+            // Output
+            //-------------------------------------------------------------------------------------------
+            //await DoSearch();
         }
 
         private async void dataGridView1_SelectionChanged(object sender, EventArgs e)
@@ -79,30 +124,113 @@ namespace CeDev
 
         private async void cboSido_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string sido = cboSido.SelectedItem?.ToString();
+            //-------------------------------------------------------------------------------------------
+            // Declare and initialize variables
+            //-------------------------------------------------------------------------------------------
+            string sido = cboSido.Text.Trim();
 
-            if (string.IsNullOrWhiteSpace(sido))
+            string url =
+                $"http://localhost:9081/api/region/sigungu" +
+                $"?sido={Uri.EscapeDataString(sido)}";
+
+            //-------------------------------------------------------------------------------------------
+            // Processing
+            //-------------------------------------------------------------------------------------------
+            using (HttpClient client = new HttpClient())
             {
-                return;
-            }
+                string json = await client.GetStringAsync(url);
 
-            await LoadSigungu(sido);
+                cboSigungu.DataSource = null;
+                cboSigungu.Items.Clear();
+                cboSigungu.Items.Add("전체");
+
+                List<string> sigunguList = JsonConvert.DeserializeObject<List<string>>(json);
+
+                foreach (string sigungu in sigunguList)
+                {
+                    cboSigungu.Items.Add(sigungu);
+                }
+
+                cboSigungu.SelectedIndex = 0;
+
+                cboDong.DataSource = null;
+                cboDong.Items.Clear();
+                cboDong.Items.Add("전체");
+                cboDong.SelectedIndex = 0;
+            }
         }
 
         private async void cboSigungu_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string sido = cboSido.SelectedItem?.ToString();
-            string sigungu = cboSigungu.SelectedItem?.ToString();
+            //-------------------------------------------------------------------------------------------
+            // Declare and initialize variables
+            //-------------------------------------------------------------------------------------------
+            string sido = cboSido.Text.Trim();
+            string sigungu = cboSigungu.Text.Trim();
 
-            if (string.IsNullOrWhiteSpace(sido) || string.IsNullOrWhiteSpace(sigungu))
+            if (string.IsNullOrEmpty(sido) || sigungu == "전체")
             {
+                cboDong.DataSource = null;
+                cboDong.Items.Clear();
+                cboDong.Items.Add("전체");
+                cboDong.SelectedIndex = 0;
                 return;
             }
 
-            await LoadDong(sido, sigungu);
+            string url =
+                $"http://localhost:9081/api/region/dong" +
+                $"?sido={Uri.EscapeDataString(sido)}" +
+                $"&sigungu={Uri.EscapeDataString(sigungu)}";
+
+            //-------------------------------------------------------------------------------------------
+            // Processing
+            //-------------------------------------------------------------------------------------------
+            using (HttpClient client = new HttpClient())
+            {
+                string json = await client.GetStringAsync(url);
+
+                cboDong.DataSource = null;
+                cboDong.Items.Clear();
+                cboDong.Items.Add("전체");
+
+                List<string> dongList = JsonConvert.DeserializeObject<List<string>>(json);
+
+                foreach (string dong in dongList)
+                {
+                    cboDong.Items.Add(dong);
+                }
+
+                cboDong.SelectedIndex = 0;
+            }
+        }
+
+        private async void btnSearch_Click(object sender, EventArgs e)
+        {
+            await DoSearch();
         }
 
         private async Task DoSearch()
+        {
+            //Declare and initialize variables 
+            progressBar1.Visible = true;
+            progressBar1.Style = ProgressBarStyle.Marquee;
+            progressBar1.MarqueeAnimationSpeed = 30;
+            btnSearch.Enabled = false;
+
+            //Processingg
+            try
+            {
+                await GetTotalTradeInfo();
+            }
+            finally
+            {
+                progressBar1.Visible = false;
+                progressBar1.MarqueeAnimationSpeed = 0;
+                btnSearch.Enabled = true;
+            }
+        }
+
+        private async Task GetTotalTradeInfo()
         {
             //-------------------------------------------------------------------------------------------
             // Declare and initialize variables
@@ -171,66 +299,6 @@ namespace CeDev
             }
         }
 
-        private async Task LoadSido()
-        {
-            string url = "http://localhost:9081/api/region/sido";
-
-            using (HttpClient client = new HttpClient())
-            {
-                string json = await client.GetStringAsync(url);
-
-                var list = JsonConvert.DeserializeObject<List<string>>(json);
-
-                cboSido.DataSource = list;
-
-                // ⭐ 디폴트 선택
-                cboSido.SelectedItem = "서울특별시";
-            }
-        }
-
-        private async Task LoadSigungu(string sido)
-        {
-            string url =
-                "http://localhost:9081/api/region/sigungu" +
-                $"?sido={HttpUtility.UrlEncode(sido)}";
-
-            using (HttpClient client = new HttpClient())
-            {
-                string json = await client.GetStringAsync(url);
-                var list = JsonConvert.DeserializeObject<List<string>>(json);
-
-                list.Insert(0, "전체");
-
-                cboSigungu.DataSource = list;
-                cboSigungu.SelectedItem = "전체";
-            }
-        }
-
-        private async Task LoadDong(string sido, string sigungu)
-        {
-            if (sigungu == "전체")
-            {
-                cboDong.DataSource = new List<string> { "전체" };
-                cboDong.SelectedItem = "전체";
-                return;
-            }
-
-            string url =
-                "http://localhost:9081/api/region/dong" +
-                $"?sido={HttpUtility.UrlEncode(sido)}" +
-                $"&sigungu={HttpUtility.UrlEncode(sigungu)}";
-
-            using (HttpClient client = new HttpClient())
-            {
-                string json = await client.GetStringAsync(url);
-                var list = JsonConvert.DeserializeObject<List<string>>(json);
-
-                list.Insert(0, "전체");
-
-                cboDong.DataSource = list;
-                cboDong.SelectedItem = "전체";
-            }
-        }
 
         private void SetSummaryInfo(RecentTransactionDto item, List<RealEstateDetailDto> list)
         {
@@ -426,5 +494,4 @@ namespace CeDev
             dataGridView1.Columns["floor"].Width = 60;
         }
     }
-
 }

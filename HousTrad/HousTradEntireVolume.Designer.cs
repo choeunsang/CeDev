@@ -28,15 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             btnSearch = new Button();
             dataGridView1 = new DataGridView();
             lblYear = new Label();
             txtYear = new TextBox();
             lblCnt = new Label();
             chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            progressBar1 = new ProgressBar();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)chart1).BeginInit();
             SuspendLayout();
@@ -87,25 +88,33 @@
             // 
             // chart1
             // 
-            chartArea1.Name = "ChartArea1";
-            chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            chart1.Legends.Add(legend1);
+            chartArea2.Name = "ChartArea1";
+            chart1.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            chart1.Legends.Add(legend2);
             chart1.Location = new Point(37, 400);
             chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            chart1.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            chart1.Series.Add(series2);
             chart1.Size = new Size(1064, 330);
             chart1.TabIndex = 33;
             chart1.Text = "chart1";
+            // 
+            // progressBar1
+            // 
+            progressBar1.Location = new Point(913, 370);
+            progressBar1.Name = "progressBar1";
+            progressBar1.Size = new Size(188, 23);
+            progressBar1.TabIndex = 36;
             // 
             // HousTradEntireVolume
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1134, 742);
+            Controls.Add(progressBar1);
             Controls.Add(chart1);
             Controls.Add(lblCnt);
             Controls.Add(txtYear);
@@ -128,5 +137,6 @@
         private TextBox txtYear;
         private Label lblCnt;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private ProgressBar progressBar1;
     }
 }

@@ -54,6 +54,7 @@
             label2 = new Label();
             cboDong = new ComboBox();
             label5 = new Label();
+            progressBar1 = new ProgressBar();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)chart1).BeginInit();
@@ -257,11 +258,19 @@
             label5.TabIndex = 23;
             label5.Text = "동";
             // 
+            // progressBar1
+            // 
+            progressBar1.Location = new Point(833, 295);
+            progressBar1.Name = "progressBar1";
+            progressBar1.Size = new Size(188, 23);
+            progressBar1.TabIndex = 36;
+            // 
             // TotalTran
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1053, 592);
+            Controls.Add(progressBar1);
             Controls.Add(cboDong);
             Controls.Add(label5);
             Controls.Add(cboSigungu);
@@ -319,5 +328,6 @@
         private Label label2;
         private ComboBox cboDong;
         private Label label5;
+        private ProgressBar progressBar1;
     }
 }

@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms.DataVisualization.Charting;
 
@@ -12,13 +13,13 @@ namespace CeDev
     {
         public HousTradEntireVolume()
         {
-            InitializeComponent();
-            _ = InitCont();
-            InitEvent();
+            InitializeComponent();            
+            InitEvent();            
         }
 
         private void InitEvent()
         {
+            this.Load += HousTradEntireVolume_Load;
             dataGridView1.SelectionChanged += dataGridView1_SelectionChanged;
         }
 
@@ -27,9 +28,10 @@ namespace CeDev
             txtYear.Text = DateTime.Now.Year.ToString();            
         }
 
-        private async void btnSearch_Click(object sender, EventArgs e)
+        private async void HousTradEntireVolume_Load(object? sender, EventArgs e)
         {
-            await GetEntireMonthVolumn();
+            await InitCont();
+            await DoSearch();
         }
 
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
@@ -117,6 +119,31 @@ namespace CeDev
             chart1.Series.Add(series);
         }
 
+        private async void btnSearch_Click(object sender, EventArgs e)
+        {
+            await DoSearch();
+        }
+
+        private async Task DoSearch()
+        {
+            //Declare and initialize variables 
+            progressBar1.Visible = true;
+            progressBar1.Style = ProgressBarStyle.Marquee;
+            progressBar1.MarqueeAnimationSpeed = 30;
+            btnSearch.Enabled = false;
+
+            //Processingg
+            try
+            {
+                await GetEntireMonthVolumn();
+            }
+            finally
+            {
+                progressBar1.Visible = false;
+                progressBar1.MarqueeAnimationSpeed = 0;
+                btnSearch.Enabled = true;
+            }
+        }
 
         private async Task GetEntireMonthVolumn()
         {

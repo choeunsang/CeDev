@@ -39,6 +39,7 @@
             label1 = new Label();
             chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             lblCnt = new Label();
+            progressBar1 = new ProgressBar();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)chart1).BeginInit();
             SuspendLayout();
@@ -120,11 +121,19 @@
             lblCnt.Text = "총 건수";
             lblCnt.TextAlign = ContentAlignment.TopRight;
             // 
+            // progressBar1
+            // 
+            progressBar1.Location = new Point(913, 370);
+            progressBar1.Name = "progressBar1";
+            progressBar1.Size = new Size(188, 23);
+            progressBar1.TabIndex = 36;
+            // 
             // HousTradSigunguDetailVolume
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1134, 785);
+            Controls.Add(progressBar1);
             Controls.Add(lblCnt);
             Controls.Add(chart1);
             Controls.Add(cboSido);
@@ -151,5 +160,6 @@
         private Label label1;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private Label lblCnt;
+        private ProgressBar progressBar1;
     }
 }

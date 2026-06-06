@@ -12,25 +12,22 @@ namespace CeDev
         public HousRentVolume()
         {
             InitializeComponent();
-            InitEvent();
-            _ = InitCont();
+            InitEvent();            
+        }
 
+        private void InitEvent()
+        {
             this.Load += HousTradDetailVolume_Load;
+
+            cboSido.SelectedIndexChanged += cboSido_SelectedIndexChanged;
+            cboSigungu.SelectedIndexChanged += cboSigungu_SelectedIndexChanged;
         }
 
         private async void HousTradDetailVolume_Load(object? sender, EventArgs e)
         {
             await CeDev.Common.AuthManager.CheckAuthAsync(this);
-
-
-        }
-
-
-
-        private void InitEvent()
-        {
-            cboSido.SelectedIndexChanged += cboSido_SelectedIndexChanged;
-            cboSigungu.SelectedIndexChanged += cboSigungu_SelectedIndexChanged;
+            await InitCont();
+            await DoSearch();
         }
 
         private async Task InitCont()
@@ -157,7 +154,28 @@ namespace CeDev
 
         private async void btnSearch_Click(object sender, EventArgs e)
         {
-            await GetMonthVolumn();
+            await DoSearch();
+        }
+
+        private async Task DoSearch()
+        {
+            //Declare and initialize variables 
+            progressBar1.Visible = true;
+            progressBar1.Style = ProgressBarStyle.Marquee;
+            progressBar1.MarqueeAnimationSpeed = 30;
+            btnSearch.Enabled = false;
+
+            //Processingg
+            try
+            {
+                await GetMonthVolumn();
+            }
+            finally
+            {
+                progressBar1.Visible = false;
+                progressBar1.MarqueeAnimationSpeed = 0;
+                btnSearch.Enabled = true;
+            }
         }
 
         private async Task GetMonthVolumn()
@@ -340,6 +358,5 @@ namespace CeDev
 
             chart1.Series.Add(series);
         }
-
     }
 }

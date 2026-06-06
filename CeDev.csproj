@@ -29,6 +29,9 @@
     <Compile Update="HousTrad\HousTradEntireVolume.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="HousTrad\HousTradPriceInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="HousTrad\HousTradSigunguDetailVolume.cs">
       <SubType>Form</SubType>
     </Compile>

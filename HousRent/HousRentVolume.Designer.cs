@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             btnSearch = new Button();
             dataGridView1 = new DataGridView();
             lblYear = new Label();
@@ -43,6 +43,7 @@
             cboSido = new ComboBox();
             label1 = new Label();
             lblCnt = new Label();
+            progressBar1 = new ProgressBar();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)chart1).BeginInit();
             SuspendLayout();
@@ -83,16 +84,16 @@
             // 
             // chart1
             // 
-            chartArea1.Name = "ChartArea1";
-            chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            chart1.Legends.Add(legend1);
+            chartArea2.Name = "ChartArea1";
+            chart1.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            chart1.Legends.Add(legend2);
             chart1.Location = new Point(28, 72);
             chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            chart1.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            chart1.Series.Add(series2);
             chart1.Size = new Size(1073, 323);
             chart1.TabIndex = 6;
             chart1.Text = "chart1";
@@ -158,11 +159,19 @@
             lblCnt.Text = "총 건수";
             lblCnt.TextAlign = ContentAlignment.TopRight;
             // 
+            // progressBar1
+            // 
+            progressBar1.Location = new Point(913, 401);
+            progressBar1.Name = "progressBar1";
+            progressBar1.Size = new Size(188, 23);
+            progressBar1.TabIndex = 36;
+            // 
             // HousRentVolume
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1134, 579);
+            Controls.Add(progressBar1);
             Controls.Add(lblCnt);
             Controls.Add(cboDong);
             Controls.Add(label5);
@@ -177,6 +186,7 @@
             Controls.Add(btnSearch);
             Name = "HousRentVolume";
             Text = "주택 전월세 거래량";
+            
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)chart1).EndInit();
             ResumeLayout(false);
@@ -197,5 +207,6 @@
         private ComboBox cboSido;
         private Label label1;
         private Label lblCnt;
+        private ProgressBar progressBar1;
     }
 }

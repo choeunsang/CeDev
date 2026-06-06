@@ -12,14 +12,20 @@ namespace CeDev
         {
             InitializeComponent();
             InitEvent();
-            _ = InitCont();
-
         }
-
         private void InitEvent()
         {
+            this.Load += RentInfo_Load;
+
             cboSido.SelectedIndexChanged += cboSido_SelectedIndexChanged;
             cboSigungu.SelectedIndexChanged += cboSigungu_SelectedIndexChanged;
+        }
+
+        private async void RentInfo_Load(object? sender, EventArgs e)
+        {
+            await CeDev.Common.AuthManager.CheckAuthAsync(this);
+            await InitCont();
+            await DoSearch();
         }
 
         private async Task InitCont()
@@ -343,7 +349,5 @@ namespace CeDev
 
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
         }
-
-
     }
 }

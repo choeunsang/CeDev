@@ -12,5 +12,8 @@
 
         public string StartYearMonth { get; set; }
         public string EndYearMonth { get; set; }
+
+
+        public string AreaPyeong { get; set; }
     }
 }
