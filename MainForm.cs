@@ -26,11 +26,10 @@ namespace CeDev
 
         }
 
-        #region 회원관리
-
-        private void 회원정보ToolStripMenuItem_Click(object sender, EventArgs e)
+        #region 기준정보
+        private void 단지정보ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UserInfo form = new UserInfo();
+            DangiInfo form = new DangiInfo();
 
             form.MdiParent = this;
             form.Show();
@@ -134,6 +133,16 @@ namespace CeDev
 
         #endregion
 
+        #region 회원관리
 
+        private void 회원정보ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UserInfo form = new UserInfo();
+
+            form.MdiParent = this;
+            form.Show();
+        }
+
+        #endregion
     }
 }
