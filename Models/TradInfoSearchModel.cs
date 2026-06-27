@@ -6,18 +6,15 @@ using System.Threading.Tasks;
 
 namespace CeDev.Models
 {
-    public class RentInfoSearchModel
+    public class TradInfoSearchModel
     {
         public string Sido { get; set; }
         public string Sigungu { get; set; }
         public string Dong { get; set; }
 
-        public string Dangi { get; set; }
-
-        public string StartYearMonth { get; set; }
-        public string EndYearMonth { get; set; }
 
         public string Year { get; set; }
-        public string Gubun { get; set; }
+
+
     }
 }

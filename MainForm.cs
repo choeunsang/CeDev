@@ -57,6 +57,14 @@ namespace CeDev
 
         private void 전국주택거래량ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            HousTradVolume form = new HousTradVolume();
+
+            form.MdiParent = this;
+            form.Show();
+        }
+
+        private void 월별주택거래량ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
             HousTradEntireVolume form = new HousTradEntireVolume();
 
             form.MdiParent = this;
@@ -144,5 +152,7 @@ namespace CeDev
         }
 
         #endregion
+
+
     }
 }

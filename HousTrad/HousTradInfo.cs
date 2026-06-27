@@ -190,7 +190,6 @@ namespace CeDev
             // Declare and initialize variables
             //-------------------------------------------------------------------------------------------
             EntireMonthlySearchModel model = new EntireMonthlySearchModel();
-
             string year = txtYear.Text.Trim();
 
             model.Sido = cboSido.Text.Trim();
