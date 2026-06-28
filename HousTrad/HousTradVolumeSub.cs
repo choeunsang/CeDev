@@ -10,11 +10,18 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace CeDev
 {
-    public partial class HousTradVolume : Form
+    public partial class HousTradVolumeSub : Form
     {
-        public HousTradVolume()
+        private string _sido = string.Empty;
+        private string _sigungu = string.Empty;
+
+        public HousTradVolumeSub(string pSido, string pSigungu)
         {
             InitializeComponent();
+
+            _sido = pSido;
+            _sigungu = pSigungu;
+
             InitEvent();
         }
 
@@ -33,7 +40,7 @@ namespace CeDev
 
             dataGridView1.SelectionChanged += dataGridView1_SelectionChanged;
             dataGridView1.CellClick += DataGridView1_CellClick;
-            dataGridView2.SelectionChanged += dataGridView2_SelectionChanged;
+            //dataGridView2.SelectionChanged += dataGridView2_SelectionChanged;
         }
 
         private void RdoBtn_CheckedChanged(object? sender, EventArgs e)
@@ -118,15 +125,14 @@ namespace CeDev
 
             try
             {
-
-
                 if (rdoBtnYear.Checked == true)
                 {
                     await GetTradDetailInfo(item);
                 }
                 else
                 {
-                    await GetTradDetailInfo_Mon(item);
+                    MessageBox.Show("기능 개발중");
+                    //await GetTradDetailInfo_Mon(item);
                 }
             }
             finally
@@ -519,7 +525,10 @@ namespace CeDev
             //-------------------------------------------------------------------------------------------
             TradInfoSearchModel model = new TradInfoSearchModel();
 
-            string baseUrl = "http://localhost:9081/api/housTrad/VolInfo-sido";
+            model.Sido = _sido;
+            model.Sigungu = _sigungu;
+
+            string baseUrl = "http://localhost:9081/api/housTrad/VolInfo-dong";
             string queryString = BuildQueryString(model);
             string url = $"{baseUrl}?{queryString}";
 
@@ -553,15 +562,20 @@ namespace CeDev
             }
         }
 
+
+
         private async Task GetTradInfo_Mon()
         {
             //-------------------------------------------------------------------------------------------
             // Declare and initialize variables
             //-------------------------------------------------------------------------------------------
             TradInfoSearchModel model = new TradInfoSearchModel();
+
+            model.Sido = _sido;
+            model.Sigungu = _sigungu;
             model.Year = cboMon.SelectedItem.ToString();
 
-            string baseUrl = "http://localhost:9081/api/housTrad/VolInfo-sido-mon";
+            string baseUrl = "http://localhost:9081/api/housTrad/VolInfo-dong-mon";
             string queryString = BuildQueryString(model);
             string url = $"{baseUrl}?{queryString}";
 
@@ -610,8 +624,9 @@ namespace CeDev
             //model.Dong = cboDong.Text == "전체" ? "" : cboDong.Text.Trim();
 
             model.Sido = pItem.sido;
-            //model.Sigungu = pItem.Sigungu;
-            //model.Dong = pItem.Dong;
+            model.Sigungu = pItem.sigungu;
+            model.Dong = pItem.dong;
+            
 
             //model.AreaPyeong = pItem.AreaPyeong;
 
@@ -619,8 +634,8 @@ namespace CeDev
             //model.StartYearMonth = year + "01";
             //model.EndYearMonth = year + "12";
 
-            //string baseUrl = "http://localhost:9081/api/housing-trade-info";
-            string baseUrl = "http://localhost:9081/api/housTrad/VolInfo-sigungu";
+            string baseUrl = "http://localhost:9081/api/housing-trade-info";
+            
 
             string queryString = BuildQueryString(model);
 
@@ -634,8 +649,10 @@ namespace CeDev
                 Stopwatch stopwatch = Stopwatch.StartNew();
 
                 string json = await client.GetStringAsync(url);
-                List<TradVolumeDto> list = JsonConvert.DeserializeObject<List<TradVolumeDto>>(json);
 
+                //List<TradVolumeDto> list = JsonConvert.DeserializeObject<List<TradVolumeDto>>(json);
+                List<HousingTradeInfoDto> list = JsonConvert.DeserializeObject<List<HousingTradeInfoDto>>(json);
+                
                 stopwatch.Stop();
 
                 if (list == null || list.Count == 0)
@@ -724,6 +741,16 @@ namespace CeDev
                 query["sido"] = model.Sido;
             }
 
+            if (!string.IsNullOrEmpty(model.Sigungu))
+            {
+                query["sigungu"] = model.Sigungu;
+            }
+
+            if (!string.IsNullOrEmpty(model.Dong))
+            {
+                query["dong"] = model.Dong;
+            }
+
             if (!string.IsNullOrEmpty(model.Year))
             {
                 query["year"] = model.Year;
@@ -741,9 +768,11 @@ namespace CeDev
             // Declare and initialize variables 
             //-------------------------------------------------------------------------------------------
             dataGridView1.Columns["sido"].HeaderText = "시도";
+            dataGridView1.Columns["sigungu"].HeaderText = "시군구";
+            dataGridView1.Columns["dong"].HeaderText = "동";
 
-            dataGridView1.Columns["sigungu"].Visible = false;
-            dataGridView1.Columns["dong"].Visible = false;
+            //dataGridView1.Columns["sigungu"].Visible = false;
+            //dataGridView1.Columns["dong"].Visible = false;
 
             dataGridView1.Columns["y2023"].HeaderText = "2023년";
             dataGridView1.Columns["y2024"].HeaderText = "2024년";
@@ -815,70 +844,98 @@ namespace CeDev
             //-------------------------------------------------------------------------------------------
             dataGridView2.Columns["sido"].HeaderText = "시도";
             dataGridView2.Columns["sigungu"].HeaderText = "시군구";
+            dataGridView2.Columns["dong"].HeaderText = "동";
+            dataGridView2.Columns["dangi"].HeaderText = "단지";
 
-            dataGridView2.Columns["dong"].Visible = false;
+            dataGridView2.Columns["sido"].DisplayIndex = 0;
+            dataGridView2.Columns["sigungu"].DisplayIndex = 1;
+            dataGridView2.Columns["dong"].DisplayIndex = 2;
+            dataGridView2.Columns["dangi"].DisplayIndex = 3;
 
-            dataGridView2.Columns["y2023"].HeaderText = "2023년";
-            dataGridView2.Columns["y2024"].HeaderText = "2024년";
-            dataGridView2.Columns["y2025"].HeaderText = "2025년";
-            dataGridView2.Columns["y2026"].HeaderText = "2026년";
+            dataGridView2.Columns["city"].Visible = false;
+            dataGridView2.Columns["bungi"].Visible = false;
+            dataGridView2.Columns["bonBun"].Visible = false;
+            dataGridView2.Columns["buBun"].Visible = false;
 
-            dataGridView2.Columns["m01"].HeaderText = "1월";
-            dataGridView2.Columns["m02"].HeaderText = "2월";
-            dataGridView2.Columns["m03"].HeaderText = "3월";
-            dataGridView2.Columns["m04"].HeaderText = "4월";
-            dataGridView2.Columns["m05"].HeaderText = "5월";
-            dataGridView2.Columns["m06"].HeaderText = "6월";
-            dataGridView2.Columns["m07"].HeaderText = "7월";
-            dataGridView2.Columns["m08"].HeaderText = "8월";
-            dataGridView2.Columns["m09"].HeaderText = "9월";
-            dataGridView2.Columns["m10"].HeaderText = "10월";
-            dataGridView2.Columns["m11"].HeaderText = "11월";
-            dataGridView2.Columns["m12"].HeaderText = "12월";
+            dataGridView2.Columns["dediArea"].Visible = false;
+            dataGridView2.Columns["contYear"].Visible = true;
+            dataGridView2.Columns["contDate"].Visible = false;
+            dataGridView2.Columns["amount"].Visible = false;
+            dataGridView2.Columns["floor"].Visible = false;
+
+            dataGridView2.Columns["consYear"].Visible = false;
+            dataGridView2.Columns["road"].Visible = false;
+            dataGridView2.Columns["dateCancel"].Visible = false;
+            dataGridView2.Columns["transType"].Visible = false;
+            dataGridView2.Columns["brokerLoc"].Visible = false;
+
+            dataGridView2.Columns["regiDt"].Visible = false;
+
+
+
+
+
+            //dataGridView2.Columns["y2023"].HeaderText = "2023년";
+            //dataGridView2.Columns["y2024"].HeaderText = "2024년";
+            //dataGridView2.Columns["y2025"].HeaderText = "2025년";
+            //dataGridView2.Columns["y2026"].HeaderText = "2026년";
+
+            //dataGridView2.Columns["m01"].HeaderText = "1월";
+            //dataGridView2.Columns["m02"].HeaderText = "2월";
+            //dataGridView2.Columns["m03"].HeaderText = "3월";
+            //dataGridView2.Columns["m04"].HeaderText = "4월";
+            //dataGridView2.Columns["m05"].HeaderText = "5월";
+            //dataGridView2.Columns["m06"].HeaderText = "6월";
+            //dataGridView2.Columns["m07"].HeaderText = "7월";
+            //dataGridView2.Columns["m08"].HeaderText = "8월";
+            //dataGridView2.Columns["m09"].HeaderText = "9월";
+            //dataGridView2.Columns["m10"].HeaderText = "10월";
+            //dataGridView2.Columns["m11"].HeaderText = "11월";
+            //dataGridView2.Columns["m12"].HeaderText = "12월";
 
             //-------------------------------------------------------------------------------------------
             // Processing
             //-------------------------------------------------------------------------------------------
-            if (rdoBtnYear.Checked)
-            {
-                dataGridView2.Columns["y2023"].Visible = true;
-                dataGridView2.Columns["y2024"].Visible = true;
-                dataGridView2.Columns["y2025"].Visible = true;
-                dataGridView2.Columns["y2026"].Visible = true;
+            //if (rdoBtnYear.Checked)
+            //{
+            //    dataGridView2.Columns["y2023"].Visible = true;
+            //    dataGridView2.Columns["y2024"].Visible = true;
+            //    dataGridView2.Columns["y2025"].Visible = true;
+            //    dataGridView2.Columns["y2026"].Visible = true;
 
-                dataGridView2.Columns["m01"].Visible = false;
-                dataGridView2.Columns["m02"].Visible = false;
-                dataGridView2.Columns["m03"].Visible = false;
-                dataGridView2.Columns["m04"].Visible = false;
-                dataGridView2.Columns["m05"].Visible = false;
-                dataGridView2.Columns["m06"].Visible = false;
-                dataGridView2.Columns["m07"].Visible = false;
-                dataGridView2.Columns["m08"].Visible = false;
-                dataGridView2.Columns["m09"].Visible = false;
-                dataGridView2.Columns["m10"].Visible = false;
-                dataGridView2.Columns["m11"].Visible = false;
-                dataGridView2.Columns["m12"].Visible = false;
-            }
-            else
-            {
-                dataGridView2.Columns["y2023"].Visible = false;
-                dataGridView2.Columns["y2024"].Visible = false;
-                dataGridView2.Columns["y2025"].Visible = false;
-                dataGridView2.Columns["y2026"].Visible = false;
+            //    dataGridView2.Columns["m01"].Visible = false;
+            //    dataGridView2.Columns["m02"].Visible = false;
+            //    dataGridView2.Columns["m03"].Visible = false;
+            //    dataGridView2.Columns["m04"].Visible = false;
+            //    dataGridView2.Columns["m05"].Visible = false;
+            //    dataGridView2.Columns["m06"].Visible = false;
+            //    dataGridView2.Columns["m07"].Visible = false;
+            //    dataGridView2.Columns["m08"].Visible = false;
+            //    dataGridView2.Columns["m09"].Visible = false;
+            //    dataGridView2.Columns["m10"].Visible = false;
+            //    dataGridView2.Columns["m11"].Visible = false;
+            //    dataGridView2.Columns["m12"].Visible = false;
+            //}
+            //else
+            //{
+            //    dataGridView2.Columns["y2023"].Visible = false;
+            //    dataGridView2.Columns["y2024"].Visible = false;
+            //    dataGridView2.Columns["y2025"].Visible = false;
+            //    dataGridView2.Columns["y2026"].Visible = false;
 
-                dataGridView2.Columns["m01"].Visible = true;
-                dataGridView2.Columns["m02"].Visible = true;
-                dataGridView2.Columns["m03"].Visible = true;
-                dataGridView2.Columns["m04"].Visible = true;
-                dataGridView2.Columns["m05"].Visible = true;
-                dataGridView2.Columns["m06"].Visible = true;
-                dataGridView2.Columns["m07"].Visible = true;
-                dataGridView2.Columns["m08"].Visible = true;
-                dataGridView2.Columns["m09"].Visible = true;
-                dataGridView2.Columns["m10"].Visible = true;
-                dataGridView2.Columns["m11"].Visible = true;
-                dataGridView2.Columns["m12"].Visible = true;
-            }
+            //    dataGridView2.Columns["m01"].Visible = true;
+            //    dataGridView2.Columns["m02"].Visible = true;
+            //    dataGridView2.Columns["m03"].Visible = true;
+            //    dataGridView2.Columns["m04"].Visible = true;
+            //    dataGridView2.Columns["m05"].Visible = true;
+            //    dataGridView2.Columns["m06"].Visible = true;
+            //    dataGridView2.Columns["m07"].Visible = true;
+            //    dataGridView2.Columns["m08"].Visible = true;
+            //    dataGridView2.Columns["m09"].Visible = true;
+            //    dataGridView2.Columns["m10"].Visible = true;
+            //    dataGridView2.Columns["m11"].Visible = true;
+            //    dataGridView2.Columns["m12"].Visible = true;
+            //}
         }
 
         private void dataGridView2_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -887,10 +944,7 @@ namespace CeDev
             if (e.RowIndex >= 0)
             {
                 // '시군구' 컬럼의 인덱스 또는 컬럼명을 지정합니다. (여기서는 컬럼명이 "sigungu"라고 가정)
-                string sido = dataGridView2.Rows[e.RowIndex].Cells["sido"].Value?.ToString();
-                string sigungu = dataGridView2.Rows[e.RowIndex].Cells["sigungu"].Value?.ToString();
-
-                //string year = dataGridView1.Rows[0].Cells["year"].Value?.ToString();
+                string sigunguValue = dataGridView2.Rows[e.RowIndex].Cells["sigungu"].Value?.ToString();
 
                 //// 선택한 행의 시군구 값이 '관악구'인지 확인
                 //if (sigunguValue == "관악구")
@@ -898,12 +952,7 @@ namespace CeDev
                 //    MessageBox.Show("관악구", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 //}
 
-                //MessageBox.Show(sigunguValue);
-
-                HousTradVolumeSub form = new HousTradVolumeSub(sido, sigungu);
-
-                //form.MdiParent = this;
-                form.Show();
+                MessageBox.Show(sigunguValue);
             }
         }
     }

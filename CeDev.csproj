@@ -35,6 +35,9 @@
     <Compile Update="HousRent\RentInfo.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="HousTrad\HousTradVolumeSub.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="HousTrad\HousTradVolume.cs">
       <SubType>Form</SubType>
     </Compile>
