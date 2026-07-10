@@ -26,6 +26,18 @@
     <Compile Update="BaseInfo\DangiInfo.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Dashboard\SeriesMng.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Dashboard\TargetTemp01.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Dashboard\TargetTemp02.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Dashboard\TargetMng.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="HousRent\HousRentVolume.cs">
       <SubType>Form</SubType>
     </Compile>

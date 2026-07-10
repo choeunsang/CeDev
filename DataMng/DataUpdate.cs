@@ -121,8 +121,8 @@ namespace CeDev.DataMng
             //string priceDt02 = "202602";
             //string priceDt03 = "202603";
             //string priceDt04 = "202604";
-            string priceDt05 = "202605";
-            //string priceDt06 = "202606";
+            //string priceDt05 = "202605";
+            string priceDt06 = "202606";
             //string priceDt07 = "202607";
             //string priceDt08 = "202608";
             //string priceDt09 = "202609";
@@ -136,8 +136,8 @@ namespace CeDev.DataMng
             //var path02 = @"C:\tempReal\" + priceDt02 + ".csv";
             //var path03 = @"C:\tempReal\" + priceDt03 + ".csv";
             //var path04 = @"C:\tempReal\" + priceDt04 + ".csv";
-            var path05 = @"C:\tempReal\" + priceDt05 + ".csv";
-            //var path06 = @"C:\tempReal\" + priceDt06 + ".csv";
+            //var path05 = @"C:\tempReal\" + priceDt05 + ".csv";
+            var path06 = @"C:\tempReal\" + priceDt06 + ".csv";
             //var path07 = @"C:\tempReal\" + priceDt07 + ".csv";
             //var path08 = @"C:\tempReal\" + priceDt08 + ".csv";
             //var path09 = @"C:\tempReal\" + priceDt09 + ".csv";
@@ -150,8 +150,8 @@ namespace CeDev.DataMng
             //var csv02 = new List<string[]>(); // or, List<YourClass>
             //var csv03 = new List<string[]>(); // or, List<YourClass>
             //var csv04 = new List<string[]>(); // or, List<YourClass>
-            var csv05 = new List<string[]>(); // or, List<YourClass>
-            //var csv06 = new List<string[]>(); // or, List<YourClass>
+            //var csv05 = new List<string[]>(); // or, List<YourClass>
+            var csv06 = new List<string[]>(); // or, List<YourClass>
             //var csv07 = new List<string[]>(); // or, List<YourClass>
             //var csv08 = new List<string[]>(); // or, List<YourClass>
             //var csv09 = new List<string[]>(); // or, List<YourClass>
@@ -165,14 +165,14 @@ namespace CeDev.DataMng
             //var lines02 = System.IO.File.ReadAllLines(path02, Encoding.GetEncoding(949));
             //var lines03 = System.IO.File.ReadAllLines(path03, Encoding.GetEncoding(949));
             //var lines04 = System.IO.File.ReadAllLines(path04, Encoding.GetEncoding(949));
-            var lines05 = System.IO.File.ReadAllLines(path05, Encoding.GetEncoding(949));
-            //var lines06 = System.IO.File.ReadAllLines(path06, System.Text.Encoding.Default);
-            //var lines07 = System.IO.File.ReadAllLines(path07, System.Text.Encoding.Default);
-            //var lines08 = System.IO.File.ReadAllLines(path08, System.Text.Encoding.Default);
-            //var lines09 = System.IO.File.ReadAllLines(path09, System.Text.Encoding.Default);
-            //var lines10 = System.IO.File.ReadAllLines(path10, System.Text.Encoding.Default);
-            //var lines11 = System.IO.File.ReadAllLines(path11, System.Text.Encoding.Default);
-            //var lines12 = System.IO.File.ReadAllLines(path12, System.Text.Encoding.Default);
+            //var lines05 = System.IO.File.ReadAllLines(path05, Encoding.GetEncoding(949));
+            var lines06 = System.IO.File.ReadAllLines(path06, Encoding.GetEncoding(949));
+            //var lines07 = System.IO.File.ReadAllLines(path07, Encoding.GetEncoding(949));
+            //var lines08 = System.IO.File.ReadAllLines(path08, Encoding.GetEncoding(949));
+            //var lines09 = System.IO.File.ReadAllLines(path09, Encoding.GetEncoding(949));
+            //var lines10 = System.IO.File.ReadAllLines(path10, Encoding.GetEncoding(949));
+            //var lines11 = System.IO.File.ReadAllLines(path11, Encoding.GetEncoding(949));
+            //var lines12 = System.IO.File.ReadAllLines(path12, Encoding.GetEncoding(949));
 
             //-------------------------------------------------------------------------------------------------------------------------------
             //Processing
@@ -223,27 +223,27 @@ namespace CeDev.DataMng
             //    rowNum++;
             //}
 
-            rowNum = 0;
-            foreach (string line in lines05)
-            {
-                if (rowNum > 16)
-                {
-                    String[] Fields = CSVParser.Split(line);
-                    csv05.Add(Fields);
-                }
-                rowNum++;
-            }
-
             //rowNum = 0;
-            //foreach (string line in lines06)
+            //foreach (string line in lines05)
             //{
             //    if (rowNum > 16)
             //    {
             //        String[] Fields = CSVParser.Split(line);
-            //        csv06.Add(Fields);
+            //        csv05.Add(Fields);
             //    }
             //    rowNum++;
             //}
+
+            rowNum = 0;
+            foreach (string line in lines06)
+            {
+                if (rowNum > 16)
+                {
+                    String[] Fields = CSVParser.Split(line);
+                    csv06.Add(Fields);
+                }
+                rowNum++;
+            }
 
             //rowNum = 0;
             //foreach (string line in lines07)
@@ -318,9 +318,11 @@ namespace CeDev.DataMng
             //await CreateRealEstateDataByCsv(csv02, priceDt02, tableNm01);
             //await CreateRealEstateDataByCsv(csv03, priceDt03, tableNm01);
             //await CreateRealEstateDataByCsv(csv04, priceDt04, tableNm01);
-            await CreateRealEstateDataByCsv(csv05, priceDt05, tableNm01);
+            //await CreateRealEstateDataByCsv(csv05, priceDt05, tableNm01);
 
-            
+            await CreateRealEstateDataByCsv(csv06, priceDt06, tableNm01);
+
+
         }
 
         public async Task CreateRealEstateDataByCsv(List<string[]> pCsv, string pPriceDt, string pTableNm)
@@ -474,7 +476,7 @@ namespace CeDev.DataMng
             string priceDt03 = "R_202603";
             string priceDt04 = "R_202604";
             string priceDt05 = "R_202605";
-            //string priceDt06 = "R_202606";
+            string priceDt06 = "R_202606";
             //string priceDt07 = "R_202607";
             //string priceDt08 = "R_202608";
             //string priceDt09 = "R_202609";
@@ -489,7 +491,7 @@ namespace CeDev.DataMng
             var path03 = @"C:\tempReal\" + priceDt03 + ".csv";
             var path04 = @"C:\tempReal\" + priceDt04 + ".csv";
             var path05 = @"C:\tempReal\" + priceDt05 + ".csv";
-            //var path06 = @"C:\tempReal\" + priceDt06 + ".csv";
+            var path06 = @"C:\tempReal\" + priceDt06 + ".csv";
             //var path07 = @"C:\tempReal\" + priceDt07 + ".csv";
             //var path08 = @"C:\tempReal\" + priceDt08 + ".csv";
             //var path09 = @"C:\tempReal\" + priceDt09 + ".csv";
@@ -503,7 +505,7 @@ namespace CeDev.DataMng
             var csv03 = new List<string[]>(); // or, List<YourClass>
             var csv04 = new List<string[]>(); // or, List<YourClass>
             var csv05 = new List<string[]>(); // or, List<YourClass>
-            //var csv06 = new List<string[]>(); // or, List<YourClass>
+            var csv06 = new List<string[]>(); // or, List<YourClass>
             //var csv07 = new List<string[]>(); // or, List<YourClass>
             //var csv08 = new List<string[]>(); // or, List<YourClass>
             //var csv09 = new List<string[]>(); // or, List<YourClass>
@@ -518,7 +520,7 @@ namespace CeDev.DataMng
             var lines03 = System.IO.File.ReadAllLines(path03, Encoding.GetEncoding(949));
             var lines04 = System.IO.File.ReadAllLines(path04, Encoding.GetEncoding(949));
             var lines05 = System.IO.File.ReadAllLines(path05, Encoding.GetEncoding(949));
-            //var lines06 = System.IO.File.ReadAllLines(path06, Encoding.GetEncoding(949));
+            var lines06 = System.IO.File.ReadAllLines(path06, Encoding.GetEncoding(949));
             //var lines07 = System.IO.File.ReadAllLines(path07, Encoding.GetEncoding(949));
             //var lines08 = System.IO.File.ReadAllLines(path08, Encoding.GetEncoding(949));
             //var lines09 = System.IO.File.ReadAllLines(path09, Encoding.GetEncoding(949));
@@ -586,16 +588,16 @@ namespace CeDev.DataMng
                 rowNum++;
             }
 
-            //rowNum = 0;
-            //foreach (string line in lines06)
-            //{
-            //    if (rowNum > 16)
-            //    {
-            //        String[] Fields = CSVParser.Split(line);
-            //        csv06.Add(Fields);
-            //    }
-            //    rowNum++;
-            //}
+            rowNum = 0;
+            foreach (string line in lines06)
+            {
+                if (rowNum > 16)
+                {
+                    String[] Fields = CSVParser.Split(line);
+                    csv06.Add(Fields);
+                }
+                rowNum++;
+            }
 
             //rowNum = 0;
             //foreach (string line in lines07)
@@ -672,6 +674,8 @@ namespace CeDev.DataMng
             await CreateRealEstateRentDataByCsv(csv03, priceDt03, tableNm01);
             await CreateRealEstateRentDataByCsv(csv04, priceDt04, tableNm01);
             await CreateRealEstateRentDataByCsv(csv05, priceDt05, tableNm01);
+
+            await CreateRealEstateRentDataByCsv(csv06, priceDt06, tableNm01);
         }
 
         public async Task CreateRealEstateRentDataByCsv(List<string[]> pCsv, string pPriceDt, string pTableNm)

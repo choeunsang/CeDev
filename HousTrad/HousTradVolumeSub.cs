@@ -40,7 +40,9 @@ namespace CeDev
 
             dataGridView1.SelectionChanged += dataGridView1_SelectionChanged;
             dataGridView1.CellClick += DataGridView1_CellClick;
+
             //dataGridView2.SelectionChanged += dataGridView2_SelectionChanged;
+            dataGridView2.CellClick += DataGridView2_CellClick;
         }
 
         private void RdoBtn_CheckedChanged(object? sender, EventArgs e)
@@ -131,8 +133,8 @@ namespace CeDev
                 }
                 else
                 {
-                    MessageBox.Show("기능 개발중");
-                    //await GetTradDetailInfo_Mon(item);
+                    //MessageBox.Show("기능 개발중");
+                    await GetTradDetailInfo_Mon(item);
                 }
             }
             finally
@@ -140,6 +142,64 @@ namespace CeDev
                 progressBar2.Visible = false;
                 progressBar2.MarqueeAnimationSpeed = 0;
                 btnSearch.Enabled = true;
+            }
+        }
+
+        private async void DataGridView2_CellClick(object? sender, DataGridViewCellEventArgs e)
+        {
+            //-------------------------------------------------------------------------------------------
+            // Declare and initialize variables
+            //-------------------------------------------------------------------------------------------
+            if (dataGridView2.CurrentRow == null)
+            {
+                return;
+            }
+
+            HousingTradeInfoDto item = dataGridView2.CurrentRow.DataBoundItem as HousingTradeInfoDto;
+
+            if (item == null)
+            {
+                return;
+            }
+
+            //-------------------------------------------------------------------------------------------
+            // Processing
+            //-------------------------------------------------------------------------------------------            
+            progressBar3.Visible = true;
+            progressBar3.Style = ProgressBarStyle.Marquee;
+            progressBar3.MarqueeAnimationSpeed = 30;
+            //btnSearch.Enabled = false;
+
+            try
+            {
+                //if (rdoBtnYear.Checked == true)
+                //{
+                //    await GetTradDetailInfo(item);
+                //}
+                //else
+                //{
+                //    //MessageBox.Show("기능 개발중");
+                //    await GetTradDetailInfo_Mon(item);
+                //}
+
+                txtSido.Text = item.Sido;
+                txtSigungu.Text = item.Sigungu;
+                txtDong.Text = item.Dong;
+
+                txtDangi.Text = item.Dangi;
+
+                txtDediArea.Text = item.DediArea;
+                txtAmount.Text = item.Amount;
+
+                //txtHisCnt.Text = item.Sido;
+
+                await GetTradDetailInfo_His(item);
+            }
+            finally
+            {
+                progressBar3.Visible = false;
+                progressBar3.MarqueeAnimationSpeed = 0;
+                //btnSearch.Enabled = true;
             }
         }
 
@@ -348,145 +408,145 @@ namespace CeDev
 
         private void DrawChart2(TradVolumeDto pItem)
         {
-            //-------------------------------------------------------------------------------------------
-            // Declare and initialize variables
-            //-------------------------------------------------------------------------------------------
-            string[] years =
-            {
-                "2023년", "2024년", "2025년", "2026년"
-            };
-
-            int[] values =
-            {
-                pItem.y2023,
-                pItem.y2024,
-                pItem.y2025,
-                pItem.y2026
-            };
-
-            //-------------------------------------------------------------------------------------------
-            // Processing
-            //-------------------------------------------------------------------------------------------
-            chart2.Series.Clear();
-            chart2.ChartAreas.Clear();
-
-            ChartArea area = new ChartArea("MainArea");
-
-            area.AxisX.Minimum = 0.5;
-            area.AxisX.Maximum = 12.5;
-            area.AxisX.Interval = 1;
-
-            area.AxisX.MajorGrid.Enabled = false;
-            area.AxisY.MajorGrid.Enabled = false;
-
-            area.AxisY.Minimum = 0;
-
-            for (int i = 0; i < years.Length; i++)
-            {
-                area.AxisX.CustomLabels.Add(
-                    i + 0.5,
-                    i + 1.5,
-                    years[i]
-                );
-            }
-
-            chart2.ChartAreas.Add(area);
-
-            Series series = new Series(pItem.sido);
-
-            series.ChartType = SeriesChartType.Line;
-            series.BorderWidth = 4;
-            series.MarkerStyle = MarkerStyle.Circle;
-            series.MarkerSize = 8;
-
-            for (int i = 0; i < values.Length; i++)
-            {
-                if (values[i] > 0)
-                {
-                    series.Points.AddXY(i + 1, values[i]);
-                }
-            }
-
-            chart2.Series.Add(series);
-        }
-
-        private void DrawChart2_Mon(TradVolumeDto pItem)
-        {
-            //-------------------------------------------------------------------------------------------
-            // Declare and initialize variables
-            //-------------------------------------------------------------------------------------------
+            ////-------------------------------------------------------------------------------------------
+            //// Declare and initialize variables
+            ////-------------------------------------------------------------------------------------------
             //string[] years =
             //{
             //    "2023년", "2024년", "2025년", "2026년"
             //};
 
-            string[] months =
-            {
-                "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월","9월", "10월", "11월", "12월"
-            };
+            //int[] values =
+            //{
+            //    pItem.y2023,
+            //    pItem.y2024,
+            //    pItem.y2025,
+            //    pItem.y2026
+            //};
 
-            int[] values =
-            {
-                pItem.m01,
-                pItem.m02,
-                pItem.m03,
-                pItem.m04,
-                pItem.m05,
-                pItem.m06,
-                pItem.m07,
-                pItem.m08,
-                pItem.m09,
-                pItem.m10,
-                pItem.m11,
-                pItem.m12
-            };
+            ////-------------------------------------------------------------------------------------------
+            //// Processing
+            ////-------------------------------------------------------------------------------------------
+            //chart2.Series.Clear();
+            //chart2.ChartAreas.Clear();
 
-            //-------------------------------------------------------------------------------------------
-            // Processing
-            //-------------------------------------------------------------------------------------------
-            chart2.Series.Clear();
-            chart2.ChartAreas.Clear();
+            //ChartArea area = new ChartArea("MainArea");
 
-            ChartArea area = new ChartArea("MainArea");
+            //area.AxisX.Minimum = 0.5;
+            //area.AxisX.Maximum = 12.5;
+            //area.AxisX.Interval = 1;
 
-            area.AxisX.Minimum = 0.5;
-            area.AxisX.Maximum = 12.5;
-            area.AxisX.Interval = 1;
+            //area.AxisX.MajorGrid.Enabled = false;
+            //area.AxisY.MajorGrid.Enabled = false;
 
-            area.AxisX.MajorGrid.Enabled = false;
-            area.AxisY.MajorGrid.Enabled = false;
-
-            area.AxisY.Minimum = 0;
+            //area.AxisY.Minimum = 0;
 
             //for (int i = 0; i < years.Length; i++)
-            for (int i = 0; i < months.Length; i++)
-            {
-                area.AxisX.CustomLabels.Add(
-                    i + 0.5,
-                    i + 1.5,
-                    //years[i]
-                    months[i]
-                );
-            }
+            //{
+            //    area.AxisX.CustomLabels.Add(
+            //        i + 0.5,
+            //        i + 1.5,
+            //        years[i]
+            //    );
+            //}
 
-            chart2.ChartAreas.Add(area);
+            //chart2.ChartAreas.Add(area);
 
-            Series series = new Series(pItem.sido);
+            //Series series = new Series(pItem.sido);
 
-            series.ChartType = SeriesChartType.Line;
-            series.BorderWidth = 4;
-            series.MarkerStyle = MarkerStyle.Circle;
-            series.MarkerSize = 8;
+            //series.ChartType = SeriesChartType.Line;
+            //series.BorderWidth = 4;
+            //series.MarkerStyle = MarkerStyle.Circle;
+            //series.MarkerSize = 8;
 
-            for (int i = 0; i < values.Length; i++)
-            {
-                if (values[i] > 0)
-                {
-                    series.Points.AddXY(i + 1, values[i]);
-                }
-            }
+            //for (int i = 0; i < values.Length; i++)
+            //{
+            //    if (values[i] > 0)
+            //    {
+            //        series.Points.AddXY(i + 1, values[i]);
+            //    }
+            //}
 
-            chart2.Series.Add(series);
+            //chart2.Series.Add(series);
+        }
+
+        private void DrawChart2_Mon(TradVolumeDto pItem)
+        {
+            ////-------------------------------------------------------------------------------------------
+            //// Declare and initialize variables
+            ////-------------------------------------------------------------------------------------------
+            ////string[] years =
+            ////{
+            ////    "2023년", "2024년", "2025년", "2026년"
+            ////};
+
+            //string[] months =
+            //{
+            //    "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월","9월", "10월", "11월", "12월"
+            //};
+
+            //int[] values =
+            //{
+            //    pItem.m01,
+            //    pItem.m02,
+            //    pItem.m03,
+            //    pItem.m04,
+            //    pItem.m05,
+            //    pItem.m06,
+            //    pItem.m07,
+            //    pItem.m08,
+            //    pItem.m09,
+            //    pItem.m10,
+            //    pItem.m11,
+            //    pItem.m12
+            //};
+
+            ////-------------------------------------------------------------------------------------------
+            //// Processing
+            ////-------------------------------------------------------------------------------------------
+            //chart2.Series.Clear();
+            //chart2.ChartAreas.Clear();
+
+            //ChartArea area = new ChartArea("MainArea");
+
+            //area.AxisX.Minimum = 0.5;
+            //area.AxisX.Maximum = 12.5;
+            //area.AxisX.Interval = 1;
+
+            //area.AxisX.MajorGrid.Enabled = false;
+            //area.AxisY.MajorGrid.Enabled = false;
+
+            //area.AxisY.Minimum = 0;
+
+            ////for (int i = 0; i < years.Length; i++)
+            //for (int i = 0; i < months.Length; i++)
+            //{
+            //    area.AxisX.CustomLabels.Add(
+            //        i + 0.5,
+            //        i + 1.5,
+            //        //years[i]
+            //        months[i]
+            //    );
+            //}
+
+            //chart2.ChartAreas.Add(area);
+
+            //Series series = new Series(pItem.sido);
+
+            //series.ChartType = SeriesChartType.Line;
+            //series.BorderWidth = 4;
+            //series.MarkerStyle = MarkerStyle.Circle;
+            //series.MarkerSize = 8;
+
+            //for (int i = 0; i < values.Length; i++)
+            //{
+            //    if (values[i] > 0)
+            //    {
+            //        series.Points.AddXY(i + 1, values[i]);
+            //    }
+            //}
+
+            //chart2.Series.Add(series);
         }
 
         private async Task DoSearch()
@@ -626,7 +686,7 @@ namespace CeDev
             model.Sido = pItem.sido;
             model.Sigungu = pItem.sigungu;
             model.Dong = pItem.dong;
-            
+
 
             //model.AreaPyeong = pItem.AreaPyeong;
 
@@ -635,7 +695,7 @@ namespace CeDev
             //model.EndYearMonth = year + "12";
 
             string baseUrl = "http://localhost:9081/api/housing-trade-info";
-            
+
 
             string queryString = BuildQueryString(model);
 
@@ -652,7 +712,7 @@ namespace CeDev
 
                 //List<TradVolumeDto> list = JsonConvert.DeserializeObject<List<TradVolumeDto>>(json);
                 List<HousingTradeInfoDto> list = JsonConvert.DeserializeObject<List<HousingTradeInfoDto>>(json);
-                
+
                 stopwatch.Stop();
 
                 if (list == null || list.Count == 0)
@@ -682,11 +742,17 @@ namespace CeDev
             //-------------------------------------------------------------------------------------------
             TradInfoSearchModel model = new TradInfoSearchModel();
 
-            model.Sido = pItem.sido;
             model.Year = cboMon.SelectedItem.ToString();
 
+            model.Sido = pItem.sido;
+            model.Sigungu = pItem.sigungu;
+            model.Dong = pItem.dong;
 
-            string baseUrl = "http://localhost:9081/api/housTrad/VolInfo-sigungu-mon";
+
+            //string baseUrl = "http://localhost:9081/api/housTrad/VolInfo-sigungu-mon";
+            //string baseUrl = "http://localhost:9081/api/housTrad/VolInfo-dong-mon";
+
+            string baseUrl = "http://localhost:9081/api/housing-trade-info";
 
             string queryString = BuildQueryString(model);
 
@@ -700,7 +766,8 @@ namespace CeDev
                 Stopwatch stopwatch = Stopwatch.StartNew();
 
                 string json = await client.GetStringAsync(url);
-                List<TradVolumeDto> list = JsonConvert.DeserializeObject<List<TradVolumeDto>>(json);
+                //List<TradVolumeDto> list = JsonConvert.DeserializeObject<List<TradVolumeDto>>(json);
+                List<HousingTradeInfoDto> list = JsonConvert.DeserializeObject<List<HousingTradeInfoDto>>(json);
 
                 stopwatch.Stop();
 
@@ -721,6 +788,67 @@ namespace CeDev
                 lblCnt2.Text = $"{list.Count:N0} 건({seconds:0.0}초)";
 
                 SetGridHeader2();
+            }
+        }
+
+        private async Task GetTradDetailInfo_His(HousingTradeInfoDto pItem)
+        {
+            //-------------------------------------------------------------------------------------------
+            // Declare and initialize variables
+            //-------------------------------------------------------------------------------------------
+            TradInfoSearchModel model = new TradInfoSearchModel();
+
+            //model.Year = cboMon.SelectedItem.ToString();
+
+            model.Sido = pItem.Sido;
+            model.Sigungu = pItem.Sigungu;
+            model.Dong = pItem.Dong;
+
+            model.Dangi = pItem.Dangi;
+
+            model.DediArea = pItem.DediArea;
+
+            //string baseUrl = "http://localhost:9081/api/housTrad/VolInfo-sigungu-mon";
+            //string baseUrl = "http://localhost:9081/api/housTrad/VolInfo-dong-mon";
+
+            string baseUrl = "http://localhost:9081/api/housing-trade-info";
+
+            string queryString = BuildQueryString(model);
+
+            string url = $"{baseUrl}?{queryString}";
+
+            //-------------------------------------------------------------------------------------------
+            // Processing
+            //-------------------------------------------------------------------------------------------
+            using (HttpClient client = new HttpClient())
+            {
+                Stopwatch stopwatch = Stopwatch.StartNew();
+
+                string json = await client.GetStringAsync(url);
+                //List<TradVolumeDto> list = JsonConvert.DeserializeObject<List<TradVolumeDto>>(json);
+                List<HousingTradeInfoDto> list = JsonConvert.DeserializeObject<List<HousingTradeInfoDto>>(json);
+
+                stopwatch.Stop();
+
+                if (list == null || list.Count == 0)
+                {
+                    MessageBox.Show("조회된 데이터가 없습니다.");
+                    dataGridView3.DataSource = null;
+                    //chart1.Series.Clear();
+                    return;
+                }
+
+                long elapsedMs = stopwatch.ElapsedMilliseconds;
+                double seconds = elapsedMs / 1000.0; // 초 단위 변환 (0.8초)
+
+                dataGridView3.DataSource = list;
+                dataGridView3.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+
+                txtHisCnt.Text = list.Count.ToString();
+                lblCnt3.Text = $"{list.Count:N0} 건({seconds:0.0}초)";
+
+                SetGridHeader3();
             }
         }
 
@@ -749,6 +877,16 @@ namespace CeDev
             if (!string.IsNullOrEmpty(model.Dong))
             {
                 query["dong"] = model.Dong;
+            }
+
+            if (!string.IsNullOrEmpty(model.Dangi))
+            {
+                query["dangi"] = model.Dangi;
+            }
+
+            if (!string.IsNullOrEmpty(model.DediArea))
+            {
+                query["dediArea"] = model.DediArea;
             }
 
             if (!string.IsNullOrEmpty(model.Year))
@@ -847,20 +985,28 @@ namespace CeDev
             dataGridView2.Columns["dong"].HeaderText = "동";
             dataGridView2.Columns["dangi"].HeaderText = "단지";
 
+            dataGridView2.Columns["contYear"].HeaderText = "계약일자";
+            dataGridView2.Columns["dediArea"].HeaderText = "평수";
+            dataGridView2.Columns["amount"].HeaderText = "가격";
+
             dataGridView2.Columns["sido"].DisplayIndex = 0;
             dataGridView2.Columns["sigungu"].DisplayIndex = 1;
             dataGridView2.Columns["dong"].DisplayIndex = 2;
             dataGridView2.Columns["dangi"].DisplayIndex = 3;
+
+            dataGridView2.Columns["contYear"].DisplayIndex = 4;
+            dataGridView2.Columns["dediArea"].DisplayIndex = 5;
+            dataGridView2.Columns["amount"].DisplayIndex = 6;
 
             dataGridView2.Columns["city"].Visible = false;
             dataGridView2.Columns["bungi"].Visible = false;
             dataGridView2.Columns["bonBun"].Visible = false;
             dataGridView2.Columns["buBun"].Visible = false;
 
-            dataGridView2.Columns["dediArea"].Visible = false;
+            dataGridView2.Columns["dediArea"].Visible = true;
             dataGridView2.Columns["contYear"].Visible = true;
             dataGridView2.Columns["contDate"].Visible = false;
-            dataGridView2.Columns["amount"].Visible = false;
+            dataGridView2.Columns["amount"].Visible = true;
             dataGridView2.Columns["floor"].Visible = false;
 
             dataGridView2.Columns["consYear"].Visible = false;
@@ -938,6 +1084,11 @@ namespace CeDev
             //}
         }
 
+        private void SetGridHeader3()
+        {
+
+        }
+
         private void dataGridView2_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             // 헤더 클릭 시 예외 처리 및 유효한 행인지 검사
@@ -954,6 +1105,11 @@ namespace CeDev
 
                 MessageBox.Show(sigunguValue);
             }
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

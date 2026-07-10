@@ -47,12 +47,16 @@
             자료업데이트ToolStripMenuItem = new ToolStripMenuItem();
             회원정보ToolStripMenuItem = new ToolStripMenuItem();
             회원관리ToolStripMenuItem = new ToolStripMenuItem();
+            기준정보ToolStripMenuItem1 = new ToolStripMenuItem();
+            기준정보ToolStripMenuItem = new ToolStripMenuItem();
+            kPI목표관리ToolStripMenuItem = new ToolStripMenuItem();
+            series설정ToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { 부동산ToolStripMenuItem, 매매ToolStripMenuItem, 전월세ToolStripMenuItem, 데이터ToolStripMenuItem, 회원정보ToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { 부동산ToolStripMenuItem, 매매ToolStripMenuItem, 전월세ToolStripMenuItem, 데이터ToolStripMenuItem, 회원정보ToolStripMenuItem, 기준정보ToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(901, 24);
@@ -173,7 +177,7 @@
             // 
             // 회원정보ToolStripMenuItem
             // 
-            회원정보ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { 회원관리ToolStripMenuItem });
+            회원정보ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { 회원관리ToolStripMenuItem, 기준정보ToolStripMenuItem1 });
             회원정보ToolStripMenuItem.Name = "회원정보ToolStripMenuItem";
             회원정보ToolStripMenuItem.Size = new Size(67, 20);
             회원정보ToolStripMenuItem.Text = "회원관리";
@@ -184,6 +188,33 @@
             회원관리ToolStripMenuItem.Size = new Size(122, 22);
             회원관리ToolStripMenuItem.Text = "회원정보";
             회원관리ToolStripMenuItem.Click += 회원정보ToolStripMenuItem_Click;
+            // 
+            // 기준정보ToolStripMenuItem1
+            // 
+            기준정보ToolStripMenuItem1.Name = "기준정보ToolStripMenuItem1";
+            기준정보ToolStripMenuItem1.Size = new Size(122, 22);
+            기준정보ToolStripMenuItem1.Text = "기준정보";
+            // 
+            // 기준정보ToolStripMenuItem
+            // 
+            기준정보ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { kPI목표관리ToolStripMenuItem, series설정ToolStripMenuItem });
+            기준정보ToolStripMenuItem.Name = "기준정보ToolStripMenuItem";
+            기준정보ToolStripMenuItem.Size = new Size(67, 20);
+            기준정보ToolStripMenuItem.Text = "기준정보";
+            // 
+            // kPI목표관리ToolStripMenuItem
+            // 
+            kPI목표관리ToolStripMenuItem.Name = "kPI목표관리ToolStripMenuItem";
+            kPI목표관리ToolStripMenuItem.Size = new Size(180, 22);
+            kPI목표관리ToolStripMenuItem.Text = "KPI 목표관리";
+            kPI목표관리ToolStripMenuItem.Click += kPI목표관리ToolStripMenuItem_Click;
+            // 
+            // series설정ToolStripMenuItem
+            // 
+            series설정ToolStripMenuItem.Name = "series설정ToolStripMenuItem";
+            series설정ToolStripMenuItem.Size = new Size(180, 22);
+            series설정ToolStripMenuItem.Text = "Series 설정";
+            series설정ToolStripMenuItem.Click += series설정ToolStripMenuItem_Click;
             // 
             // MainForm
             // 
@@ -222,5 +253,9 @@
         private ToolStripMenuItem 주택매매평균가격ToolStripMenuItem;
         private ToolStripMenuItem 단지정보ToolStripMenuItem;
         private ToolStripMenuItem 전국주택거래량ToolStripMenuItem;
+        private ToolStripMenuItem 기준정보ToolStripMenuItem;
+        private ToolStripMenuItem kPI목표관리ToolStripMenuItem;
+        private ToolStripMenuItem series설정ToolStripMenuItem;
+        private ToolStripMenuItem 기준정보ToolStripMenuItem1;
     }
 }

@@ -153,6 +153,24 @@ namespace CeDev
 
         #endregion
 
+        #region 
 
+        private void kPI목표관리ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TargetMng form = new TargetMng();
+
+            form.MdiParent = this;
+            form.Show();
+        }
+
+        #endregion
+
+        private void series설정ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SeriesMng form = new SeriesMng();
+
+            form.MdiParent = this;
+            form.Show();
+        }
     }
 }

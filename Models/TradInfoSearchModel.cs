@@ -12,8 +12,12 @@ namespace CeDev.Models
         public string Sigungu { get; set; }
         public string Dong { get; set; }
 
+        public string Dangi { get; set; }
+
 
         public string Year { get; set; }
+
+        public string DediArea { get; set; }
 
 
     }
