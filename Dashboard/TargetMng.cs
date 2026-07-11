@@ -282,6 +282,9 @@ namespace CeDev.DataMng
             //string queryString = BuildQueryString(model);
             var queryString = HttpUtility.ParseQueryString(string.Empty);
 
+            model.year = "2026";
+            queryString["year"] = model.year;
+
             //query["sido"] = model.Sido;
             //query["sigungu"] = model.Sigungu;
 
@@ -480,6 +483,11 @@ namespace CeDev.DataMng
             {
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void btnSaveTarget_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

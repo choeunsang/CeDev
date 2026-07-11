@@ -154,6 +154,7 @@
             btnSaveTarget.TabIndex = 51;
             btnSaveTarget.Text = "저장";
             btnSaveTarget.UseVisualStyleBackColor = true;
+            btnSaveTarget.Click += btnSaveTarget_Click;
             // 
             // btnSaveKpi
             // 
