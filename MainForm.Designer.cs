@@ -51,6 +51,7 @@
             기준정보ToolStripMenuItem = new ToolStripMenuItem();
             kPI목표관리ToolStripMenuItem = new ToolStripMenuItem();
             series설정ToolStripMenuItem = new ToolStripMenuItem();
+            대쉬보드ToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -197,7 +198,7 @@
             // 
             // 기준정보ToolStripMenuItem
             // 
-            기준정보ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { kPI목표관리ToolStripMenuItem, series설정ToolStripMenuItem });
+            기준정보ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { kPI목표관리ToolStripMenuItem, series설정ToolStripMenuItem, 대쉬보드ToolStripMenuItem });
             기준정보ToolStripMenuItem.Name = "기준정보ToolStripMenuItem";
             기준정보ToolStripMenuItem.Size = new Size(67, 20);
             기준정보ToolStripMenuItem.Text = "기준정보";
@@ -215,6 +216,13 @@
             series설정ToolStripMenuItem.Size = new Size(180, 22);
             series설정ToolStripMenuItem.Text = "Series 설정";
             series설정ToolStripMenuItem.Click += series설정ToolStripMenuItem_Click;
+            // 
+            // 대쉬보드ToolStripMenuItem
+            // 
+            대쉬보드ToolStripMenuItem.Name = "대쉬보드ToolStripMenuItem";
+            대쉬보드ToolStripMenuItem.Size = new Size(180, 22);
+            대쉬보드ToolStripMenuItem.Text = "대쉬보드";
+            대쉬보드ToolStripMenuItem.Click += 대쉬보드ToolStripMenuItem_Click;
             // 
             // MainForm
             // 
@@ -257,5 +265,6 @@
         private ToolStripMenuItem kPI목표관리ToolStripMenuItem;
         private ToolStripMenuItem series설정ToolStripMenuItem;
         private ToolStripMenuItem 기준정보ToolStripMenuItem1;
+        private ToolStripMenuItem 대쉬보드ToolStripMenuItem;
     }
 }

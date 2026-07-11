@@ -172,5 +172,13 @@ namespace CeDev
             form.MdiParent = this;
             form.Show();
         }
+
+        private void 대쉬보드ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TDashBoard form = new TDashBoard();
+
+            form.MdiParent = this;
+            form.Show();
+        }
     }
 }

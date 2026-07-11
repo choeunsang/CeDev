@@ -60,7 +60,7 @@
             gridTarget.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             gridTarget.Location = new Point(12, 73);
             gridTarget.Name = "gridTarget";
-            gridTarget.Size = new Size(965, 252);
+            gridTarget.Size = new Size(1451, 252);
             gridTarget.TabIndex = 34;
             // 
             // gridKpi
@@ -68,7 +68,7 @@
             gridKpi.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             gridKpi.Location = new Point(12, 395);
             gridKpi.Name = "gridKpi";
-            gridKpi.Size = new Size(965, 252);
+            gridKpi.Size = new Size(1451, 252);
             gridKpi.TabIndex = 36;
             // 
             // label1
@@ -84,7 +84,7 @@
             // cboYearTarget
             // 
             cboYearTarget.FormattingEnabled = true;
-            cboYearTarget.Location = new Point(668, 35);
+            cboYearTarget.Location = new Point(1154, 35);
             cboYearTarget.Name = "cboYearTarget";
             cboYearTarget.Size = new Size(121, 23);
             cboYearTarget.TabIndex = 44;
@@ -92,7 +92,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(610, 38);
+            label2.Location = new Point(1096, 38);
             label2.Name = "label2";
             label2.Size = new Size(31, 15);
             label2.TabIndex = 45;
@@ -102,7 +102,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(597, 365);
+            label3.Location = new Point(1083, 365);
             label3.Name = "label3";
             label3.Size = new Size(31, 15);
             label3.TabIndex = 47;
@@ -112,14 +112,14 @@
             // cboYearKpi
             // 
             cboYearKpi.FormattingEnabled = true;
-            cboYearKpi.Location = new Point(655, 362);
+            cboYearKpi.Location = new Point(1141, 362);
             cboYearKpi.Name = "cboYearKpi";
             cboYearKpi.Size = new Size(121, 23);
             cboYearKpi.TabIndex = 46;
             // 
             // btnSearchTarget
             // 
-            btnSearchTarget.Location = new Point(805, 32);
+            btnSearchTarget.Location = new Point(1291, 32);
             btnSearchTarget.Name = "btnSearchTarget";
             btnSearchTarget.Size = new Size(83, 27);
             btnSearchTarget.TabIndex = 48;
@@ -129,16 +129,17 @@
             // 
             // btnSearchKpi
             // 
-            btnSearchKpi.Location = new Point(792, 358);
+            btnSearchKpi.Location = new Point(1278, 358);
             btnSearchKpi.Name = "btnSearchKpi";
             btnSearchKpi.Size = new Size(83, 27);
             btnSearchKpi.TabIndex = 49;
             btnSearchKpi.Text = "조회";
             btnSearchKpi.UseVisualStyleBackColor = true;
+            btnSearchKpi.Click += btnSearchKpi_Click;
             // 
             // btnTargetHis
             // 
-            btnTargetHis.Location = new Point(894, 32);
+            btnTargetHis.Location = new Point(1380, 32);
             btnTargetHis.Name = "btnTargetHis";
             btnTargetHis.Size = new Size(83, 27);
             btnTargetHis.TabIndex = 50;
@@ -147,7 +148,7 @@
             // 
             // btnSaveTarget
             // 
-            btnSaveTarget.Location = new Point(894, 331);
+            btnSaveTarget.Location = new Point(1380, 331);
             btnSaveTarget.Name = "btnSaveTarget";
             btnSaveTarget.Size = new Size(83, 27);
             btnSaveTarget.TabIndex = 51;
@@ -156,7 +157,7 @@
             // 
             // btnSaveKpi
             // 
-            btnSaveKpi.Location = new Point(894, 653);
+            btnSaveKpi.Location = new Point(1380, 653);
             btnSaveKpi.Name = "btnSaveKpi";
             btnSaveKpi.Size = new Size(83, 27);
             btnSaveKpi.TabIndex = 52;
@@ -167,7 +168,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1021, 684);
+            ClientSize = new Size(1486, 684);
             Controls.Add(btnSaveKpi);
             Controls.Add(btnSaveTarget);
             Controls.Add(btnTargetHis);
