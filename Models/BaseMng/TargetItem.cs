@@ -2,6 +2,9 @@
 {
     public class TargetItem
     {
+        public string Year { get; set; }
+        public string WaveCd { get; set; }
+
         public string WaveNm { get; set; }
         public string FabIn { get; set; }
         public string B1st { get; set; }
