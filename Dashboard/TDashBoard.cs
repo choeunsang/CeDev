@@ -7,8 +7,10 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -16,6 +18,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
@@ -23,20 +26,423 @@ namespace CeDev.DataMng
 {
     public partial class TDashBoard : Form
     {
+        private List<string> daylist = new List<string>();
+        private List<string> weeklist = new List<string>();
+        private List<string> monlist = new List<string>();
+
         public TDashBoard()
-        {
+        {            
             InitializeComponent();
+            InitEvents();
+            //InitControls();            
         }
+
+        private void InitEvents()
+        {
+            stackChart.MouseClick += StackChart_MouseClick;
+        }
+
+        //private void InitControls()
+        //{
+        //await GetPuInfo();
+        //await GetWaveInfo();
+        //    //await GetSectInfo();
+        //    //SetSeries();
+        //}
 
         private async void SeriesMng_Load(object sender, EventArgs e)
         {
-            //await GetPuInfo();
-            //await GetWaveInfo();
+            //-----------------------------------------------------------------------
+            //Declare and initialize variables
+            //-----------------------------------------------------------------------
+            SetDayInfo();
             await GetSectInfo();
-            SetSeries();
+
+            //-----------------------------------------------------------------------
+            //Processing 
+            //-----------------------------------------------------------------------
+            SetSeriesStackChart();
+            SetSeriesDetailChart();
+
+            DrawStackChart();
         }
 
-        private void SetSeries()
+        private void SetDayInfo()
+        {
+            //================================================================================================
+            //Declare and initialize variables 
+            //================================================================================================
+            //List<string> daylist = new List<string>();
+            //List<string> weeklist = new List<string>();
+            //List<string> monlist = new List<string>();
+
+            //-----------------------------------------------------------------------------
+            //(1).한달치 날짜 정보
+            //-----------------------------------------------------------------------------
+            DateTime today = DateTime.Today;
+
+            //for (int i = 1; i <= 30; i++)
+            //{
+            //    DateTime targetDay = today.AddDays(-i);
+            //    daylist.Add(targetDay.ToString("yyyyMMdd"));
+            //}
+
+            for (int i = 1; i <= 30; i++)
+            {
+                DateTime targetDay = today.AddDays(-i);
+                daylist.Add(targetDay.ToString("yyyyMMdd"));
+            }
+
+            daylist.Reverse();
+
+            //-----------------------------------------------------------------------------
+            //(2).올해 부터 현재 까지 주차
+            //-----------------------------------------------------------------------------
+            int currYear = today.Year;
+            CultureInfo culture = CultureInfo.CurrentCulture;
+            Calendar calendar = culture.Calendar;
+
+            DateTime startDate = new DateTime(currYear, 1, 1);
+
+            while (startDate <= today)
+            {
+                // ISO 8601 표준 규격으로 주차 계산
+                int weekNumber = calendar.GetWeekOfYear(
+                    startDate,
+                    CalendarWeekRule.FirstFourDayWeek, // 목요일 포함 기준 (ISO 8601)
+                    DayOfWeek.Monday                  // 월요일 시작 기준
+                );
+
+                // "WW01", "WW02" 형태로 포맷팅 (2자리 고정)
+                string weekString = $"WW{weekNumber:D2}";
+
+                // 리스트에 중복되지 않은 주차만 추가
+                if (!weeklist.Contains(weekString))
+                {
+                    weeklist.Add(weekString);
+                }
+
+                // 다음 날로 이동
+                startDate = startDate.AddDays(1);
+            }
+
+            //-----------------------------------------------------------------------------
+            //(3).올해 ~ 현재 월까지
+            //-----------------------------------------------------------------------------
+            int currMonth = DateTime.Today.Month;
+
+            for (int i = 1; i <= currMonth; i++)
+            {
+                monlist.Add($"{i:D2}월");
+                //monlist.Add($"{i:D2}");
+            }
+        }
+
+        private void StackChart_MouseClick(object? sender, MouseEventArgs e)
+        {
+            // 클릭한 위치의 요소를 테스트합니다.
+            HitTestResult result = stackChart.HitTest(e.X, e.Y);
+
+            // 클릭한 곳이 데이터 포인트(막대)인 경우에만 실행합니다.
+            if (result.ChartElementType == ChartElementType.DataPoint)
+            {                
+                int pointIndex = result.PointIndex;                
+                Series selectedSeries = result.Series;                
+                string axisLabel = selectedSeries.Points[pointIndex].AxisLabel;
+
+                switch (axisLabel)
+                {
+                    case "전일":
+                        //MessageBox.Show(axisLabel);
+                        ShowDetailChart(axisLabel);
+                        break;
+
+                    case "주별":
+                        //MessageBox.Show(axisLabel);
+                        ShowDetailChart(axisLabel);
+                        break;
+
+                    case "월별":
+                        //MessageBox.Show(axisLabel);
+                        ShowDetailChart(axisLabel);
+                        break;
+
+                    default:
+                        MessageBox.Show("없다");
+                        break;
+                }
+            }
+        }
+
+        private void ShowDetailChart(string pKind)
+        {
+            //================================================================================================
+            //Declare and initialize variables 
+            //================================================================================================
+            foreach (var series in detailChart.Series)
+            {
+                series.Points.Clear();
+            }
+
+            //================================================================================================
+            //Processing
+            //================================================================================================
+            switch (pKind)
+            {
+                case "전일":
+                    {
+                        ShowDetailChart_Day();
+
+                        //DrawDetailChart(pKind);
+                    }                    
+                    break;
+
+                case "주별":
+                    {
+                        ShowDetailChart_Week();
+                        //DrawDetailChart(pKind);
+                    }
+                    break;
+
+                case "월별":
+                    {
+                        ShowDetailChart_Month();
+                        //DrawDetailChart(pKind);
+                    }
+                    break;
+
+                default:
+                    MessageBox.Show("상세차트 그릴 수 없다");
+                    break;
+            }
+        }
+
+        private void DrawDetailChart(string pKind)
+        {
+            //--------------------------------------------------------------------------------------------------------------------------
+            //Declare and initialize variables 
+            //--------------------------------------------------------------------------------------------------------------------------
+            foreach (var series in detailChart.Series)
+            {
+                series.Points.Clear();
+            }
+
+            //SetSeriesDetailChart(pKind);
+
+            //--------------------------------------------------------------------------------------------------------------------------
+            //Processing
+            //--------------------------------------------------------------------------------------------------------------------------
+            //BindChartDataFromDB();
+
+            //foreach (Series series in stackChart.Series)
+            //{
+            //    // 차트에 바인딩된 데이터 개수가 최소 3개 이상인지 안전하게 체크
+            //    if (series.Points.Count >= 3)
+            //    {
+            //        // 데이터가 들어간 순서대로 "전일", "주별", "월별" 라벨을 매칭합니다.
+            //        // (BindChartDataFromDB 내부에서 전일->주별->월별 순으로 AddXY 했다고 가정)
+            //        series.Points[0].AxisLabel = "전일";
+            //        series.Points[1].AxisLabel = "주별";
+            //        series.Points[2].AxisLabel = "월별";
+            //    }
+            //}
+
+            //--------------------------------------------------------------------------------------------------------------------------
+            //Output
+            //--------------------------------------------------------------------------------------------------------------------------
+            //if (stackChart.ChartAreas.Count > 0)
+            //{
+            //    var axisX = stackChart.ChartAreas[0].AxisX;
+
+            //    axisX.Interval = 1;
+            //    axisX.LabelStyle.Interval = 1;
+
+            //    // 정렬 순서 뒤집기 (금일이 위로 가게 하려면 추가, 필요 없다면 주석 처리 가능)
+            //    axisX.IsReversed = true;
+
+            //    // 기존 라벨을 깨끗이 비운 후, 1번방과 2번방에 각각 알맞은 간판을 동시에 달아줍니다.
+            //    axisX.CustomLabels.Clear();
+            //    axisX.CustomLabels.Add(0.5, 1.5, "전일"); // 1번 좌표 구역 이름
+            //    axisX.CustomLabels.Add(1.5, 2.5, "주별"); // 2번 좌표 구역 이름
+            //    axisX.CustomLabels.Add(2.5, 3.5, "월별"); // 3번 좌표 구역 이름
+            //}
+        }
+
+        private void DrawStackChart()
+        {
+            //--------------------------------------------------------------------------------------------------------------------------
+            //Declare and initialize variables 
+            //--------------------------------------------------------------------------------------------------------------------------
+            foreach (var series in stackChart.Series)
+            {
+                series.Points.Clear();
+            }
+
+            //--------------------------------------------------------------------------------------------------------------------------
+            //Processing
+            //--------------------------------------------------------------------------------------------------------------------------
+            //BindChartDataFromDB();
+
+            //foreach (Series series in stackChart.Series)
+            //{
+            //    // 차트에 바인딩된 데이터 개수가 최소 3개 이상인지 안전하게 체크
+            //    if (series.Points.Count >= 3)
+            //    {
+            //        // 데이터가 들어간 순서대로 "전일", "주별", "월별" 라벨을 매칭합니다.
+            //        // (BindChartDataFromDB 내부에서 전일->주별->월별 순으로 AddXY 했다고 가정)
+            //        series.Points[0].AxisLabel = "전일";
+            //        series.Points[1].AxisLabel = "주별";
+            //        series.Points[2].AxisLabel = "월별";
+            //    }
+            //}
+
+            List<ChartDataRow> list = FetchWorkResultFromDB(); // 실제 DB 조회 매서드 매핑
+
+
+
+            //foreach (var stackItem in stackChart.Series)
+            //{
+            //    double val = new Random().Next(1, 10);
+
+            //    int index = stackItem.Points.AddXY(0, val);
+            //    stackItem.Points[index].AxisLabel = ("전일");
+
+            //    index = stackItem.Points.AddXY(1, val);
+            //    stackItem.Points[index].AxisLabel = ("주별");
+
+            //    index = stackItem.Points.AddXY(2, val);
+            //    stackItem.Points[index].AxisLabel = ("월별");
+            //}
+
+            foreach (var stackItem in stackChart.Series)
+            {
+                foreach (var item in list)
+                {
+                    switch (item.Gubun)
+                    {
+                        case "전일":
+                            {        
+                                if(stackItem.Name == item.SectNm)
+                                {
+                                    int index = stackItem.Points.AddXY(0, item.Val);
+                                    stackItem.Points[index].AxisLabel = "전일";
+                                } 
+                            }
+                            break;
+
+                        case "주별":
+                            {
+                                if (stackItem.Name == item.SectNm)
+                                {
+                                    int index = stackItem.Points.AddXY(1, item.Val);
+                                    stackItem.Points[index].AxisLabel = "주별";
+                                }
+                            }
+                            break;
+
+
+                        case "월별":
+                            {
+                                if (stackItem.Name == item.SectNm)
+                                {
+                                    int index = stackItem.Points.AddXY(2, item.Val);
+                                    stackItem.Points[index].AxisLabel = "월별";
+                                }
+                            }
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            //stackChart.Series[0].Points[0].AxisLabel = "전일";
+            //stackChart.Series[0].Points[1].AxisLabel = "전일";
+            //stackChart.Series[0].Points[2].AxisLabel = "전일";
+
+            //stackChart.ChartAreas[0].AxisX.Interval = 1;
+            //stackChart.ChartAreas[0].AxisX.LabelStyle.Interval = 1;
+            stackChart.ChartAreas[0].AxisX.IsReversed = true;
+
+            //foreach (var item in list)
+            //{
+            //    switch(item.Gubun)
+            //    {
+            //        case "전일":
+            //            {
+
+            //            }
+            //            break;
+
+            //        case "주별":
+            //            {
+
+            //            }
+            //            break;
+
+
+            //        case "월별":
+            //            {
+
+            //            }
+            //            break;
+
+            //        default:
+            //            break;
+            //    }
+
+            //double val = new Random().Next(1, 10);
+
+            //int index = stackItem.Points.AddXY(0, val);
+            //stackItem.Points[index].AxisLabel = ("전일");
+
+            //index = stackItem.Points.AddXY(1, val);
+            //stackItem.Points[index].AxisLabel = ("주별");
+
+            //index = stackItem.Points.AddXY(2, val);
+            //stackItem.Points[index].AxisLabel = ("월별");
+            //}
+
+            //int index = stackChart.Series[0].Points.AddXY(0, "5");
+            //stackChart.Series[0].Points[index].AxisLabel = "전일";
+
+            //index = stackChart.Series[0].Points.AddXY(1, "5");
+            //stackChart.Series[0].Points[index].AxisLabel = "주별";
+
+
+            //int index = stackChart.Series[0].Points.AddXY(0, "5");
+            //stackChart.Series[0].Points[index].AxisLabel = "전일";
+
+            //index = stackChart.Series[0].Points.AddXY(1, "5");
+            //stackChart.Series[0].Points[index].AxisLabel = "주별";
+
+            //index = stackChart.Series[0].Points.AddXY(3, "5");
+            //stackChart.Series[0].Points[index].AxisLabel = "주별";
+
+            //--------------------------------------------------------------------------------------------------------------------------
+            //Output
+            //--------------------------------------------------------------------------------------------------------------------------
+            //if (stackChart.ChartAreas.Count > 0)
+            //{
+            //    var axisX = stackChart.ChartAreas[0].AxisX;
+
+            //    axisX.Interval = 1;
+            //    axisX.LabelStyle.Interval = 1;
+
+            //    // 정렬 순서 뒤집기 (금일이 위로 가게 하려면 추가, 필요 없다면 주석 처리 가능)
+            //    axisX.IsReversed = true;
+
+            //    // 기존 라벨을 깨끗이 비운 후, 1번방과 2번방에 각각 알맞은 간판을 동시에 달아줍니다.
+            //    axisX.CustomLabels.Clear();
+            //    axisX.CustomLabels.Add(0.5, 1.5, "전일"); // 1번 좌표 구역 이름
+            //    axisX.CustomLabels.Add(1.5, 2.5, "주별"); // 2번 좌표 구역 이름
+            //    axisX.CustomLabels.Add(2.5, 3.5, "월별"); // 3번 좌표 구역 이름
+            //}
+        }
+
+
+        private void SetSeriesStackChart()
         {
             //---------------------------------------------------------------------------------------------------
             //Declare and initialize variables
@@ -56,106 +462,138 @@ namespace CeDev.DataMng
             }
         }
 
-        private void GetChartData_Day()
+        private void SetSeriesDetailChart()
         {
-            // [수정] 아래 축 설정(CustomLabels) 블록을 완전히 지우고, 순수 데이터 입력만 남깁니다.
-            if (stackChart.Series.FindByName("PG In") != null) stackChart.Series["PG In"].Points.AddXY(1, 10);
-            if (stackChart.Series.FindByName("노광") != null) stackChart.Series["노광"].Points.AddXY(1, 2);
-            if (stackChart.Series.FindByName("1st A") != null) stackChart.Series["1st A"].Points.AddXY(1, 3);
-            if (stackChart.Series.FindByName("1st B") != null) stackChart.Series["1st B"].Points.AddXY(1, 4);
-            if (stackChart.Series.FindByName("추가") != null) stackChart.Series["추가"].Points.AddXY(1, 7);
+            //---------------------------------------------------------------------------------------------------
+            //Declare and initialize variables
+            //---------------------------------------------------------------------------------------------------
+            var list = gridSection.DataSource as List<SectItem>;
+
+            //---------------------------------------------------------------------------------------------------
+            //Processing 
+            //---------------------------------------------------------------------------------------------------
+            detailChart.Series.Clear();
+            //detailChart.ChartAreas.Clear();
+
+            //ChartArea chartArea = new ChartArea("DetailArea");
+            //detailChart.ChartAreas.Add(chartArea);
+
+            foreach (var item in list)
+            {
+                Series series = new Series(item.Nm);
+                series.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.StackedColumn;
+
+                detailChart.Series.Add(series);
+            }
         }
 
-        private void GetChartData_Week()
+        //foreach (var series in detailChart.Series)
+        //{
+        //    series.Points.Clear();
+        //}
+
+        //detailChart.Series[0].Points.AddXY(0, daylist[0]);
+        //detailChart.Series[0].Points.AddXY(1, daylist[1]);
+        //detailChart.Series[0].Points.AddXY(1, daylist[2]);
+
+
+
+        private void ShowDetailChart_Day()
         {
-            // [수정] 마찬가지로 아래 축 설정 블록을 완전히 지우고, 2번 좌표에 데이터 입력만 남깁니다.
-            if (stackChart.Series.FindByName("PG In") != null) stackChart.Series["PG In"].Points.AddXY(2, 2);
-            if (stackChart.Series.FindByName("노광") != null) stackChart.Series["노광"].Points.AddXY(2, 3);
-            if (stackChart.Series.FindByName("1st A") != null) stackChart.Series["1st A"].Points.AddXY(2, 4);
-            if (stackChart.Series.FindByName("1st B") != null) stackChart.Series["1st B"].Points.AddXY(2, 7);
-            if (stackChart.Series.FindByName("추가") != null) stackChart.Series["추가"].Points.AddXY(2, 2);
+            //int index = detailChart.Series[0].Points.AddXY(0, "5");
+            //detailChart.Series[0].Points[index].AxisLabel = daylist[0];
+
+            //index = detailChart.Series[0].Points.AddXY(1, "5");
+            //detailChart.Series[0].Points[index].AxisLabel = daylist[1];
+
+
+
+            //int i = 0;
+
+            //foreach (var item in daylist)
+            //{
+            //    int index = detailChart.Series[0].Points.AddXY(i, "5");
+            //    detailChart.Series[0].Points[index].AxisLabel = item;
+
+            //    i++;
+            //}
+
+            //i = 0;
+
+            //foreach (var item in daylist)
+            //{
+            //    int index = detailChart.Series[1].Points.AddXY(i, "2");
+            //    detailChart.Series[1].Points[index].AxisLabel = item;
+
+            //    i++;
+            //}
+
+            foreach(var stackItem in detailChart.Series)
+            {
+                for (int i = 0; i < daylist.Count; i++)
+                {
+                    double val = new Random().Next(1, 10);
+
+                    //int index = stackItem.Points.AddXY(i, "2");
+                    int index = stackItem.Points.AddXY(i, val);
+
+                    stackItem.Points[index].AxisLabel = daylist[i];
+                }
+            }
+
+
+            detailChart.ChartAreas[0].AxisX.Interval = 1;
+            detailChart.ChartAreas[0].AxisX.LabelStyle.Interval = 1;
+            //detailChart.ChartAreas[0].AxisX.IsReversed = true;
         }
 
-        private void GetChartData_Mon()
+        private void ShowDetailChart_Week()
         {
-            // [수정] 마찬가지로 아래 축 설정 블록을 완전히 지우고, 2번 좌표에 데이터 입력만 남깁니다.
-            if (stackChart.Series.FindByName("PG In") != null) stackChart.Series["PG In"].Points.AddXY(3, 8);
-            if (stackChart.Series.FindByName("노광") != null) stackChart.Series["노광"].Points.AddXY(3, 2);
-            if (stackChart.Series.FindByName("1st A") != null) stackChart.Series["1st A"].Points.AddXY(3, 7);
-            if (stackChart.Series.FindByName("1st B") != null) stackChart.Series["1st B"].Points.AddXY(3, 3);
-            if (stackChart.Series.FindByName("추가") != null) stackChart.Series["추가"].Points.AddXY(3, 2);
+            foreach (var stackItem in detailChart.Series)
+            {
+                for (int i = 0; i < weeklist.Count; i++)
+                {
+                    double val = new Random().Next(1, 10);
+
+                    //int index = stackItem.Points.AddXY(i, "2");
+                    int index = stackItem.Points.AddXY(i, val);
+
+                    stackItem.Points[index].AxisLabel = weeklist[i];
+                }
+            }
+
+
+            detailChart.ChartAreas[0].AxisX.Interval = 1;
+            detailChart.ChartAreas[0].AxisX.LabelStyle.Interval = 1;
+            //detailChart.ChartAreas[0].AxisX.IsReversed = true;
+        }
+
+        private void ShowDetailChart_Month()
+        {
+            foreach (var stackItem in detailChart.Series)
+            {
+                for (int i = 0; i < monlist.Count; i++)
+                {
+                    double val = new Random().Next(1, 10);
+
+                    //int index = stackItem.Points.AddXY(i, "2");
+                    int index = stackItem.Points.AddXY(i, val);
+
+                    stackItem.Points[index].AxisLabel = monlist[i];
+                }
+            }
+
+
+            detailChart.ChartAreas[0].AxisX.Interval = 1;
+            detailChart.ChartAreas[0].AxisX.LabelStyle.Interval = 1;
+            //detailChart.ChartAreas[0].AxisX.IsReversed = true;
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            ShowStackChart();
+            DrawStackChart();
         }
 
-        private void ShowStackChart()
-        {
-            //--------------------------------------------------------------------------------------------------------------------------
-            //Declare and initialize variables 
-            //--------------------------------------------------------------------------------------------------------------------------
-            foreach (var series in stackChart.Series)
-            {
-                series.Points.Clear();
-            }
-
-            //SetSeries();
-
-            //--------------------------------------------------------------------------------------------------------------------------
-            //Processing
-            //--------------------------------------------------------------------------------------------------------------------------
-            //GetChartData_Day();
-            //GetChartData_Week();
-            //GetChartData_Mon();
-
-            BindChartDataFromDB();
-
-            //--------------------------------------------------------------------------------------------------------------------------
-            //Output
-            //--------------------------------------------------------------------------------------------------------------------------
-            if (stackChart.ChartAreas.Count > 0)
-            {
-                var axisX = stackChart.ChartAreas[0].AxisX;
-
-                axisX.Interval = 1;
-                axisX.LabelStyle.Interval = 1;
-
-                // 정렬 순서 뒤집기 (금일이 위로 가게 하려면 추가, 필요 없다면 주석 처리 가능)
-                axisX.IsReversed = true;
-
-                // 기존 라벨을 깨끗이 비운 후, 1번방과 2번방에 각각 알맞은 간판을 동시에 달아줍니다.
-                axisX.CustomLabels.Clear();
-                axisX.CustomLabels.Add(0.5, 1.5, "전일"); // 1번 좌표 구역 이름
-                axisX.CustomLabels.Add(1.5, 2.5, "주별"); // 2번 좌표 구역 이름
-                axisX.CustomLabels.Add(2.5, 3.5, "월별"); // 3번 좌표 구역 이름
-            }
-        }
-
-        //private async void btnPuSearch_Click(object sender, EventArgs e)
-        //{
-        //    try
-        //    {
-        //        await GetPuInfo();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.ToString());
-        //    }            
-        //}
-
-        private async void btnWaveSearch_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                await GetWaveInfo();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
 
         private async Task GetSectInfo()
         {
@@ -197,104 +635,6 @@ namespace CeDev.DataMng
             gridSection.DataSource = list;
         }
 
-        //private async Task GetPuInfo()
-        //{
-        //    //-------------------------------------------------------------------------------------------
-        //    // Declare and initialize variables
-        //    //-------------------------------------------------------------------------------------------
-        //    PuSearchModel model = new PuSearchModel();
-
-        //    //string year = txtYear.Text.Trim();
-        //    //model.Sido = cboSido.Text == "전체" ? "" : cboSido.Text.Trim();
-
-        //    string baseUrl = "http://localhost:9081/api/basemng-pu-info";
-
-        //    //string queryString = BuildQueryString(model);
-        //    var queryString = HttpUtility.ParseQueryString(string.Empty);
-
-        //    //query["sido"] = model.Sido;
-        //    //query["sigungu"] = model.Sigungu;
-
-        //    string url = $"{baseUrl}?{queryString}";
-
-        //    //-------------------------------------------------------------------------------------------
-        //    // Processing
-        //    //-------------------------------------------------------------------------------------------            
-        //    HttpClient client = new HttpClient();
-        //    string json = await client.GetStringAsync(url);
-        //    List<PuItem> list = JsonConvert.DeserializeObject<List<PuItem>>(json);
-
-        //    //-------------------------------------------------------------------------------------------
-        //    // Output
-        //    //-------------------------------------------------------------------------------------------            
-        //    if (list == null || list.Count == 0)
-        //    {
-        //        gridPu.DataSource = null;
-        //        MessageBox.Show("조회된 데이터가 없습니다.");
-        //        return;
-        //    }
-
-        //    gridPu.DataSource = list;
-        //}
-
-        private async Task GetWaveInfo()
-        {
-            ////-------------------------------------------------------------------------------------------
-            //// Declare and initialize variables
-            ////-------------------------------------------------------------------------------------------
-            //WaveSearchModel model = new WaveSearchModel();
-
-            ////string year = txtYear.Text.Trim();
-            ////model.Sido = cboSido.Text == "전체" ? "" : cboSido.Text.Trim();
-
-            //string baseUrl = "http://localhost:9081/api/basemng-wave-info";
-
-            ////string queryString = BuildQueryString(model);
-            //var queryString = HttpUtility.ParseQueryString(string.Empty);
-
-            ////query["sido"] = model.Sido;
-            ////query["sigungu"] = model.Sigungu;
-
-            //string url = $"{baseUrl}?{queryString}";
-
-            ////-------------------------------------------------------------------------------------------
-            //// Processing^
-            ////-------------------------------------------------------------------------------------------            
-            //HttpClient client = new HttpClient();
-            //string json = await client.GetStringAsync(url);
-            //List<WaveItem> list = JsonConvert.DeserializeObject<List<WaveItem>>(json);
-
-            ////-------------------------------------------------------------------------------------------
-            //// Output
-            ////-------------------------------------------------------------------------------------------            
-            //if (list == null || list.Count == 0)
-            //{
-            //    gridWave.DataSource = null;
-            //    MessageBox.Show("조회된 데이터가 없습니다.");
-            //    return;
-            //}
-
-            //gridWave.DataSource = list;
-        }
-
-
-
-        //private string BuildQueryString(PuSearchModel model)
-        //{
-        //    //-------------------------------------------------------------------------------------------
-        //    // Declare and initialize variables
-        //    //-------------------------------------------------------------------------------------------
-        //    var query = HttpUtility.ParseQueryString(string.Empty);
-
-        //    //-------------------------------------------------------------------------------------------
-        //    // Processing
-        //    //-------------------------------------------------------------------------------------------
-        //    //query["sido"] = model.Sido;
-        //    //query["sigungu"] = model.Sigungu;
-
-
-        //    return query.ToString();
-        //}
 
 
         // [수정 및 통합] 기존의 Day, Week, Mon 함수를 하나로 통합합니다.
@@ -337,7 +677,7 @@ namespace CeDev.DataMng
                 if (gubunToXAxis.TryGetValue(row.Gubun, out double xAxisValue))
                 {
                     // 찾은 Series의 해당 X좌표에 Y값(수치)을 추가
-                    targetSeries.Points.AddXY(xAxisValue, row.Val);
+                    targetSeries.Points.AddXY(xAxisValue, row.Val);                    
                 }
             }
         }
@@ -348,11 +688,11 @@ namespace CeDev.DataMng
             // 실제 환경에서는 "SELECT GUBUN, SECT_NM, VAL FROM WORK_RESULT" 등의 쿼리 실행 구간
             return new List<ChartDataRow>()
             {
-                new ChartDataRow { Gubun = "금일", SectNm = "PG In", Val = 5 },
-                new ChartDataRow { Gubun = "금일", SectNm = "노광", Val = 2 },
-                new ChartDataRow { Gubun = "금일", SectNm = "1st A", Val = 6 },
-                new ChartDataRow { Gubun = "금일", SectNm = "1st B", Val = 3 },
-                new ChartDataRow { Gubun = "금일", SectNm = "추가", Val = 1 },
+                new ChartDataRow { Gubun = "전일", SectNm = "PG In", Val = 5 },
+                new ChartDataRow { Gubun = "전일", SectNm = "노광", Val = 2 },
+                new ChartDataRow { Gubun = "전일", SectNm = "1st A", Val = 6 },
+                new ChartDataRow { Gubun = "전일", SectNm = "1st B", Val = 3 },
+                new ChartDataRow { Gubun = "전일", SectNm = "추가", Val = 1 },
 
                 new ChartDataRow { Gubun = "주별", SectNm = "PG In", Val = 2 },
                 new ChartDataRow { Gubun = "주별", SectNm = "노광", Val = 1 },
@@ -366,9 +706,12 @@ namespace CeDev.DataMng
                 new ChartDataRow { Gubun = "월별", SectNm = "1st B", Val = 3 },
                 new ChartDataRow { Gubun = "월별", SectNm = "추가", Val = 1 }
 
-       
+
             };
         }
+
+
+        
     }
 
 
