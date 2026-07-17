@@ -48,16 +48,17 @@
             회원정보ToolStripMenuItem = new ToolStripMenuItem();
             회원관리ToolStripMenuItem = new ToolStripMenuItem();
             기준정보ToolStripMenuItem1 = new ToolStripMenuItem();
+            대쉬보드ToolStripMenuItem1 = new ToolStripMenuItem();
+            대쉬보드ToolStripMenuItem = new ToolStripMenuItem();
             기준정보ToolStripMenuItem = new ToolStripMenuItem();
             kPI목표관리ToolStripMenuItem = new ToolStripMenuItem();
             series설정ToolStripMenuItem = new ToolStripMenuItem();
-            대쉬보드ToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { 부동산ToolStripMenuItem, 매매ToolStripMenuItem, 전월세ToolStripMenuItem, 데이터ToolStripMenuItem, 회원정보ToolStripMenuItem, 기준정보ToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { 부동산ToolStripMenuItem, 매매ToolStripMenuItem, 전월세ToolStripMenuItem, 데이터ToolStripMenuItem, 회원정보ToolStripMenuItem, 기준정보ToolStripMenuItem, 대쉬보드ToolStripMenuItem1 });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(901, 24);
@@ -196,9 +197,23 @@
             기준정보ToolStripMenuItem1.Size = new Size(122, 22);
             기준정보ToolStripMenuItem1.Text = "기준정보";
             // 
+            // 대쉬보드ToolStripMenuItem1
+            // 
+            대쉬보드ToolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { 대쉬보드ToolStripMenuItem });
+            대쉬보드ToolStripMenuItem1.Name = "대쉬보드ToolStripMenuItem1";
+            대쉬보드ToolStripMenuItem1.Size = new Size(67, 20);
+            대쉬보드ToolStripMenuItem1.Text = "대쉬보드";
+            // 
+            // 대쉬보드ToolStripMenuItem
+            // 
+            대쉬보드ToolStripMenuItem.Name = "대쉬보드ToolStripMenuItem";
+            대쉬보드ToolStripMenuItem.Size = new Size(180, 22);
+            대쉬보드ToolStripMenuItem.Text = "대쉬보드";
+            대쉬보드ToolStripMenuItem.Click += 대쉬보드ToolStripMenuItem_Click_1;
+            // 
             // 기준정보ToolStripMenuItem
             // 
-            기준정보ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { kPI목표관리ToolStripMenuItem, series설정ToolStripMenuItem, 대쉬보드ToolStripMenuItem });
+            기준정보ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { kPI목표관리ToolStripMenuItem, series설정ToolStripMenuItem });
             기준정보ToolStripMenuItem.Name = "기준정보ToolStripMenuItem";
             기준정보ToolStripMenuItem.Size = new Size(67, 20);
             기준정보ToolStripMenuItem.Text = "기준정보";
@@ -216,13 +231,6 @@
             series설정ToolStripMenuItem.Size = new Size(180, 22);
             series설정ToolStripMenuItem.Text = "Series 설정";
             series설정ToolStripMenuItem.Click += series설정ToolStripMenuItem_Click;
-            // 
-            // 대쉬보드ToolStripMenuItem
-            // 
-            대쉬보드ToolStripMenuItem.Name = "대쉬보드ToolStripMenuItem";
-            대쉬보드ToolStripMenuItem.Size = new Size(180, 22);
-            대쉬보드ToolStripMenuItem.Text = "대쉬보드";
-            대쉬보드ToolStripMenuItem.Click += 대쉬보드ToolStripMenuItem_Click;
             // 
             // MainForm
             // 
@@ -265,6 +273,7 @@
         private ToolStripMenuItem kPI목표관리ToolStripMenuItem;
         private ToolStripMenuItem series설정ToolStripMenuItem;
         private ToolStripMenuItem 기준정보ToolStripMenuItem1;
+        private ToolStripMenuItem 대쉬보드ToolStripMenuItem1;
         private ToolStripMenuItem 대쉬보드ToolStripMenuItem;
     }
 }

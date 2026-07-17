@@ -173,7 +173,8 @@ namespace CeDev
             form.Show();
         }
 
-        private void 대쉬보드ToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void 대쉬보드ToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             TDashBoard form = new TDashBoard();
 
