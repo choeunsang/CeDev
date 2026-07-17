@@ -28,25 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 0D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(1D, 0D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2D, 0D);
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 0D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(1D, 0D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2D, 0D);
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             label2 = new Label();
             tableLayoutPanel1 = new TableLayoutPanel();
             btnSearch = new Button();
             stackChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             gridSection = new DataGridView();
-            chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            detailChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)stackChart).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gridSection).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)chart1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)detailChart).BeginInit();
             SuspendLayout();
             // 
             // label2
@@ -66,7 +66,7 @@
             tableLayoutPanel1.Controls.Add(btnSearch, 0, 0);
             tableLayoutPanel1.Controls.Add(stackChart, 0, 1);
             tableLayoutPanel1.Controls.Add(gridSection, 0, 2);
-            tableLayoutPanel1.Controls.Add(chart1, 1, 1);
+            tableLayoutPanel1.Controls.Add(detailChart, 1, 1);
             tableLayoutPanel1.Location = new Point(12, 48);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 3;
@@ -88,26 +88,26 @@
             // 
             // stackChart
             // 
-            chartArea1.Name = "ChartArea1";
-            stackChart.ChartAreas.Add(chartArea1);
+            chartArea3.Name = "ChartArea1";
+            stackChart.ChartAreas.Add(chartArea3);
             stackChart.Dock = DockStyle.Fill;
-            legend1.Name = "Legend1";
-            stackChart.Legends.Add(legend1);
+            legend3.Name = "Legend1";
+            stackChart.Legends.Add(legend3);
             stackChart.Location = new Point(3, 46);
             stackChart.Name = "stackChart";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            dataPoint1.Label = "전일";
-            dataPoint2.IsValueShownAsLabel = true;
-            dataPoint2.Label = "주별";
-            dataPoint3.IsValueShownAsLabel = true;
-            dataPoint3.Label = "월별";
-            series1.Points.Add(dataPoint1);
-            series1.Points.Add(dataPoint2);
-            series1.Points.Add(dataPoint3);
-            stackChart.Series.Add(series1);
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            dataPoint4.Label = "전일";
+            dataPoint5.IsValueShownAsLabel = true;
+            dataPoint5.Label = "주별";
+            dataPoint6.IsValueShownAsLabel = true;
+            dataPoint6.Label = "월별";
+            series3.Points.Add(dataPoint4);
+            series3.Points.Add(dataPoint5);
+            series3.Points.Add(dataPoint6);
+            stackChart.Series.Add(series3);
             stackChart.Size = new Size(617, 378);
             stackChart.TabIndex = 0;
             stackChart.Text = "chart1";
@@ -121,23 +121,23 @@
             gridSection.Size = new Size(617, 172);
             gridSection.TabIndex = 1;
             // 
-            // chart1
+            // detailChart
             // 
-            chartArea2.Name = "ChartArea1";
-            chart1.ChartAreas.Add(chartArea2);
-            chart1.Dock = DockStyle.Fill;
-            legend2.Name = "Legend1";
-            chart1.Legends.Add(legend2);
-            chart1.Location = new Point(626, 46);
-            chart1.Name = "chart1";
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.StackedColumn;
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            chart1.Series.Add(series2);
-            chart1.Size = new Size(618, 378);
-            chart1.TabIndex = 52;
-            chart1.Text = "chart1";
+            chartArea4.Name = "ChartArea1";
+            detailChart.ChartAreas.Add(chartArea4);
+            detailChart.Dock = DockStyle.Fill;
+            legend4.Name = "Legend1";
+            detailChart.Legends.Add(legend4);
+            detailChart.Location = new Point(626, 46);
+            detailChart.Name = "detailChart";
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.StackedColumn;
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            detailChart.Series.Add(series4);
+            detailChart.Size = new Size(618, 378);
+            detailChart.TabIndex = 52;
+            detailChart.Text = "chart1";
             // 
             // TDashBoard
             // 
@@ -152,7 +152,7 @@
             tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)stackChart).EndInit();
             ((System.ComponentModel.ISupportInitialize)gridSection).EndInit();
-            ((System.ComponentModel.ISupportInitialize)chart1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)detailChart).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -163,6 +163,6 @@
         private Button btnSearch;
         private System.Windows.Forms.DataVisualization.Charting.Chart stackChart;
         private DataGridView gridSection;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart detailChart;
     }
 }
