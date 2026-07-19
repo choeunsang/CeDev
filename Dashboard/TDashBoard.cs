@@ -31,6 +31,12 @@ namespace CeDev.DataMng
         private List<string> weeklist = new List<string>();
         private List<string> monlist = new List<string>();
 
+        List<SummaryItem> totalSummaryList = new List<SummaryItem>();
+
+        private List<SummaryItem> _daySummaryRows = new List<SummaryItem>();
+        private List<SummaryItem> _weeklySummaryRows = new List<SummaryItem>();
+        private List<SummaryItem> _monthSummaryRows = new List<SummaryItem>();
+
         public TDashBoard()
         {            
             InitializeComponent();
@@ -688,7 +694,266 @@ namespace CeDev.DataMng
 
             gridLot.DataSource = list;
 
+            MakeSummayList(list);
+            //MakeDetailList(list);
+        }
 
+
+        private void MakeSummayList(List<LotItem> list)
+        {
+            //================================================================================================================
+            //Declare and initialize variables 
+            //================================================================================================================            
+            //List<SummaryItem> totalSummaryList = new List<SummaryItem>();
+
+            DateTime today = DateTime.Today;
+            DateTime yesterday = today.AddDays(-1);
+            DateTime thirtyDaysAgoFromYesterday = yesterday.AddDays(-29);
+
+
+            //================================================================================================================
+            // 1. 전일
+            //================================================================================================================
+            _daySummaryRows = list
+                .Where(item =>
+                {
+                    if (DateTime.TryParseExact(item.StdDt, "yyyyMMdd",
+                                               System.Globalization.CultureInfo.InvariantCulture,
+                                               System.Globalization.DateTimeStyles.None,
+                                               out DateTime itemDate))
+                    {
+                        return itemDate >= thirtyDaysAgoFromYesterday && itemDate <= yesterday;
+                    }
+                    return false;
+                })
+                .Select(item => new
+                {
+                    // "20260702" -> "2026-07-02" 형태로 날짜 키 생성
+                    DateName = DateTime.ParseExact(item.StdDt, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture).ToString("yyyy-MM-dd"),
+                    Item = item
+                })
+                .GroupBy(x => x.DateName) // 날짜별로 그룹 묶기
+                .Select(g => new SummaryItem
+                {
+                    // 세부 리스트의 구분 열에는 실제 날짜가 들어감
+                    kind = g.Key,
+
+                    // 해당 날짜의 공정별 평균값 계산
+                    vPgIn = Math.Round(g.Average(x => x.Item.VPgIn ?? 0.0), 2),
+                    vNoGwang = Math.Round(g.Average(x => x.Item.VNoGwang ?? 0.0), 2),
+
+                    v1stA = Math.Round(g.Average(x => x.Item.V1stA ?? 0.0), 2),
+                    v1stA2 = Math.Round(g.Average(x => x.Item.V1stA2 ?? 0.0), 2),
+                    v1stB = Math.Round(g.Average(x => x.Item.V1stB ?? 0.0), 2),
+                    v1stB2 = Math.Round(g.Average(x => x.Item.V1stB2 ?? 0.0), 2),
+
+                    v2nd = Math.Round(g.Average(x => x.Item.V2nd ?? 0.0), 2),
+                    vAdd = Math.Round(g.Average(x => x.Item.VAdd ?? 0.0), 2)
+                })
+                .OrderBy(r => r.kind) // 과거 날짜부터 순서대로 정렬
+                .ToList();
+
+            // -----------------------------------------------------------------------------------------------------
+            // 2. [요약 리스트 가공] 생성된 일별 세부 리스트(daySummaryRows)를 다시 통째로 평균 내어 1행으로 압축
+            // -----------------------------------------------------------------------------------------------------
+            if (_daySummaryRows.Count > 0)
+            {
+                SummaryItem summaryRow = new SummaryItem
+                {
+                    // 요약 뷰 마스터 행 타이틀 지정
+                    kind = "전일",
+
+                    // 일별로 마감된 평균값들을 대상으로 최종 전체 평균 연산 (소수점 2자리)
+                    vPgIn = Math.Round(_daySummaryRows.Average(x => x.vPgIn), 2),
+                    vNoGwang = Math.Round(_daySummaryRows.Average(x => x.vNoGwang), 2),
+
+                    v1stA = Math.Round(_daySummaryRows.Average(x => x.v1stA), 2),
+                    v1stA2 = Math.Round(_daySummaryRows.Average(x => x.v1stA2), 2),
+                    v1stB = Math.Round(_daySummaryRows.Average(x => x.v1stB), 2),
+                    v1stB2 = Math.Round(_daySummaryRows.Average(x => x.v1stB2), 2),
+
+                    v2nd = Math.Round(_daySummaryRows.Average(x => x.v2nd), 2),
+                    vAdd = Math.Round(_daySummaryRows.Average(x => x.vAdd), 2)
+                };
+
+                // 요약 마스터 통합 리스트에 단일 행 추가
+                totalSummaryList.Add(summaryRow);
+            }
+            else
+            {
+                totalSummaryList.Add(new SummaryItem { kind = "데이터 없음" });
+            }
+
+            //// 3. 최종 요약 리스트를 대시보드 마스터 그리드에 바인딩
+            //gridDay.DataSource = totalSummaryList;
+
+
+            //================================================================================================================
+            // 2. 주별
+            //================================================================================================================
+            Calendar cal = CultureInfo.InvariantCulture.Calendar;
+            CalendarWeekRule weekRule = CalendarWeekRule.FirstFourDayWeek; // ISO 8601 기준
+            DayOfWeek firstDayOfWeek = DayOfWeek.Monday;
+
+            _weeklySummaryRows = list
+                .Where(item =>
+                {
+                    // 8자리 날짜 포맷 파싱 검증
+                    return DateTime.TryParseExact(item.StdDt, "yyyyMMdd",
+                                                   CultureInfo.InvariantCulture,
+                                                   DateTimeStyles.None,
+                                                   out _);
+                })
+                .Select(item =>
+                {
+                    DateTime itemDate = DateTime.ParseExact(item.StdDt, "yyyyMMdd", CultureInfo.InvariantCulture);
+                    int weekNum = cal.GetWeekOfYear(itemDate, weekRule, firstDayOfWeek);
+
+                    return new
+                    {
+                        // "WW01", "WW02" 형태로 2자리 포맷팅
+                        WeekName = $"WW{weekNum.ToString("D2")}",
+                        Item = item
+                    };
+                })
+                // 올해 주차 범위인 WW01부터 WW29 사이의 데이터만 필터링
+                .Where(x => string.Compare(x.WeekName, "WW01") >= 0 && string.Compare(x.WeekName, "WW29") <= 0)
+                .GroupBy(x => x.WeekName) // 주차 이름 기준으로 행 그룹 묶기
+                .Select(g => new SummaryItem
+                {
+                    // 1번 열(kind)에 주차 이름 명시 ("WW01", "WW02" 등이 행으로 생성됨)
+                    kind = g.Key,
+
+                    // 해당 주차 내의 모든 행 데이터를 대상으로 각 공정별 평균값 계산
+                    vPgIn = Math.Round(g.Average(x => x.Item.VPgIn ?? 0.0), 2),
+                    vNoGwang = Math.Round(g.Average(x => x.Item.VNoGwang ?? 0.0), 2),
+
+                    v1stA = Math.Round(g.Average(x => x.Item.V1stA ?? 0.0), 2),
+                    v1stA2 = Math.Round(g.Average(x => x.Item.V1stA2 ?? 0.0), 2),
+                    v1stB = Math.Round(g.Average(x => x.Item.V1stB ?? 0.0), 2),
+                    v1stB2 = Math.Round(g.Average(x => x.Item.V1stB2 ?? 0.0), 2),
+
+                    v2nd = Math.Round(g.Average(x => x.Item.V2nd ?? 0.0), 2),
+                    vAdd = Math.Round(g.Average(x => x.Item.VAdd ?? 0.0), 2)
+                })
+                .OrderBy(r => r.kind) // WW01부터 순서대로 정렬
+                .ToList();
+
+
+            //-----------------------------------------------------------------------------------------------------
+            // 3. 주차별 세부 리스트(weeklySummaryRows)를 바탕으로 하나의 '주별 전체 평균' 행 생성
+            //---------------------------------------------------------------------------------------
+            if (_weeklySummaryRows.Count > 0)
+            {
+                SummaryItem weeklyTotalRow = new SummaryItem
+                {
+                    // 1번 구분 열 명칭을 "주별 전체 평균" 또는 원하는 타이틀로 지정
+                    kind = "주별",
+
+                    // 주차별(WW01~WW29)로 계산되어 나온 평균값들을 다시 통째로 평균 계산 (소수점 2자리)
+                    vPgIn = Math.Round(_weeklySummaryRows.Average(x => x.vPgIn), 2),
+                    vNoGwang = Math.Round(_weeklySummaryRows.Average(x => x.vNoGwang), 2),
+
+                    v1stA = Math.Round(_weeklySummaryRows.Average(x => x.v1stA), 2),
+                    v1stA2 = Math.Round(_weeklySummaryRows.Average(x => x.v1stA2), 2),
+                    v1stB = Math.Round(_weeklySummaryRows.Average(x => x.v1stB), 2),
+                    v1stB2 = Math.Round(_weeklySummaryRows.Average(x => x.v1stB2), 2),
+
+                    v2nd = Math.Round(_weeklySummaryRows.Average(x => x.v2nd), 2),
+                    vAdd = Math.Round(_weeklySummaryRows.Average(x => x.vAdd), 2)
+                };
+
+                // 여러 행(AddRange) 대신, 최종 가공된 단 하나의 행만 추가(Add)
+                totalSummaryList.Add(weeklyTotalRow);
+            }
+            else
+            {
+                totalSummaryList.Add(new SummaryItem { kind = "주별 데이터 없음" });
+            }
+
+            //================================================================================================================
+            // 3. 월별
+            //================================================================================================================
+            _monthSummaryRows = list
+                .Where(item =>
+                {
+                    // 8자리 날짜 포맷 파싱 검증
+                    return DateTime.TryParseExact(item.StdDt, "yyyyMMdd",
+                                                   CultureInfo.InvariantCulture,
+                                                   DateTimeStyles.None,
+                                                   out _);
+                })
+                .Select(item =>
+                {
+                    DateTime itemDate = DateTime.ParseExact(item.StdDt, "yyyyMMdd", CultureInfo.InvariantCulture);
+
+                    return new
+                    {
+                        // "M01", "M02" 형태로 정렬이 깨지지 않게 2자리 포맷팅("D2") 적용
+                        MonthName = $"M{itemDate.Month.ToString("D2")}",
+                        Item = item
+                    };
+                })
+                .GroupBy(x => x.MonthName) // 월 이름 기준으로 행 그룹 묶기
+                .Select(g => new SummaryItem
+                {
+                    // 세부 리스트의 구분 열에는 월 명칭이 들어감 ("M01", "M02" 등)
+                    kind = g.Key,
+
+                    // 해당 월 내의 모든 데이터를 대상으로 각 공정별 평균값 계산
+                    vPgIn = Math.Round(g.Average(x => x.Item.VPgIn ?? 0.0), 2),
+                    vNoGwang = Math.Round(g.Average(x => x.Item.VNoGwang ?? 0.0), 2),
+
+                    v1stA = Math.Round(g.Average(x => x.Item.V1stA ?? 0.0), 2),
+                    v1stA2 = Math.Round(g.Average(x => x.Item.V1stA2 ?? 0.0), 2),
+                    v1stB = Math.Round(g.Average(x => x.Item.V1stB ?? 0.0), 2),
+                    v1stB2 = Math.Round(g.Average(x => x.Item.V1stB2 ?? 0.0), 2),
+
+                    v2nd = Math.Round(g.Average(x => x.Item.V2nd ?? 0.0), 2),
+                    vAdd = Math.Round(g.Average(x => x.Item.VAdd ?? 0.0), 2)
+                })
+                .OrderBy(r => r.kind) // M01부터 순서대로 정렬
+                .ToList();
+
+
+            // -----------------------------------------------------------------------------------------------------
+            // 2. [월별 요약 리스트 가공] 생성된 월별 세부 리스트(monthSummaryRows)를 다시 1행으로 압축하여 추가
+            // -----------------------------------------------------------------------------------------------------
+            if (_monthSummaryRows.Count > 0)
+            {
+                SummaryItem monthlyTotalRow = new SummaryItem
+                {
+                    // 요약 뷰 마스터 행 타이틀 지정
+                    kind = "월별",
+
+                    // 월별로 마감된 평균값들을 대상으로 최종 전체 평균 연산 (소수점 2자리)
+                    vPgIn = Math.Round(_monthSummaryRows.Average(x => x.vPgIn), 2),
+                    vNoGwang = Math.Round(_monthSummaryRows.Average(x => x.vNoGwang), 2),
+
+                    v1stA = Math.Round(_monthSummaryRows.Average(x => x.v1stA), 2),
+                    v1stA2 = Math.Round(_monthSummaryRows.Average(x => x.v1stA2), 2),
+                    v1stB = Math.Round(_monthSummaryRows.Average(x => x.v1stB), 2),
+                    v1stB2 = Math.Round(_monthSummaryRows.Average(x => x.v1stB2), 2),
+
+                    v2nd = Math.Round(_monthSummaryRows.Average(x => x.v2nd), 2),
+                    vAdd = Math.Round(_monthSummaryRows.Average(x => x.vAdd), 2)
+                };
+
+                // 요약 마스터 통합 리스트의 맨 마지막 자리에 추가
+                totalSummaryList.Add(monthlyTotalRow);
+            }
+            else
+            {
+                totalSummaryList.Add(new SummaryItem { kind = "월별 데이터 없음" });
+            }
+
+            var ddd = "333";
+
+
+        }
+
+        private void MakeDetailList(List<LotItem> pList)
+        {
             //-----------------------------------------------------------------------------------------------------
             //(1).전일 ~ 30일 전 데이터 필터링 (StdDt 기준)
             //-----------------------------------------------------------------------------------------------------            
@@ -735,121 +1000,88 @@ namespace CeDev.DataMng
             //// 평균 계산된 일별 데이터를 그리드에 바인딩
             //gridDay.DataSource = daySummaryList;
 
-            DateTime today = DateTime.Today;
-            DateTime yesterday = today.AddDays(-1);
-            DateTime thirtyDaysAgoFromYesterday = yesterday.AddDays(-29);
 
-            // 1. 기간에 해당하는 데이터 필터링 수행
-            var filteredItems = list
-                .Where(item =>
-                {
-                    if (DateTime.TryParseExact(item.StdDt, "yyyyMMdd",
-                                               System.Globalization.CultureInfo.InvariantCulture,
-                                               System.Globalization.DateTimeStyles.None,
-                                               out DateTime itemDate))
-                    {
-                        return itemDate >= thirtyDaysAgoFromYesterday && itemDate <= yesterday;
-                    }
-                    return false;
-                })
-                .ToList();
-
-            // 2. 필터링된 전체 데이터를 대상으로 하나의 결과 행 생성
-            var totalSummaryList = new[]
-            {
-                new
-                {
-                    Title = "전체 기간 평균",
-                    // 데이터가 있을 때만 Average 연산 수행 (null 값은 0.0 처리)
-                    AvgVPgIn = filteredItems.Count > 0
-                        ? Math.Round(filteredItems.Average(item => item.VPgIn ?? 0.0), 2)
-                        : 0.0
-                }
-            }.ToList();
-
-            // 계산된 단일 행 데이터를 그리드에 바인딩
-            gridDay.DataSource = totalSummaryList;
-
+         
 
             //-----------------------------------------------------------------------------------------------------
             // 2. 주차별 그룹화 및 VPgIn 합산 연산 진행
             //-----------------------------------------------------------------------------------------------------
-            Calendar cal = CultureInfo.InvariantCulture.Calendar;
-            CalendarWeekRule weekRule = CalendarWeekRule.FirstFourDayWeek; // ISO 8601 기준 주차 계산 방식
-            DayOfWeek firstDayOfWeek = DayOfWeek.Monday;
+            //Calendar cal = CultureInfo.InvariantCulture.Calendar;
+            //CalendarWeekRule weekRule = CalendarWeekRule.FirstFourDayWeek; // ISO 8601 기준 주차 계산 방식
+            //DayOfWeek firstDayOfWeek = DayOfWeek.Monday;
 
-            var weeklySummaryList = list
-                .Where(item =>
-                {
-                    // 8자리 날짜 포맷 파싱 검증
-                    return DateTime.TryParseExact(item.StdDt, "yyyyMMdd",
-                                                   CultureInfo.InvariantCulture,
-                                                   DateTimeStyles.None,
-                                                   out _);
-                })
-                .Select(item =>
-                {
-                    DateTime itemDate = DateTime.ParseExact(item.StdDt, "yyyyMMdd", CultureInfo.InvariantCulture);
-                    // 날짜를 기반으로 해당 년도의 주차(숫자) 구하기
-                    int weekNum = cal.GetWeekOfYear(itemDate, weekRule, firstDayOfWeek);
+            //var weeklySummaryList = list
+            //    .Where(item =>
+            //    {
+            //        // 8자리 날짜 포맷 파싱 검증
+            //        return DateTime.TryParseExact(item.StdDt, "yyyyMMdd",
+            //                                       CultureInfo.InvariantCulture,
+            //                                       DateTimeStyles.None,
+            //                                       out _);
+            //    })
+            //    .Select(item =>
+            //    {
+            //        DateTime itemDate = DateTime.ParseExact(item.StdDt, "yyyyMMdd", CultureInfo.InvariantCulture);
+            //        // 날짜를 기반으로 해당 년도의 주차(숫자) 구하기
+            //        int weekNum = cal.GetWeekOfYear(itemDate, weekRule, firstDayOfWeek);
 
-                    return new
-                    {
-                        WeekName = $"WW{weekNum}", // "WW1", "WW2" 형식 문자열 생성
-                                                   // null 값 안전 처리 (null일 경우 0.0으로 대체)
-                        VPgIn = item.VPgIn ?? 0.0
-                    };
-                })
-                .GroupBy(x => x.WeekName) // 주차 이름(WW1, WW2...) 기준으로 그룹 묶기
-                .Select(g => new
-                {
-                    Week = g.Key,
-                    TotalVPgIn = g.Sum(x => x.VPgIn) // 해당 주차의 VPgIn 값 합산(SUM)
-                })
-                .OrderBy(r => r.Week) // 주차 순서대로 정렬
-                .ToList();
+            //        return new
+            //        {
+            //            WeekName = $"WW{weekNum}", // "WW1", "WW2" 형식 문자열 생성
+            //                                       // null 값 안전 처리 (null일 경우 0.0으로 대체)
+            //            VPgIn = item.VPgIn ?? 0.0
+            //        };
+            //    })
+            //    .GroupBy(x => x.WeekName) // 주차 이름(WW1, WW2...) 기준으로 그룹 묶기
+            //    .Select(g => new
+            //    {
+            //        Week = g.Key,
+            //        TotalVPgIn = g.Sum(x => x.VPgIn) // 해당 주차의 VPgIn 값 합산(SUM)
+            //    })
+            //    .OrderBy(r => r.Week) // 주차 순서대로 정렬
+            //    .ToList();
 
-            // 3. 차트나 그리드뷰(gridDay)에 바인딩하여 결과 확인
-            gridWeek.DataSource = weeklySummaryList;
+            //// 3. 차트나 그리드뷰(gridDay)에 바인딩하여 결과 확인
+            //gridWeek.DataSource = weeklySummaryList;
 
             //-----------------------------------------------------------------------------------------------------
             // 월별 그룹화 및 VPgIn 합산 연산 진행
             //-----------------------------------------------------------------------------------------------------
-            var monthlySummaryList = list
-                .Where(item =>
-                {
-                    // 8자리 날짜 포맷 파싱 검증
-                    return DateTime.TryParseExact(item.StdDt, "yyyyMMdd",
-                                                   CultureInfo.InvariantCulture,
-                                                   DateTimeStyles.None,
-                                                   out _);
-                })
-                .Select(item =>
-                {
-                    DateTime itemDate = DateTime.ParseExact(item.StdDt, "yyyyMMdd", CultureInfo.InvariantCulture);
+            //var monthlySummaryList = list
+            //    .Where(item =>
+            //    {
+            //        // 8자리 날짜 포맷 파싱 검증
+            //        return DateTime.TryParseExact(item.StdDt, "yyyyMMdd",
+            //                                       CultureInfo.InvariantCulture,
+            //                                       DateTimeStyles.None,
+            //                                       out _);
+            //    })
+            //    .Select(item =>
+            //    {
+            //        DateTime itemDate = DateTime.ParseExact(item.StdDt, "yyyyMMdd", CultureInfo.InvariantCulture);
 
-                    // 날짜에서 월을 추출하여 "M01", "M02" 형태로 포맷팅 (D2는 2자리 정수 채우기)
-                    string monthName = $"M{itemDate.Month.ToString("D2")}";
+            //        // 날짜에서 월을 추출하여 "M01", "M02" 형태로 포맷팅 (D2는 2자리 정수 채우기)
+            //        string monthName = $"M{itemDate.Month.ToString("D2")}";
 
-                    return new
-                    {
-                        MonthName = monthName,
-                        VPgIn = item.VPgIn ?? 0.0 // null 값 안전 처리
-                    };
-                })
-                .GroupBy(x => x.MonthName) // 월 이름(M01, M02...) 기준으로 그룹 묶기
-                .Select(g => new
-                {
-                    Month = g.Key,
-                    TotalVPgIn = g.Sum(x => x.VPgIn) // 해당 월의 VPgIn 값 합산(SUM)
-                })
-                .OrderBy(r => r.Month) // 월 순서대로 정렬 (M01 -> M12)
-                .ToList();
+            //        return new
+            //        {
+            //            MonthName = monthName,
+            //            VPgIn = item.VPgIn ?? 0.0 // null 값 안전 처리
+            //        };
+            //    })
+            //    .GroupBy(x => x.MonthName) // 월 이름(M01, M02...) 기준으로 그룹 묶기
+            //    .Select(g => new
+            //    {
+            //        Month = g.Key,
+            //        TotalVPgIn = g.Sum(x => x.VPgIn) // 해당 월의 VPgIn 값 합산(SUM)
+            //    })
+            //    .OrderBy(r => r.Month) // 월 순서대로 정렬 (M01 -> M12)
+            //    .ToList();
 
-            // 그리드뷰나 차트에 데이터 바인딩
-            gridMonth.DataSource = monthlySummaryList;
+            //// 그리드뷰나 차트에 데이터 바인딩
+            //gridMonth.DataSource = monthlySummaryList;
 
-            var ddd = "333";
+            //var ddd = "333";
         }
 
 
