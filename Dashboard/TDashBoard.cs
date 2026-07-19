@@ -1,5 +1,6 @@
 ﻿using CeDev.Models;
 using CeDev.Models.BaseMng;
+using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -34,7 +35,7 @@ namespace CeDev.DataMng
         {            
             InitializeComponent();
             InitEvents();
-            //InitControls();            
+            InitControls();            
         }
 
         private void InitEvents()
@@ -42,13 +43,24 @@ namespace CeDev.DataMng
             stackChart.MouseClick += StackChart_MouseClick;
         }
 
-        //private void InitControls()
-        //{
-        //await GetPuInfo();
-        //await GetWaveInfo();
-        //    //await GetSectInfo();
-        //    //SetSeries();
-        //}
+        private void InitControls()
+        {
+            //await GetPuInfo();
+            //await GetWaveInfo();
+            //await GetSectInfo();
+            //SetSeries();
+
+
+            cboWave.DataSource = null;
+            cboWave.Items.Clear();
+
+            //cboWave.Items.Add("전체");
+            cboWave.Items.Add("EUV");
+            cboWave.Items.Add("Arf_I");
+            cboWave.Items.Add("Arf_F");
+
+            cboWave.SelectedIndex = 0;
+        }
 
         private async void SeriesMng_Load(object sender, EventArgs e)
         {
@@ -57,6 +69,8 @@ namespace CeDev.DataMng
             //-----------------------------------------------------------------------
             SetDayInfo();
             await GetSectInfo();
+
+            await GetLotInfo();
 
             //-----------------------------------------------------------------------
             //Processing 
@@ -633,6 +647,209 @@ namespace CeDev.DataMng
             }
 
             gridSection.DataSource = list;
+        }
+
+        private async Task GetLotInfo()
+        {
+            //===============================================================================================================================
+            // Declare and initialize variables
+            //===============================================================================================================================
+            LotSearchModel model = new LotSearchModel();
+
+            //string year = txtYear.Text.Trim();
+            //model.Sido = cboSido.Text == "전체" ? "" : cboSido.Text.Trim();
+
+            string baseUrl = "http://localhost:9081/api/basemng-lot-info";
+
+            //string queryString = BuildQueryString(model);
+            var queryString = HttpUtility.ParseQueryString(string.Empty);
+
+            //query["sido"] = model.Sido;
+            //query["sigungu"] = model.Sigungu;
+
+            string url = $"{baseUrl}?{queryString}";
+
+            //===============================================================================================================================
+            // Processing
+            //===============================================================================================================================
+            HttpClient client = new HttpClient();
+            string json = await client.GetStringAsync(url);
+            List<LotItem> list = JsonConvert.DeserializeObject<List<LotItem>>(json);
+
+            //===============================================================================================================================
+            // Output
+            //===============================================================================================================================
+            if (list == null || list.Count == 0)
+            {
+                gridLot.DataSource = null;
+                MessageBox.Show("조회된 데이터가 없습니다.");
+                return;
+            }
+
+            gridLot.DataSource = list;
+
+
+            //-----------------------------------------------------------------------------------------------------
+            //(1).전일 ~ 30일 전 데이터 필터링 (StdDt 기준)
+            //-----------------------------------------------------------------------------------------------------            
+            //DateTime today = DateTime.Today;
+            //DateTime yesterday = today.AddDays(-1);            
+            //DateTime thirtyDaysAgoFromYesterday = yesterday.AddDays(-29);
+
+            //var daySummaryList = list
+            //    .Where(item =>
+            //    {
+            //        if (DateTime.TryParseExact(item.StdDt, "yyyyMMdd",
+            //                                   System.Globalization.CultureInfo.InvariantCulture,
+            //                                   System.Globalization.DateTimeStyles.None,
+            //                                   out DateTime itemDate))
+            //        {
+            //            return itemDate >= thirtyDaysAgoFromYesterday && itemDate <= yesterday;
+            //        }
+            //        return false;
+            //    })
+            //    .Select(item => new
+            //    {
+            //        DateName = DateTime.ParseExact(item.StdDt, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture).ToString("yyyy-MM-dd"),
+            //        VPgIn = item.VPgIn ?? 0.0
+            //    })
+            //    .GroupBy(x => x.DateName)
+            //    .Select(g =>
+            //    {
+            //        int rowCount = g.Count(); // 해당 날짜의 총 행의 개수
+            //        double totalSum = g.Sum(x => x.VPgIn); // 해당 날짜의 VPgIn 합산 값
+
+            //        // 행의 개수가 0개일 경우를 대비한 안전 처리 후 평균 계산
+            //        double averageVPgIn = rowCount > 0 ? (totalSum / rowCount) : 0.0;
+
+            //        return new
+            //        {
+            //            Date = g.Key,
+            //            // 소수점 2자리까지 반올림 처리
+            //            AvgVPgIn = Math.Round(averageVPgIn, 2)
+            //        };
+            //    })
+            //    .OrderBy(r => r.Date)
+            //    .ToList();
+
+            //// 평균 계산된 일별 데이터를 그리드에 바인딩
+            //gridDay.DataSource = daySummaryList;
+
+            DateTime today = DateTime.Today;
+            DateTime yesterday = today.AddDays(-1);
+            DateTime thirtyDaysAgoFromYesterday = yesterday.AddDays(-29);
+
+            // 1. 기간에 해당하는 데이터 필터링 수행
+            var filteredItems = list
+                .Where(item =>
+                {
+                    if (DateTime.TryParseExact(item.StdDt, "yyyyMMdd",
+                                               System.Globalization.CultureInfo.InvariantCulture,
+                                               System.Globalization.DateTimeStyles.None,
+                                               out DateTime itemDate))
+                    {
+                        return itemDate >= thirtyDaysAgoFromYesterday && itemDate <= yesterday;
+                    }
+                    return false;
+                })
+                .ToList();
+
+            // 2. 필터링된 전체 데이터를 대상으로 하나의 결과 행 생성
+            var totalSummaryList = new[]
+            {
+                new
+                {
+                    Title = "전체 기간 평균",
+                    // 데이터가 있을 때만 Average 연산 수행 (null 값은 0.0 처리)
+                    AvgVPgIn = filteredItems.Count > 0
+                        ? Math.Round(filteredItems.Average(item => item.VPgIn ?? 0.0), 2)
+                        : 0.0
+                }
+            }.ToList();
+
+            // 계산된 단일 행 데이터를 그리드에 바인딩
+            gridDay.DataSource = totalSummaryList;
+
+
+            //-----------------------------------------------------------------------------------------------------
+            // 2. 주차별 그룹화 및 VPgIn 합산 연산 진행
+            //-----------------------------------------------------------------------------------------------------
+            Calendar cal = CultureInfo.InvariantCulture.Calendar;
+            CalendarWeekRule weekRule = CalendarWeekRule.FirstFourDayWeek; // ISO 8601 기준 주차 계산 방식
+            DayOfWeek firstDayOfWeek = DayOfWeek.Monday;
+
+            var weeklySummaryList = list
+                .Where(item =>
+                {
+                    // 8자리 날짜 포맷 파싱 검증
+                    return DateTime.TryParseExact(item.StdDt, "yyyyMMdd",
+                                                   CultureInfo.InvariantCulture,
+                                                   DateTimeStyles.None,
+                                                   out _);
+                })
+                .Select(item =>
+                {
+                    DateTime itemDate = DateTime.ParseExact(item.StdDt, "yyyyMMdd", CultureInfo.InvariantCulture);
+                    // 날짜를 기반으로 해당 년도의 주차(숫자) 구하기
+                    int weekNum = cal.GetWeekOfYear(itemDate, weekRule, firstDayOfWeek);
+
+                    return new
+                    {
+                        WeekName = $"WW{weekNum}", // "WW1", "WW2" 형식 문자열 생성
+                                                   // null 값 안전 처리 (null일 경우 0.0으로 대체)
+                        VPgIn = item.VPgIn ?? 0.0
+                    };
+                })
+                .GroupBy(x => x.WeekName) // 주차 이름(WW1, WW2...) 기준으로 그룹 묶기
+                .Select(g => new
+                {
+                    Week = g.Key,
+                    TotalVPgIn = g.Sum(x => x.VPgIn) // 해당 주차의 VPgIn 값 합산(SUM)
+                })
+                .OrderBy(r => r.Week) // 주차 순서대로 정렬
+                .ToList();
+
+            // 3. 차트나 그리드뷰(gridDay)에 바인딩하여 결과 확인
+            gridWeek.DataSource = weeklySummaryList;
+
+            //-----------------------------------------------------------------------------------------------------
+            // 월별 그룹화 및 VPgIn 합산 연산 진행
+            //-----------------------------------------------------------------------------------------------------
+            var monthlySummaryList = list
+                .Where(item =>
+                {
+                    // 8자리 날짜 포맷 파싱 검증
+                    return DateTime.TryParseExact(item.StdDt, "yyyyMMdd",
+                                                   CultureInfo.InvariantCulture,
+                                                   DateTimeStyles.None,
+                                                   out _);
+                })
+                .Select(item =>
+                {
+                    DateTime itemDate = DateTime.ParseExact(item.StdDt, "yyyyMMdd", CultureInfo.InvariantCulture);
+
+                    // 날짜에서 월을 추출하여 "M01", "M02" 형태로 포맷팅 (D2는 2자리 정수 채우기)
+                    string monthName = $"M{itemDate.Month.ToString("D2")}";
+
+                    return new
+                    {
+                        MonthName = monthName,
+                        VPgIn = item.VPgIn ?? 0.0 // null 값 안전 처리
+                    };
+                })
+                .GroupBy(x => x.MonthName) // 월 이름(M01, M02...) 기준으로 그룹 묶기
+                .Select(g => new
+                {
+                    Month = g.Key,
+                    TotalVPgIn = g.Sum(x => x.VPgIn) // 해당 월의 VPgIn 값 합산(SUM)
+                })
+                .OrderBy(r => r.Month) // 월 순서대로 정렬 (M01 -> M12)
+                .ToList();
+
+            // 그리드뷰나 차트에 데이터 바인딩
+            gridMonth.DataSource = monthlySummaryList;
+
+            var ddd = "333";
         }
 
 

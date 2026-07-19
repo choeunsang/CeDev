@@ -493,5 +493,10 @@ namespace CeDev
             dataGridView1.Columns["amount"].Width = 110;
             dataGridView1.Columns["floor"].Width = 60;
         }
+
+        private void cboSido_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

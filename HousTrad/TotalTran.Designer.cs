@@ -223,6 +223,7 @@
             cboSido.Name = "cboSido";
             cboSido.Size = new Size(123, 23);
             cboSido.TabIndex = 20;
+            cboSido.SelectedIndexChanged += cboSido_SelectedIndexChanged_1;
             // 
             // cboSigungu
             // 
