@@ -12,6 +12,7 @@ using System.Globalization;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -27,15 +28,31 @@ namespace CeDev.DataMng
 {
     public partial class TDashBoard : Form
     {
+        private string condYear = string.Empty;
+        private string condMon = string.Empty;
+        private string condDay = string.Empty;
+
+        private string catagory = string.Empty;
+
         private List<string> daylist = new List<string>();
         private List<string> weeklist = new List<string>();
         private List<string> monlist = new List<string>();
 
+        List<LotItem> _lotlist = new List<LotItem>();        
+
+        List<DetailItem> _dayDetailList = new List<DetailItem>();
+        List<DetailItem> _weekDetailList = new List<DetailItem>();
+        List<DetailItem> _monDetailList = new List<DetailItem>();
+        List<DetailItem> _yearDetailList = new List<DetailItem>();
+        List<DetailItem> _targetDetailList = new List<DetailItem>();
+
         List<SummaryItem> totalSummaryList = new List<SummaryItem>();
 
-        private List<SummaryItem> _daySummaryRows = new List<SummaryItem>();
-        private List<SummaryItem> _weeklySummaryRows = new List<SummaryItem>();
-        private List<SummaryItem> _monthSummaryRows = new List<SummaryItem>();
+        private List<SummaryItem> _daySummaryList = new List<SummaryItem>();
+        private List<SummaryItem> _weekSummaryList = new List<SummaryItem>();
+        private List<SummaryItem> _monSummaryList = new List<SummaryItem>();
+        private List<SummaryItem> _yearSummaryList = new List<SummaryItem>();
+        private List<SummaryItem> _targetSummaryList = new List<SummaryItem>();
 
         public TDashBoard()
         {            
@@ -47,16 +64,24 @@ namespace CeDev.DataMng
         private void InitEvents()
         {
             stackChart.MouseClick += StackChart_MouseClick;
+            detailChart.MouseClick += DetailChart_MouseClick;
         }
 
         private void InitControls()
         {
+            gridLot.Visible = false;
+            gridDay.Visible = false;
+            gridWeek.Visible = false;
+            gridMonth.Visible = false;
+            
             //await GetPuInfo();
             //await GetWaveInfo();
             //await GetSectInfo();
             //SetSeries();
 
-
+            //------------------------------------------------------------------------
+            //파장 콤보 설정
+            //------------------------------------------------------------------------
             cboWave.DataSource = null;
             cboWave.Items.Clear();
 
@@ -95,6 +120,11 @@ namespace CeDev.DataMng
             //List<string> daylist = new List<string>();
             //List<string> weeklist = new List<string>();
             //List<string> monlist = new List<string>();
+
+            //condYear = DateTime.Now.Year.ToString();
+            condYear = DateTime.Now.ToString("yyyy");
+            condMon = DateTime.Now.ToString("yyyyMMdd").Substring(4, 2);
+            condDay = DateTime.Now.ToString("yyyyMMdd");
 
             //-----------------------------------------------------------------------------
             //(1).한달치 날짜 정보
@@ -172,19 +202,57 @@ namespace CeDev.DataMng
 
                 switch (axisLabel)
                 {
-                    case "전일":
-                        //MessageBox.Show(axisLabel);
+                    case "전일":                        
                         ShowDetailChart(axisLabel);
+                        break;
+
+                    case "주별":                        
+                        ShowDetailChart(axisLabel);
+                        break;
+
+                    case "월별":                        
+                        ShowDetailChart(axisLabel);
+                        break;
+
+                    default:
+                        MessageBox.Show("없다");
+                        break;
+                }
+
+                catagory = axisLabel;
+            }            
+        }
+
+        private void DetailChart_MouseClick(object? sender, MouseEventArgs e)
+        {
+            // 클릭한 위치의 요소를 테스트합니다.
+            HitTestResult result = detailChart.HitTest(e.X, e.Y);
+
+            // 클릭한 곳이 데이터 포인트(막대)인 경우에만 실행합니다.
+            if (result.ChartElementType == ChartElementType.DataPoint)
+            {
+                int pointIndex = result.PointIndex;
+                Series selectedSeries = result.Series;
+                string axisLabel = selectedSeries.Points[pointIndex].AxisLabel;
+
+                //MessageBox.Show(axisLabel);
+
+                switch (catagory)
+                {
+                    case "전일":
+                        {
+                            ShowPieChart(chartSite, axisLabel);
+                        }
                         break;
 
                     case "주별":
-                        //MessageBox.Show(axisLabel);
-                        ShowDetailChart(axisLabel);
+                        ////MessageBox.Show(axisLabel);
+                        //ShowDetailChart(axisLabel);
                         break;
 
                     case "월별":
-                        //MessageBox.Show(axisLabel);
-                        ShowDetailChart(axisLabel);
+                        ////MessageBox.Show(axisLabel);
+                        //ShowDetailChart(axisLabel);
                         break;
 
                     default:
@@ -211,23 +279,19 @@ namespace CeDev.DataMng
             {
                 case "전일":
                     {
-                        ShowDetailChart_Day();
-
-                        //DrawDetailChart(pKind);
+                        ShowDetailChart_Day();                        
                     }                    
                     break;
 
                 case "주별":
                     {
-                        ShowDetailChart_Week();
-                        //DrawDetailChart(pKind);
+                        ShowDetailChart_Week();                        
                     }
                     break;
 
                 case "월별":
                     {
-                        ShowDetailChart_Month();
-                        //DrawDetailChart(pKind);
+                        ShowDetailChart_Month();                        
                     }
                     break;
 
@@ -237,56 +301,53 @@ namespace CeDev.DataMng
             }
         }
 
-        private void DrawDetailChart(string pKind)
+        private void ShowPieChart(Chart pChart, string pKey)
         {
-            //--------------------------------------------------------------------------------------------------------------------------
+            //================================================================================================
             //Declare and initialize variables 
-            //--------------------------------------------------------------------------------------------------------------------------
-            foreach (var series in detailChart.Series)
-            {
-                series.Points.Clear();
-            }
+            //================================================================================================
+            //foreach (var series in pChart.Series)
+            //{
+            //    series.Points.Clear();
+            //}
 
-            //SetSeriesDetailChart(pKind);
+            
 
-            //--------------------------------------------------------------------------------------------------------------------------
+
+
+            //================================================================================================
             //Processing
-            //--------------------------------------------------------------------------------------------------------------------------
-            //BindChartDataFromDB();
+            //================================================================================================
+            switch (catagory)
+            {
+                case "전일":
+                    {
+                        ShowPieChart_Site(pKey);
 
-            //foreach (Series series in stackChart.Series)
-            //{
-            //    // 차트에 바인딩된 데이터 개수가 최소 3개 이상인지 안전하게 체크
-            //    if (series.Points.Count >= 3)
-            //    {
-            //        // 데이터가 들어간 순서대로 "전일", "주별", "월별" 라벨을 매칭합니다.
-            //        // (BindChartDataFromDB 내부에서 전일->주별->월별 순으로 AddXY 했다고 가정)
-            //        series.Points[0].AxisLabel = "전일";
-            //        series.Points[1].AxisLabel = "주별";
-            //        series.Points[2].AxisLabel = "월별";
-            //    }
-            //}
+                        //ShowPieChartByGruop(chartSite, "SITE", pKey);
+                        //ShowPieChartByGruop(chartEquip, "EQUIP", pKey);
+                        //ShowPieChartByGruop(chartTech, "TECH", pKey);
+                    }
+                    break;
 
-            //--------------------------------------------------------------------------------------------------------------------------
-            //Output
-            //--------------------------------------------------------------------------------------------------------------------------
-            //if (stackChart.ChartAreas.Count > 0)
-            //{
-            //    var axisX = stackChart.ChartAreas[0].AxisX;
+                case "주별":
+                    {
+                        //ShowDetailChart_Week();
+                    }
+                    break;
 
-            //    axisX.Interval = 1;
-            //    axisX.LabelStyle.Interval = 1;
+                case "월별":
+                    {
+                        //ShowDetailChart_Month();
+                    }
+                    break;
 
-            //    // 정렬 순서 뒤집기 (금일이 위로 가게 하려면 추가, 필요 없다면 주석 처리 가능)
-            //    axisX.IsReversed = true;
-
-            //    // 기존 라벨을 깨끗이 비운 후, 1번방과 2번방에 각각 알맞은 간판을 동시에 달아줍니다.
-            //    axisX.CustomLabels.Clear();
-            //    axisX.CustomLabels.Add(0.5, 1.5, "전일"); // 1번 좌표 구역 이름
-            //    axisX.CustomLabels.Add(1.5, 2.5, "주별"); // 2번 좌표 구역 이름
-            //    axisX.CustomLabels.Add(2.5, 3.5, "월별"); // 3번 좌표 구역 이름
-            //}
+                default:
+                    MessageBox.Show("상세차트 그릴 수 없다");
+                    break;
+            }
         }
+
 
         private void DrawStackChart()
         {
@@ -477,7 +538,7 @@ namespace CeDev.DataMng
             foreach (var item in list)
             {
                 Series series = new Series(item.Nm);
-                series.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.StackedBar;
+                series.ChartType = SeriesChartType.StackedBar;
                 stackChart.Series.Add(series);
             }
         }
@@ -493,15 +554,11 @@ namespace CeDev.DataMng
             //Processing 
             //---------------------------------------------------------------------------------------------------
             detailChart.Series.Clear();
-            //detailChart.ChartAreas.Clear();
-
-            //ChartArea chartArea = new ChartArea("DetailArea");
-            //detailChart.ChartAreas.Add(chartArea);
 
             foreach (var item in list)
             {
                 Series series = new Series(item.Nm);
-                series.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.StackedColumn;
+                series.ChartType = SeriesChartType.StackedColumn;
 
                 detailChart.Series.Add(series);
             }
@@ -516,97 +573,274 @@ namespace CeDev.DataMng
         //detailChart.Series[0].Points.AddXY(1, daylist[1]);
         //detailChart.Series[0].Points.AddXY(1, daylist[2]);
 
+        private void ShowPieChart_Site(string pKey)
+        {
+            //----------------------------------------------------------------------------------------------
+            //Declare and initialize variables 
+            //----------------------------------------------------------------------------------------------
+            chartSite.Series.Clear();
 
+            //var list = _lotlist
+            //          .Where(x => x.StdDt == pKey)
+            //          .Select(x => x.SiteNm)
+            //          .Distinct()
+            //          .ToList();
+
+            //foreach (var item in list)
+            //{
+            //    Series series = new Series(item);
+            //    series.ChartType = SeriesChartType.StackedColumn;
+
+            //    chartSite.Series.Add(series);
+            //}
+
+            Series pieSeries = new Series("SiteRatio");
+            pieSeries.ChartType = SeriesChartType.Pie;
+            pieSeries.IsValueShownAsLabel = true; // 라벨 표시 활성화
+            chartSite.Series.Add(pieSeries);
+
+            //----------------------------------------------------------------------------------------------
+            //Processing
+            //----------------------------------------------------------------------------------------------
+            //----------------------------------------------------------------------------------------------
+            // 2. 데이터 가공 및 개수 집계 (Processing)
+            //----------------------------------------------------------------------------------------------
+            // 해당 날짜(pKey)의 전체 데이터 개수(총합)를 구합니다.
+            double totalCount = _lotlist.Count(x => x.StdDt == pKey);
+
+            // 해당 날짜의 데이터를 사이트별로 그룹화하여 각각의 개수를 구합니다.
+            var siteDataList = _lotlist
+                              .Where(x => x.StdDt == pKey)
+                              .GroupBy(g => g.SiteNm)
+                              .Select(g => new
+                              {
+                                  SiteNm = g.Key,
+                                  RowCount = g.Count() // 💡 vPgIn 대신 데이터 개수를 셉니다.
+                              })
+                              .ToList();
+
+            //----------------------------------------------------------------------------------------------
+            // 3. 차트에 데이터 주입
+            //----------------------------------------------------------------------------------------------
+            foreach (var data in siteDataList)
+            {
+                // 차트 조각의 비율 크기를 결정하기 위해 개수(RowCount)를 주입합니다.
+                int index = pieSeries.Points.AddXY(data.SiteNm, data.RowCount);
+
+                // 백분율(%) 계산 (현재 사이트 데이터 개수 / 전체 데이터 개수 * 100)
+                double percentage = totalCount > 0 ? (data.RowCount / totalCount) * 100 : 0.0;
+
+                //// 우측 범례(Legend)에 사이트명 표시
+                //pieSeries.Points[index].LegendText = data.SiteNm;
+
+                // 파이 조각 내부에 백분율 표기 (예: "청주\n(35.5%)")
+                //pieSeries.Points[index].Label = $"{data.SiteNm}\n({Math.Round(percentage, 1)}%)";
+                pieSeries.Points[index].Label = $"{data.SiteNm}";
+            }
+        }
+
+        private void ShowPieChartByGruop(Chart pChart, string pGrpVal, string pKey)
+        {
+            //----------------------------------------------------------------------------------------------
+            //Declare and initialize variables 
+            //----------------------------------------------------------------------------------------------
+            pChart.Series.Clear();
+
+
+
+            Series pieSeries = new Series("SiteRatio");
+            pieSeries.ChartType = SeriesChartType.Pie;
+            pieSeries.IsValueShownAsLabel = true; // 라벨 표시 활성화
+            pChart.Series.Add(pieSeries);
+
+            //----------------------------------------------------------------------------------------------
+            //Processing
+            //----------------------------------------------------------------------------------------------
+            //----------------------------------------------------------------------------------------------
+            // 2. 데이터 가공 및 개수 집계 (Processing)
+            //----------------------------------------------------------------------------------------------
+            // 해당 날짜(pKey)의 전체 데이터 개수(총합)를 구합니다.
+            double totalCount = _lotlist.Count(x => x.StdDt == pKey);
+
+            // 해당 날짜의 데이터를 사이트별로 그룹화하여 각각의 개수를 구합니다.
+            var siteDataList = _lotlist
+                              .Where(x => x.StdDt == pKey)
+                              .GroupBy(g => pGrpVal)
+                              .Select(g => new
+                              {
+                                  GrpNm = g.Key,
+                                  RowCount = g.Count() // 💡 vPgIn 대신 데이터 개수를 셉니다.
+                              })
+                              .ToList();
+
+            //----------------------------------------------------------------------------------------------
+            // 3. 차트에 데이터 주입
+            //----------------------------------------------------------------------------------------------
+            foreach (var data in siteDataList)
+            {
+                // 차트 조각의 비율 크기를 결정하기 위해 개수(RowCount)를 주입합니다.
+                int index = pieSeries.Points.AddXY(data.GrpNm, data.RowCount);
+
+                // 백분율(%) 계산 (현재 사이트 데이터 개수 / 전체 데이터 개수 * 100)
+                double percentage = totalCount > 0 ? (data.RowCount / totalCount) * 100 : 0.0;
+
+                //// 우측 범례(Legend)에 사이트명 표시
+                //pieSeries.Points[index].LegendText = data.SiteNm;
+
+                // 파이 조각 내부에 백분율 표기 (예: "청주\n(35.5%)")
+                //pieSeries.Points[index].Label = $"{data.SiteNm}\n({Math.Round(percentage, 1)}%)";
+                pieSeries.Points[index].Label = $"{data.GrpNm}";
+            }
+        }
 
         private void ShowDetailChart_Day()
         {
-            //int index = detailChart.Series[0].Points.AddXY(0, "5");
-            //detailChart.Series[0].Points[index].AxisLabel = daylist[0];
+            double val = 0;
 
-            //index = detailChart.Series[0].Points.AddXY(1, "5");
-            //detailChart.Series[0].Points[index].AxisLabel = daylist[1];
-
-
-
-            //int i = 0;
-
-            //foreach (var item in daylist)
-            //{
-            //    int index = detailChart.Series[0].Points.AddXY(i, "5");
-            //    detailChart.Series[0].Points[index].AxisLabel = item;
-
-            //    i++;
-            //}
-
-            //i = 0;
-
-            //foreach (var item in daylist)
-            //{
-            //    int index = detailChart.Series[1].Points.AddXY(i, "2");
-            //    detailChart.Series[1].Points[index].AxisLabel = item;
-
-            //    i++;
-            //}
-
-            foreach(var stackItem in detailChart.Series)
+            foreach (var seriesItem in detailChart.Series)
             {
-                for (int i = 0; i < daylist.Count; i++)
+                for (int i = 0; i < _dayDetailList.Count; i++)
                 {
-                    double val = new Random().Next(1, 10);
+                    switch (seriesItem.Name)
+                    {
+                        case "PG In":
+                            {
+                                val = _dayDetailList[i].vPgIn; 
+                            }
+                            break;
 
-                    //int index = stackItem.Points.AddXY(i, "2");
-                    int index = stackItem.Points.AddXY(i, val);
+                        case "Ebeam":
+                            {
+                                val = _dayDetailList[i].vNoGwang;
+                            }
+                            break;
 
-                    stackItem.Points[index].AxisLabel = daylist[i];
+                        case "1st":
+                            {
+                                double avg = _dayDetailList[i].v1stA  + _dayDetailList[i].v1stB  / 2.0;
+                            }
+                            break;
+
+                        case "2nd":
+                            {
+                                val = _dayDetailList[i].v2nd;
+                            }
+                            break;
+
+                        case "Add":
+                            {
+                                val = _dayDetailList[i].vAdd;
+                            }
+                            break;
+                    }
+
+                    int index = seriesItem.Points.AddXY(i, val);
+                    seriesItem.Points[index].AxisLabel = _dayDetailList[i].kind;
                 }
             }
 
-
             detailChart.ChartAreas[0].AxisX.Interval = 1;
             detailChart.ChartAreas[0].AxisX.LabelStyle.Interval = 1;
-            //detailChart.ChartAreas[0].AxisX.IsReversed = true;
         }
 
         private void ShowDetailChart_Week()
         {
-            foreach (var stackItem in detailChart.Series)
+            double val = 0;
+
+            foreach (var seriesItem in detailChart.Series)
             {
-                for (int i = 0; i < weeklist.Count; i++)
+                for (int i = 0; i < _weekDetailList.Count; i++)
                 {
-                    double val = new Random().Next(1, 10);
+                    switch (seriesItem.Name)
+                    {
+                        case "PG In":
+                            {
+                                val = _weekDetailList[i].vPgIn;
+                            }
+                            break;
 
-                    //int index = stackItem.Points.AddXY(i, "2");
-                    int index = stackItem.Points.AddXY(i, val);
+                        case "Ebeam":
+                            {
+                                val = _weekDetailList[i].vNoGwang;
+                            }
+                            break;
 
-                    stackItem.Points[index].AxisLabel = weeklist[i];
+                        case "1st":
+                            {
+                                double avg = _weekDetailList[i].v1stA + _weekDetailList[i].v1stB / 2.0;
+                            }
+                            break;
+
+                        case "2nd":
+                            {
+                                val = _weekDetailList[i].v2nd;
+                            }
+                            break;
+
+                        case "Add":
+                            {
+                                val = _weekDetailList[i].vAdd;
+                            }
+                            break;
+                    }
+
+                    int index = seriesItem.Points.AddXY(i, val);
+                    seriesItem.Points[index].AxisLabel = _weekDetailList[i].kind;
                 }
             }
 
-
             detailChart.ChartAreas[0].AxisX.Interval = 1;
             detailChart.ChartAreas[0].AxisX.LabelStyle.Interval = 1;
-            //detailChart.ChartAreas[0].AxisX.IsReversed = true;
         }
 
         private void ShowDetailChart_Month()
         {
-            foreach (var stackItem in detailChart.Series)
+            double val = 0;
+
+            foreach (var seriesItem in detailChart.Series)
             {
-                for (int i = 0; i < monlist.Count; i++)
+                for (int i = 0; i < _monDetailList.Count; i++)
                 {
-                    double val = new Random().Next(1, 10);
+                    switch (seriesItem.Name)
+                    {
+                        case "PG In":
+                            {
+                                val = _monDetailList[i].vPgIn;
+                            }
+                            break;
 
-                    //int index = stackItem.Points.AddXY(i, "2");
-                    int index = stackItem.Points.AddXY(i, val);
+                        case "Ebeam":
+                            {
+                                val = _monDetailList[i].vNoGwang;
+                            }
+                            break;
 
-                    stackItem.Points[index].AxisLabel = monlist[i];
+                        case "1st":
+                            {
+                                double avg = _monDetailList[i].v1stA + _monDetailList[i].v1stB / 2.0;
+                            }
+                            break;
+
+                        case "2nd":
+                            {
+                                val = _monDetailList[i].v2nd;
+                            }
+                            break;
+
+                        case "Add":
+                            {
+                                val = _monDetailList[i].vAdd;
+                            }
+                            break;
+                    }
+
+                    int index = seriesItem.Points.AddXY(i, val);
+                    seriesItem.Points[index].AxisLabel = _monDetailList[i].kind;
                 }
             }
 
-
             detailChart.ChartAreas[0].AxisX.Interval = 1;
             detailChart.ChartAreas[0].AxisX.LabelStyle.Interval = 1;
-            //detailChart.ChartAreas[0].AxisX.IsReversed = true;
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -680,6 +914,8 @@ namespace CeDev.DataMng
             //===============================================================================================================================
             HttpClient client = new HttpClient();
             string json = await client.GetStringAsync(url);
+
+            //List<LotItem> list = JsonConvert.DeserializeObject<List<LotItem>>(json);
             List<LotItem> list = JsonConvert.DeserializeObject<List<LotItem>>(json);
 
             //===============================================================================================================================
@@ -694,8 +930,309 @@ namespace CeDev.DataMng
 
             gridLot.DataSource = list;
 
-            MakeSummayList(list);
+            _lotlist = list.ToList();
+
+            //MakeDataList(list);
+            MakeDataList();
+
+            //MakeSummayList(list);
             //MakeDetailList(list);
+        }
+
+        //private void MakeDataList(List<LotItem> list)
+        private void MakeDataList()
+        {
+            //================================================================================================================
+            //Declare and initialize variables 
+            //================================================================================================================            
+            //List<SummaryItem> totalSummaryList = new List<SummaryItem>();
+
+            DateTime today = DateTime.Today;
+            DateTime yesterday = today.AddDays(-1);
+            DateTime thirtyDaysAgoFromYesterday = yesterday.AddDays(-29);
+
+
+            //================================================================================================================
+            // 1. 전일
+            //================================================================================================================           
+
+            // -----------------------------------------------------------------------------------------------------
+            //  (1-1).detail
+            // -----------------------------------------------------------------------------------------------------
+            _dayDetailList = _lotlist
+                            .Where(x => DateTime.ParseExact(x.StdDt, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture) >= thirtyDaysAgoFromYesterday
+                                     && DateTime.ParseExact(x.StdDt, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture) <= yesterday)                            
+                            .GroupBy(x => x.StdDt)
+                            .Select(g => new DetailItem
+                            {
+                                kind = g.Key,
+                                vPgIn = Math.Round(g.Average(x => x.vPgIn ?? 0.0), 2),
+                                vNoGwang = Math.Round(g.Average(x => x.vNoGwang) ?? 0.0, 2),
+
+                                v1stA = Math.Round(g.Average(x => x.v1stA ?? 0.0), 2),
+                                v1stA2 = Math.Round(g.Average(x => x.v1stA2 ?? 0.0), 2),
+                                v1stB = Math.Round(g.Average(x => x.v1stB ?? 0.0), 2),
+                                v1stB2 = Math.Round(g.Average(x => x.v1stB2 ?? 0.0), 2),
+
+                                v2nd = Math.Round(g.Average(x => x.v2nd ?? 0.0), 2),
+                                vAdd = Math.Round(g.Average(x => x.vAdd ?? 0.0), 2)
+                            })
+                            .ToList();
+
+            //var ddd = "333";
+
+            // -----------------------------------------------------------------------------------------------------
+            //  (1-2).summary
+            // -----------------------------------------------------------------------------------------------------            
+            SummaryItem summaryRow = new SummaryItem
+            {
+                catagory = "전일",
+                vPgIn = Math.Round(_dayDetailList.Average(x => x.vPgIn), 2),
+                vNoGwang = Math.Round(_dayDetailList.Average(x => x.vNoGwang), 2),
+
+                v1stA = Math.Round(_dayDetailList.Average(x => x.v1stA), 2),
+                v1stA2 = Math.Round(_dayDetailList.Average(x => x.v1stA2), 2),
+                v1stB = Math.Round(_dayDetailList.Average(x => x.v1stB), 2),
+                v1stB2 = Math.Round(_dayDetailList.Average(x => x.v1stB2), 2),
+
+                v2nd = Math.Round(_dayDetailList.Average(x => x.v2nd), 2),
+                vAdd = Math.Round(_dayDetailList.Average(x => x.vAdd), 2)
+            };
+            
+            totalSummaryList.Add(summaryRow);
+
+
+            //================================================================================================================
+            // 2. 주별
+            //================================================================================================================           
+            string startOfThisYear = DateTime.Today.ToString("yyyy0101");
+
+            Calendar cal = CultureInfo.InvariantCulture.Calendar;
+            CalendarWeekRule rule = CalendarWeekRule.FirstFourDayWeek;
+            DayOfWeek firstDay = DayOfWeek.Monday;
+
+            _weekDetailList = _lotlist
+                            .Where(x => string.Compare(x.StdDt, startOfThisYear) >= 0)                            
+                            .Select(x => {
+                                var parsedDate = DateTime.ParseExact(x.StdDt, "yyyyMMdd", CultureInfo.InvariantCulture);                                
+                                int isoYear = cal.GetWeekOfYear(parsedDate, rule, firstDay) == 53 && parsedDate.Month == 1
+                                    ? parsedDate.Year - 1
+                                    : parsedDate.Year;
+
+                                return new
+                                {
+                                    Item = x,
+                                    //WeekKey = $"{isoYear}-WW{cal.GetWeekOfYear(parsedDate, rule, firstDay):D2}"
+                                    WeekKey = $"WW{cal.GetWeekOfYear(parsedDate, rule, firstDay):D2}"
+                                };
+                            })                            
+                            .GroupBy(x => x.WeekKey)
+                            .Select(g => new DetailItem
+                            {
+                                kind = g.Key,
+                                vPgIn = Math.Round(g.Average(x => x.Item.vPgIn ?? 0.0), 2),
+                                vNoGwang = Math.Round(g.Average(x => x.Item.vNoGwang ?? 0.0), 2),
+                                v1stA = Math.Round(g.Average(x => x.Item.v1stA ?? 0.0), 2),
+                                v1stA2 = Math.Round(g.Average(x => x.Item.v1stA2 ?? 0.0), 2),
+                                v1stB = Math.Round(g.Average(x => x.Item.v1stB ?? 0.0), 2),
+                                v1stB2 = Math.Round(g.Average(x => x.Item.v1stB2 ?? 0.0), 2),
+                                v2nd = Math.Round(g.Average(x => x.Item.v2nd ?? 0.0), 2),
+                                vAdd = Math.Round(g.Average(x => x.Item.vAdd ?? 0.0), 2)
+                            })
+                            .ToList();
+
+            //var ddd = "333";
+
+            // -----------------------------------------------------------------------------------------------------
+            //  summary
+            // -----------------------------------------------------------------------------------------------------
+            summaryRow = new SummaryItem
+            {
+                catagory = "금주",
+                vPgIn = Math.Round(_weekDetailList.Average(x => x.vPgIn), 2),
+                vNoGwang = Math.Round(_weekDetailList.Average(x => x.vNoGwang), 2),
+
+                v1stA = Math.Round(_weekDetailList.Average(x => x.v1stA), 2),
+                v1stA2 = Math.Round(_weekDetailList.Average(x => x.v1stA2), 2),
+                v1stB = Math.Round(_weekDetailList.Average(x => x.v1stB), 2),
+                v1stB2 = Math.Round(_weekDetailList.Average(x => x.v1stB2), 2),
+
+                v2nd = Math.Round(_weekDetailList.Average(x => x.v2nd), 2),
+                vAdd = Math.Round(_weekDetailList.Average(x => x.vAdd), 2)
+            };
+
+            totalSummaryList.Add(summaryRow);
+
+            
+            //================================================================================================================
+            // 3. 월별
+            //================================================================================================================
+            _monDetailList = _lotlist
+                            .Where(x => string.Compare(x.StdDt, startOfThisYear) >= 0)
+                            .Select(x => new
+                            {
+                                MonthKey = x.StdDt.Substring(4, 2),
+                                Item = x
+                            })
+                            .GroupBy(x => x.MonthKey)
+                            .OrderBy(g => g.Key)
+                            .Select(g => new DetailItem
+                            {
+                                kind = g.Key,
+                                vPgIn = Math.Round(g.Average(x => x.Item.vPgIn ?? 0.0), 2),
+                                vNoGwang = Math.Round(g.Average(x => x.Item.vNoGwang) ?? 0.0, 2),
+
+                                v1stA = Math.Round(g.Average(x => x.Item.v1stA ?? 0.0), 2),
+                                v1stA2 = Math.Round(g.Average(x => x.Item.v1stA2 ?? 0.0), 2),
+                                v1stB = Math.Round(g.Average(x => x.Item.v1stB ?? 0.0), 2),
+                                v1stB2 = Math.Round(g.Average(x => x.Item.v1stB2 ?? 0.0), 2),
+
+                                v2nd = Math.Round(g.Average(x => x.Item.v2nd ?? 0.0), 2),
+                                vAdd = Math.Round(g.Average(x => x.Item.vAdd ?? 0.0), 2)
+                            })
+                            .ToList();
+
+            // -----------------------------------------------------------------------------------------------------
+            //  summary
+            // -----------------------------------------------------------------------------------------------------
+            summaryRow = new SummaryItem
+            {
+                catagory = "금월",
+                vPgIn = Math.Round(_monDetailList.Average(x => x.vPgIn), 2),
+                vNoGwang = Math.Round(_monDetailList.Average(x => x.vNoGwang), 2),
+
+                v1stA = Math.Round(_monDetailList.Average(x => x.v1stA), 2),
+                v1stA2 = Math.Round(_monDetailList.Average(x => x.v1stA2), 2),
+                v1stB = Math.Round(_monDetailList.Average(x => x.v1stB), 2),
+                v1stB2 = Math.Round(_monDetailList.Average(x => x.v1stB2), 2),
+
+                v2nd = Math.Round(_monDetailList.Average(x => x.v2nd), 2),
+                vAdd = Math.Round(_monDetailList.Average(x => x.vAdd), 2)
+            };
+
+            totalSummaryList.Add(summaryRow);
+
+            //var ddd = "333";
+
+
+            //================================================================================================================
+            // 4. 연누적
+            //================================================================================================================
+            _yearDetailList = _lotlist
+                            .Where(x => string.Compare(x.StdDt, startOfThisYear) >= 0)
+                            .Select(x => new
+                            {
+                                YearKey = x.StdDt.Substring(0, 4),
+                                Item = x
+                            })
+                            .GroupBy(x => x.YearKey)                            
+                            .Select(g => new DetailItem
+                            {
+                                kind = g.Key,
+                                vPgIn = Math.Round(g.Average(x => x.Item.vPgIn ?? 0.0), 2),
+                                vNoGwang = Math.Round(g.Average(x => x.Item.vNoGwang) ?? 0.0, 2),
+
+                                v1stA = Math.Round(g.Average(x => x.Item.v1stA ?? 0.0), 2),
+                                v1stA2 = Math.Round(g.Average(x => x.Item.v1stA2 ?? 0.0), 2),
+                                v1stB = Math.Round(g.Average(x => x.Item.v1stB ?? 0.0), 2),
+                                v1stB2 = Math.Round(g.Average(x => x.Item.v1stB2 ?? 0.0), 2),
+
+                                v2nd = Math.Round(g.Average(x => x.Item.v2nd ?? 0.0), 2),
+                                vAdd = Math.Round(g.Average(x => x.Item.vAdd ?? 0.0), 2)
+                            })
+                            .ToList();
+
+            // -----------------------------------------------------------------------------------------------------
+            //  summary
+            // -----------------------------------------------------------------------------------------------------
+            summaryRow = new SummaryItem
+            {
+                catagory = "연누적",
+                vPgIn = Math.Round(_yearDetailList.Average(x => x.vPgIn), 2),
+                vNoGwang = Math.Round(_yearDetailList.Average(x => x.vNoGwang), 2),
+
+                v1stA = Math.Round(_yearDetailList.Average(x => x.v1stA), 2),
+                v1stA2 = Math.Round(_yearDetailList.Average(x => x.v1stA2), 2),
+                v1stB = Math.Round(_yearDetailList.Average(x => x.v1stB), 2),
+                v1stB2 = Math.Round(_yearDetailList.Average(x => x.v1stB2), 2),
+
+                v2nd = Math.Round(_yearDetailList.Average(x => x.v2nd), 2),
+                vAdd = Math.Round(_yearDetailList.Average(x => x.vAdd), 2)
+            };
+
+            totalSummaryList.Add(summaryRow);
+
+            //var ddd = "333";
+
+            //================================================================================================================
+            // 5. 목표
+            //================================================================================================================
+            Random rand = new Random();
+
+            _targetDetailList = _lotlist
+                            .Where(x => string.Compare(x.StdDt, startOfThisYear) >= 0)
+                            .Select(x => new
+                            {
+                                YearKey = x.StdDt.Substring(0, 4),
+                                Item = x
+                            })
+                            .GroupBy(x => x.YearKey)
+                            //.Select(g => new DetailItem
+                            //{
+                            //    kind = g.Key,
+                            //    vPgIn = Math.Round(g.Average(x => x.Item.vPgIn ?? 0.0), 2),
+                            //    vNoGwang = Math.Round(g.Average(x => x.Item.vNoGwang) ?? 0.0, 2),
+
+                            //    v1stA = Math.Round(g.Average(x => x.Item.v1stA ?? 0.0), 2),
+                            //    v1stA2 = Math.Round(g.Average(x => x.Item.v1stA2 ?? 0.0), 2),
+                            //    v1stB = Math.Round(g.Average(x => x.Item.v1stB ?? 0.0), 2),
+                            //    v1stB2 = Math.Round(g.Average(x => x.Item.v1stB2 ?? 0.0), 2),
+
+                            //    v2nd = Math.Round(g.Average(x => x.Item.v2nd ?? 0.0), 2),
+                            //    vAdd = Math.Round(g.Average(x => x.Item.vAdd ?? 0.0), 2)
+                            //})
+                            .Select(g =>
+                            {
+                                double GetRandomOffset() => (rand.NextDouble() * 0.1) - 0.05;
+                                
+                                return new DetailItem
+                                {
+                                    kind = g.Key,
+                                    vPgIn = Math.Round(g.Average(x => x.Item.vPgIn ?? 0.0)  + GetRandomOffset(), 2),
+                                    vNoGwang = Math.Round(g.Average(x => x.Item.vNoGwang ?? 0.0) + GetRandomOffset(), 2),
+
+                                    v1stA = Math.Round(g.Average(x => x.Item.v1stA ?? 0.0) + GetRandomOffset(), 2),
+                                    v1stA2 = Math.Round(g.Average(x => x.Item.v1stA2 ?? 0.0) + GetRandomOffset(), 2),
+                                    v1stB = Math.Round(g.Average(x => x.Item.v1stB ?? 0.0) + GetRandomOffset(), 2),
+                                    v1stB2 = Math.Round(g.Average(x => x.Item.v1stB2 ?? 0.0) + GetRandomOffset(), 2),
+
+                                    v2nd = Math.Round(g.Average(x => x.Item.v2nd ?? 0.0) + GetRandomOffset(), 2),
+                                    vAdd = Math.Round(g.Average(x => x.Item.vAdd ?? 0.0) + GetRandomOffset(), 2)
+                                };
+                            })
+                            .ToList();
+
+            // -----------------------------------------------------------------------------------------------------
+            //  summary
+            // -----------------------------------------------------------------------------------------------------
+            summaryRow = new SummaryItem
+            {
+                catagory = "목표",
+                vPgIn = Math.Round(_targetDetailList.Average(x => x.vPgIn), 2),
+                vNoGwang = Math.Round(_targetDetailList.Average(x => x.vNoGwang), 2),
+
+                v1stA = Math.Round(_targetDetailList.Average(x => x.v1stA), 2),
+                v1stA2 = Math.Round(_targetDetailList.Average(x => x.v1stA2), 2),
+                v1stB = Math.Round(_targetDetailList.Average(x => x.v1stB), 2),
+                v1stB2 = Math.Round(_targetDetailList.Average(x => x.v1stB2), 2),
+
+                v2nd = Math.Round(_targetDetailList.Average(x => x.v2nd), 2),
+                vAdd = Math.Round(_targetDetailList.Average(x => x.vAdd), 2)
+            };
+
+            totalSummaryList.Add(summaryRow);
+
+            var ddd = "333";
         }
 
 
@@ -714,7 +1251,7 @@ namespace CeDev.DataMng
             //================================================================================================================
             // 1. 전일
             //================================================================================================================
-            _daySummaryRows = list
+             _daySummaryList = list
                 .Where(item =>
                 {
                     if (DateTime.TryParseExact(item.StdDt, "yyyyMMdd",
@@ -736,44 +1273,44 @@ namespace CeDev.DataMng
                 .Select(g => new SummaryItem
                 {
                     // 세부 리스트의 구분 열에는 실제 날짜가 들어감
-                    kind = g.Key,
+                    catagory = g.Key,
 
                     // 해당 날짜의 공정별 평균값 계산
-                    vPgIn = Math.Round(g.Average(x => x.Item.VPgIn ?? 0.0), 2),
-                    vNoGwang = Math.Round(g.Average(x => x.Item.VNoGwang ?? 0.0), 2),
+                    vPgIn = Math.Round(g.Average(x => x.Item.vPgIn ?? 0.0), 2),
+                    vNoGwang = Math.Round(g.Average(x => x.Item.vNoGwang ?? 0.0), 2),
 
-                    v1stA = Math.Round(g.Average(x => x.Item.V1stA ?? 0.0), 2),
-                    v1stA2 = Math.Round(g.Average(x => x.Item.V1stA2 ?? 0.0), 2),
-                    v1stB = Math.Round(g.Average(x => x.Item.V1stB ?? 0.0), 2),
-                    v1stB2 = Math.Round(g.Average(x => x.Item.V1stB2 ?? 0.0), 2),
+                    v1stA = Math.Round(g.Average(x => x.Item.v1stA ?? 0.0), 2),
+                    v1stA2 = Math.Round(g.Average(x => x.Item.v1stA2 ?? 0.0), 2),
+                    v1stB = Math.Round(g.Average(x => x.Item.v1stB ?? 0.0), 2),
+                    v1stB2 = Math.Round(g.Average(x => x.Item.v1stB2 ?? 0.0), 2),
 
-                    v2nd = Math.Round(g.Average(x => x.Item.V2nd ?? 0.0), 2),
-                    vAdd = Math.Round(g.Average(x => x.Item.VAdd ?? 0.0), 2)
+                    v2nd = Math.Round(g.Average(x => x.Item.v2nd ?? 0.0), 2),
+                    vAdd = Math.Round(g.Average(x => x.Item.vAdd ?? 0.0), 2)
                 })
-                .OrderBy(r => r.kind) // 과거 날짜부터 순서대로 정렬
+                .OrderBy(r => r.catagory) // 과거 날짜부터 순서대로 정렬
                 .ToList();
 
             // -----------------------------------------------------------------------------------------------------
             // 2. [요약 리스트 가공] 생성된 일별 세부 리스트(daySummaryRows)를 다시 통째로 평균 내어 1행으로 압축
             // -----------------------------------------------------------------------------------------------------
-            if (_daySummaryRows.Count > 0)
+            if (_daySummaryList.Count > 0)
             {
                 SummaryItem summaryRow = new SummaryItem
                 {
                     // 요약 뷰 마스터 행 타이틀 지정
-                    kind = "전일",
+                    catagory = "전일",
 
                     // 일별로 마감된 평균값들을 대상으로 최종 전체 평균 연산 (소수점 2자리)
-                    vPgIn = Math.Round(_daySummaryRows.Average(x => x.vPgIn), 2),
-                    vNoGwang = Math.Round(_daySummaryRows.Average(x => x.vNoGwang), 2),
+                    vPgIn = Math.Round(_daySummaryList.Average(x => x.vPgIn), 2),
+                    vNoGwang = Math.Round(_daySummaryList.Average(x => x.vNoGwang), 2),
 
-                    v1stA = Math.Round(_daySummaryRows.Average(x => x.v1stA), 2),
-                    v1stA2 = Math.Round(_daySummaryRows.Average(x => x.v1stA2), 2),
-                    v1stB = Math.Round(_daySummaryRows.Average(x => x.v1stB), 2),
-                    v1stB2 = Math.Round(_daySummaryRows.Average(x => x.v1stB2), 2),
+                    v1stA = Math.Round(_daySummaryList.Average(x => x.v1stA), 2),
+                    v1stA2 = Math.Round(_daySummaryList.Average(x => x.v1stA2), 2),
+                    v1stB = Math.Round(_daySummaryList.Average(x => x.v1stB), 2),
+                    v1stB2 = Math.Round(_daySummaryList.Average(x => x.v1stB2), 2),
 
-                    v2nd = Math.Round(_daySummaryRows.Average(x => x.v2nd), 2),
-                    vAdd = Math.Round(_daySummaryRows.Average(x => x.vAdd), 2)
+                    v2nd = Math.Round(_daySummaryList.Average(x => x.v2nd), 2),
+                    vAdd = Math.Round(_daySummaryList.Average(x => x.vAdd), 2)
                 };
 
                 // 요약 마스터 통합 리스트에 단일 행 추가
@@ -781,7 +1318,7 @@ namespace CeDev.DataMng
             }
             else
             {
-                totalSummaryList.Add(new SummaryItem { kind = "데이터 없음" });
+                totalSummaryList.Add(new SummaryItem { catagory = "NoData" });
             }
 
             //// 3. 최종 요약 리스트를 대시보드 마스터 그리드에 바인딩
@@ -795,7 +1332,7 @@ namespace CeDev.DataMng
             CalendarWeekRule weekRule = CalendarWeekRule.FirstFourDayWeek; // ISO 8601 기준
             DayOfWeek firstDayOfWeek = DayOfWeek.Monday;
 
-            _weeklySummaryRows = list
+            _weekSummaryList = list
                 .Where(item =>
                 {
                     // 8자리 날짜 포맷 파싱 검증
@@ -822,45 +1359,45 @@ namespace CeDev.DataMng
                 .Select(g => new SummaryItem
                 {
                     // 1번 열(kind)에 주차 이름 명시 ("WW01", "WW02" 등이 행으로 생성됨)
-                    kind = g.Key,
+                    catagory = g.Key,
 
                     // 해당 주차 내의 모든 행 데이터를 대상으로 각 공정별 평균값 계산
-                    vPgIn = Math.Round(g.Average(x => x.Item.VPgIn ?? 0.0), 2),
-                    vNoGwang = Math.Round(g.Average(x => x.Item.VNoGwang ?? 0.0), 2),
+                    vPgIn = Math.Round(g.Average(x => x.Item.vPgIn ?? 0.0), 2),
+                    vNoGwang = Math.Round(g.Average(x => x.Item.vNoGwang ?? 0.0), 2),
 
-                    v1stA = Math.Round(g.Average(x => x.Item.V1stA ?? 0.0), 2),
-                    v1stA2 = Math.Round(g.Average(x => x.Item.V1stA2 ?? 0.0), 2),
-                    v1stB = Math.Round(g.Average(x => x.Item.V1stB ?? 0.0), 2),
-                    v1stB2 = Math.Round(g.Average(x => x.Item.V1stB2 ?? 0.0), 2),
+                    v1stA = Math.Round(g.Average(x => x.Item.v1stA ?? 0.0), 2),
+                    v1stA2 = Math.Round(g.Average(x => x.Item.v1stA2 ?? 0.0), 2),
+                    v1stB = Math.Round(g.Average(x => x.Item.v1stB ?? 0.0), 2),
+                    v1stB2 = Math.Round(g.Average(x => x.Item.v1stB2 ?? 0.0), 2),
 
-                    v2nd = Math.Round(g.Average(x => x.Item.V2nd ?? 0.0), 2),
-                    vAdd = Math.Round(g.Average(x => x.Item.VAdd ?? 0.0), 2)
+                    v2nd = Math.Round(g.Average(x => x.Item.v2nd ?? 0.0), 2),
+                    vAdd = Math.Round(g.Average(x => x.Item.vAdd ?? 0.0), 2)
                 })
-                .OrderBy(r => r.kind) // WW01부터 순서대로 정렬
+                .OrderBy(r => r.catagory) // WW01부터 순서대로 정렬
                 .ToList();
 
 
             //-----------------------------------------------------------------------------------------------------
             // 3. 주차별 세부 리스트(weeklySummaryRows)를 바탕으로 하나의 '주별 전체 평균' 행 생성
             //---------------------------------------------------------------------------------------
-            if (_weeklySummaryRows.Count > 0)
+            if (_weekSummaryList.Count > 0)
             {
                 SummaryItem weeklyTotalRow = new SummaryItem
                 {
                     // 1번 구분 열 명칭을 "주별 전체 평균" 또는 원하는 타이틀로 지정
-                    kind = "주별",
+                    catagory = "주별",
 
                     // 주차별(WW01~WW29)로 계산되어 나온 평균값들을 다시 통째로 평균 계산 (소수점 2자리)
-                    vPgIn = Math.Round(_weeklySummaryRows.Average(x => x.vPgIn), 2),
-                    vNoGwang = Math.Round(_weeklySummaryRows.Average(x => x.vNoGwang), 2),
+                    vPgIn = Math.Round(_weekSummaryList.Average(x => x.vPgIn), 2),
+                    vNoGwang = Math.Round(_weekSummaryList.Average(x => x.vNoGwang), 2),
 
-                    v1stA = Math.Round(_weeklySummaryRows.Average(x => x.v1stA), 2),
-                    v1stA2 = Math.Round(_weeklySummaryRows.Average(x => x.v1stA2), 2),
-                    v1stB = Math.Round(_weeklySummaryRows.Average(x => x.v1stB), 2),
-                    v1stB2 = Math.Round(_weeklySummaryRows.Average(x => x.v1stB2), 2),
+                    v1stA = Math.Round(_weekSummaryList.Average(x => x.v1stA), 2),
+                    v1stA2 = Math.Round(_weekSummaryList.Average(x => x.v1stA2), 2),
+                    v1stB = Math.Round(_weekSummaryList.Average(x => x.v1stB), 2),
+                    v1stB2 = Math.Round(_weekSummaryList.Average(x => x.v1stB2), 2),
 
-                    v2nd = Math.Round(_weeklySummaryRows.Average(x => x.v2nd), 2),
-                    vAdd = Math.Round(_weeklySummaryRows.Average(x => x.vAdd), 2)
+                    v2nd = Math.Round(_weekSummaryList.Average(x => x.v2nd), 2),
+                    vAdd = Math.Round(_weekSummaryList.Average(x => x.vAdd), 2)
                 };
 
                 // 여러 행(AddRange) 대신, 최종 가공된 단 하나의 행만 추가(Add)
@@ -868,13 +1405,13 @@ namespace CeDev.DataMng
             }
             else
             {
-                totalSummaryList.Add(new SummaryItem { kind = "주별 데이터 없음" });
+                totalSummaryList.Add(new SummaryItem { catagory = "주별 데이터 없음" });
             }
 
             //================================================================================================================
             // 3. 월별
             //================================================================================================================
-            _monthSummaryRows = list
+            _monSummaryList = list
                 .Where(item =>
                 {
                     // 8자리 날짜 포맷 파싱 검증
@@ -898,45 +1435,45 @@ namespace CeDev.DataMng
                 .Select(g => new SummaryItem
                 {
                     // 세부 리스트의 구분 열에는 월 명칭이 들어감 ("M01", "M02" 등)
-                    kind = g.Key,
+                    catagory = g.Key,
 
                     // 해당 월 내의 모든 데이터를 대상으로 각 공정별 평균값 계산
-                    vPgIn = Math.Round(g.Average(x => x.Item.VPgIn ?? 0.0), 2),
-                    vNoGwang = Math.Round(g.Average(x => x.Item.VNoGwang ?? 0.0), 2),
+                    vPgIn = Math.Round(g.Average(x => x.Item.vPgIn ?? 0.0), 2),
+                    vNoGwang = Math.Round(g.Average(x => x.Item.vNoGwang ?? 0.0), 2),
 
-                    v1stA = Math.Round(g.Average(x => x.Item.V1stA ?? 0.0), 2),
-                    v1stA2 = Math.Round(g.Average(x => x.Item.V1stA2 ?? 0.0), 2),
-                    v1stB = Math.Round(g.Average(x => x.Item.V1stB ?? 0.0), 2),
-                    v1stB2 = Math.Round(g.Average(x => x.Item.V1stB2 ?? 0.0), 2),
+                    v1stA = Math.Round(g.Average(x => x.Item.v1stA ?? 0.0), 2),
+                    v1stA2 = Math.Round(g.Average(x => x.Item.v1stA2 ?? 0.0), 2),
+                    v1stB = Math.Round(g.Average(x => x.Item.v1stB ?? 0.0), 2),
+                    v1stB2 = Math.Round(g.Average(x => x.Item.v1stB2 ?? 0.0), 2),
 
-                    v2nd = Math.Round(g.Average(x => x.Item.V2nd ?? 0.0), 2),
-                    vAdd = Math.Round(g.Average(x => x.Item.VAdd ?? 0.0), 2)
+                    v2nd = Math.Round(g.Average(x => x.Item.v2nd ?? 0.0), 2),
+                    vAdd = Math.Round(g.Average(x => x.Item.vAdd ?? 0.0), 2)
                 })
-                .OrderBy(r => r.kind) // M01부터 순서대로 정렬
+                .OrderBy(r => r.catagory) // M01부터 순서대로 정렬
                 .ToList();
 
 
             // -----------------------------------------------------------------------------------------------------
             // 2. [월별 요약 리스트 가공] 생성된 월별 세부 리스트(monthSummaryRows)를 다시 1행으로 압축하여 추가
             // -----------------------------------------------------------------------------------------------------
-            if (_monthSummaryRows.Count > 0)
+            if (_monSummaryList.Count > 0)
             {
                 SummaryItem monthlyTotalRow = new SummaryItem
                 {
                     // 요약 뷰 마스터 행 타이틀 지정
-                    kind = "월별",
+                    catagory = "월별",
 
                     // 월별로 마감된 평균값들을 대상으로 최종 전체 평균 연산 (소수점 2자리)
-                    vPgIn = Math.Round(_monthSummaryRows.Average(x => x.vPgIn), 2),
-                    vNoGwang = Math.Round(_monthSummaryRows.Average(x => x.vNoGwang), 2),
+                    vPgIn = Math.Round(_monSummaryList.Average(x => x.vPgIn), 2),
+                    vNoGwang = Math.Round(_monSummaryList.Average(x => x.vNoGwang), 2),
 
-                    v1stA = Math.Round(_monthSummaryRows.Average(x => x.v1stA), 2),
-                    v1stA2 = Math.Round(_monthSummaryRows.Average(x => x.v1stA2), 2),
-                    v1stB = Math.Round(_monthSummaryRows.Average(x => x.v1stB), 2),
-                    v1stB2 = Math.Round(_monthSummaryRows.Average(x => x.v1stB2), 2),
+                    v1stA = Math.Round(_monSummaryList.Average(x => x.v1stA), 2),
+                    v1stA2 = Math.Round(_monSummaryList.Average(x => x.v1stA2), 2),
+                    v1stB = Math.Round(_monSummaryList.Average(x => x.v1stB), 2),
+                    v1stB2 = Math.Round(_monSummaryList.Average(x => x.v1stB2), 2),
 
-                    v2nd = Math.Round(_monthSummaryRows.Average(x => x.v2nd), 2),
-                    vAdd = Math.Round(_monthSummaryRows.Average(x => x.vAdd), 2)
+                    v2nd = Math.Round(_monSummaryList.Average(x => x.v2nd), 2),
+                    vAdd = Math.Round(_monSummaryList.Average(x => x.vAdd), 2)
                 };
 
                 // 요약 마스터 통합 리스트의 맨 마지막 자리에 추가
@@ -944,7 +1481,7 @@ namespace CeDev.DataMng
             }
             else
             {
-                totalSummaryList.Add(new SummaryItem { kind = "월별 데이터 없음" });
+                totalSummaryList.Add(new SummaryItem { catagory = "NoDataMon" });
             }
 
             var ddd = "333";

@@ -7,6 +7,13 @@
         public string StdDt { get; set; }
         public string Oper { get; set; }
 
+        public string Site { get; set; }
+        public string SiteNm { get; set; }
+        public string Tech { get; set; }
+        public string TechNm { get; set; }
+        public string Equip { get; set; }
+        public string EquipNm { get; set; }
+
         // 공정별 시각 (T_...)
         public string TPgIn { get; set; }
         public string TNoGwang { get; set; }
@@ -19,14 +26,14 @@
         public string End { get; set; }
 
         // 공정별 시간 계산 값 (V_...)
-        public double? VPgIn { get; set; }
-        public double? VNoGwang { get; set; }
-        public double? V1stA { get; set; }
-        public double? V1stA2 { get; set; }
-        public double? V1stB { get; set; }
-        public double? V1stB2 { get; set; }
-        public double? V2nd { get; set; }
-        public double? VAdd { get; set; }
+        public double? vPgIn { get; set; }
+        public double? vNoGwang { get; set; }
+        public double? v1stA { get; set; }
+        public double? v1stA2 { get; set; }
+        public double? v1stB { get; set; }
+        public double? v1stB2 { get; set; }
+        public double? v2nd { get; set; }
+        public double? vAdd { get; set; }
 
         // 생성 및 반출 시각
         public string LotCreateTm { get; set; }

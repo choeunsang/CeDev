@@ -1,8 +1,8 @@
 ﻿namespace CeDev.Models.BaseMng
 {
-    public class SummaryItem
+    public class DetailItem
     {
-        public string catagory { get; set; }
+        public string kind { get; set; }
 
         public double vPgIn { get; set; }
 
