@@ -14,6 +14,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.Intrinsics.X86;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -241,18 +242,33 @@ namespace CeDev.DataMng
                 {
                     case "전일":
                         {
-                            ShowPieChart(chartSite, axisLabel);
+                            //ShowPieChart(chartSite, axisLabel);
+                            //ShowPieChart(chartTech, axisLabel);
+
+                            ShowPieChartByGruop_Day(chartSite, "SITE", axisLabel);
+                            ShowPieChartByGruop_Day(chartEquip, "EQUIP", axisLabel);
+                            ShowPieChartByGruop_Day(chartTech, "TECH", axisLabel);
                         }
                         break;
 
                     case "주별":
                         ////MessageBox.Show(axisLabel);
                         //ShowDetailChart(axisLabel);
+
+                        ShowPieChartByGruop_Week(chartSite, "SITE", axisLabel);
+                        ShowPieChartByGruop_Week(chartEquip, "EQUIP", axisLabel);
+                        ShowPieChartByGruop_Week(chartTech, "TECH", axisLabel);
+
                         break;
 
                     case "월별":
                         ////MessageBox.Show(axisLabel);
                         //ShowDetailChart(axisLabel);
+
+                        ShowPieChartByGruop_Mon(chartSite, "SITE", axisLabel);
+                        ShowPieChartByGruop_Mon(chartEquip, "EQUIP", axisLabel);
+                        ShowPieChartByGruop_Mon(chartTech, "TECH", axisLabel);
+
                         break;
 
                     default:
@@ -322,17 +338,19 @@ namespace CeDev.DataMng
             {
                 case "전일":
                     {
-                        ShowPieChart_Site(pKey);
+                        //ShowPieChart_Site(pKey);
 
-                        //ShowPieChartByGruop(chartSite, "SITE", pKey);
-                        //ShowPieChartByGruop(chartEquip, "EQUIP", pKey);
-                        //ShowPieChartByGruop(chartTech, "TECH", pKey);
+                        ShowPieChartByGruop_Day(chartSite, "SITE", pKey);
+                        ShowPieChartByGruop_Day(chartEquip, "EQUIP", pKey);
+                        ShowPieChartByGruop_Day(chartTech, "TECH", pKey);
                     }
                     break;
 
                 case "주별":
                     {
-                        //ShowDetailChart_Week();
+                        ShowDetailChart_Week();
+
+                        //ShowPieChartByGruop_Week(chartSite, "SITE", pKey);
                     }
                     break;
 
@@ -428,6 +446,26 @@ namespace CeDev.DataMng
                                 {
                                     int index = stackItem.Points.AddXY(2, item.Val);
                                     stackItem.Points[index].AxisLabel = "월별";
+                                }
+                            }
+                            break;
+
+                        case "연누적":
+                            {
+                                if (stackItem.Name == item.SectNm)
+                                {
+                                    int index = stackItem.Points.AddXY(3, item.Val);
+                                    stackItem.Points[index].AxisLabel = "연누적";
+                                }
+                            }
+                            break;
+
+                        case "목표":
+                            {
+                                if (stackItem.Name == item.SectNm)
+                                {
+                                    int index = stackItem.Points.AddXY(4, item.Val);
+                                    stackItem.Points[index].AxisLabel = "목표";
                                 }
                             }
                             break;
@@ -639,57 +677,186 @@ namespace CeDev.DataMng
             }
         }
 
-        private void ShowPieChartByGruop(Chart pChart, string pGrpVal, string pKey)
+        private void ShowPieChartByGruop_Day(Chart pChart, string pGrpVal, string pKey)
         {
-            //----------------------------------------------------------------------------------------------
+            //=================================================================================================================================
             //Declare and initialize variables 
-            //----------------------------------------------------------------------------------------------
+            //=================================================================================================================================
             pChart.Series.Clear();
-
-
 
             Series pieSeries = new Series("SiteRatio");
             pieSeries.ChartType = SeriesChartType.Pie;
             pieSeries.IsValueShownAsLabel = true; // 라벨 표시 활성화
             pChart.Series.Add(pieSeries);
 
-            //----------------------------------------------------------------------------------------------
-            //Processing
-            //----------------------------------------------------------------------------------------------
-            //----------------------------------------------------------------------------------------------
-            // 2. 데이터 가공 및 개수 집계 (Processing)
-            //----------------------------------------------------------------------------------------------
-            // 해당 날짜(pKey)의 전체 데이터 개수(총합)를 구합니다.
-            double totalCount = _lotlist.Count(x => x.StdDt == pKey);
+            Func<LotItem, string> grpSel = pGrpVal switch
+            {
+                "SITE" => x=> x.SiteNm,
+                "EQUIP" => x => x.EquipNm,
+                "TECH" => x => x.TechNm,
+                _ => x => x.Site,
+            };
 
-            // 해당 날짜의 데이터를 사이트별로 그룹화하여 각각의 개수를 구합니다.
-            var siteDataList = _lotlist
-                              .Where(x => x.StdDt == pKey)
-                              .GroupBy(g => pGrpVal)
+            //=================================================================================================================================
+            //Processing
+            //=================================================================================================================================
+            double totalCount = _lotlist.Count(x => x.StdDt == pKey);            
+            var dateList = _lotlist
+                              .Where(x => x.StdDt == pKey)                              
+                              .GroupBy(grpSel)
                               .Select(g => new
                               {
                                   GrpNm = g.Key,
-                                  RowCount = g.Count() // 💡 vPgIn 대신 데이터 개수를 셉니다.
+                                  RowCount = g.Count(),
+                                  Ratio = totalCount > 0 ? (g.Count() / totalCount) * 100 : 0
                               })
                               .ToList();
 
-            //----------------------------------------------------------------------------------------------
-            // 3. 차트에 데이터 주입
-            //----------------------------------------------------------------------------------------------
-            foreach (var data in siteDataList)
-            {
-                // 차트 조각의 비율 크기를 결정하기 위해 개수(RowCount)를 주입합니다.
-                int index = pieSeries.Points.AddXY(data.GrpNm, data.RowCount);
 
-                // 백분율(%) 계산 (현재 사이트 데이터 개수 / 전체 데이터 개수 * 100)
+            //=================================================================================================================================
+            //Output
+            //=================================================================================================================================
+            foreach (var data in dateList)
+            {                
+                int index = pieSeries.Points.AddXY(data.GrpNm, data.RowCount);                
                 double percentage = totalCount > 0 ? (data.RowCount / totalCount) * 100 : 0.0;
 
-                //// 우측 범례(Legend)에 사이트명 표시
-                //pieSeries.Points[index].LegendText = data.SiteNm;
+                //pieSeries.Points[index].Label = $"{data.GrpNm}";
+                //pieSeries.Points[index].Label = $"{data.GrpNm}" + "_" + data.Ratio.ToString() + "%";
+                pieSeries.Points[index].Label = $"{data.GrpNm}" + "_" + data.RowCount.ToString();
+            }
+        }
 
-                // 파이 조각 내부에 백분율 표기 (예: "청주\n(35.5%)")
-                //pieSeries.Points[index].Label = $"{data.SiteNm}\n({Math.Round(percentage, 1)}%)";
-                pieSeries.Points[index].Label = $"{data.GrpNm}";
+        private void ShowPieChartByGruop_Week(Chart pChart, string pGrpVal, string pKey)
+        {
+            //=================================================================================================================================
+            //Declare and initialize variables 
+            //=================================================================================================================================
+            pChart.Series.Clear();
+
+            Series pieSeries = new Series("SiteRatio");
+            pieSeries.ChartType = SeriesChartType.Pie;
+            pieSeries.IsValueShownAsLabel = true; // 라벨 표시 활성화
+            pChart.Series.Add(pieSeries);
+
+            Func<LotItem, string> grpSel = pGrpVal switch
+            {
+                "SITE" => x => x.SiteNm,
+                "EQUIP" => x => x.EquipNm,
+                "TECH" => x => x.TechNm,
+                _ => x => x.Site,
+            };
+
+            //=================================================================================================================================
+            //Processing
+            //=================================================================================================================================
+            string startOfThisYear = DateTime.Today.ToString("yyyy0101");
+
+            Calendar cal = CultureInfo.InvariantCulture.Calendar;
+            CalendarWeekRule rule = CalendarWeekRule.FirstFourDayWeek;
+            DayOfWeek firstDay = DayOfWeek.Monday;
+
+            var dayInWeeklist = _lotlist
+                            .Where(x => string.Compare(x.StdDt, startOfThisYear) >= 0)
+                            .Select(x =>
+                            {
+                                var parsedDate = DateTime.ParseExact(x.StdDt, "yyyyMMdd", CultureInfo.InvariantCulture);
+                                return new
+                                {
+                                    Item = x,
+                                    WeekKey = $"WW{cal.GetWeekOfYear(parsedDate, rule, firstDay):D2}"
+                                };
+                            })                            
+                            .Where(x => x.WeekKey == pKey)
+                            .Select(x => x.Item)                            
+                            .ToList();
+
+            double totalCount = dayInWeeklist.Count();
+
+            var dateList = dayInWeeklist
+                              .GroupBy(grpSel)
+                              .Select(g => new
+                              {
+                                  GrpNm = g.Key,
+                                  RowCount = g.Count(),
+                                  Ratio = totalCount > 0 ? (g.Count() / totalCount) * 100 : 0
+                              })
+                              .ToList();
+
+            //=================================================================================================================================
+            //Output
+            //=================================================================================================================================
+            foreach (var data in dateList)
+            {
+                int index = pieSeries.Points.AddXY(data.GrpNm, data.RowCount);
+                double percentage = totalCount > 0 ? (data.RowCount / totalCount) * 100 : 0.0;
+
+                //pieSeries.Points[index].Label = $"{data.GrpNm}";
+                //pieSeries.Points[index].Label = $"{data.GrpNm}" + "_" + data.Ratio.ToString() + "%";
+                pieSeries.Points[index].Label = $"{data.GrpNm}" + "_" + data.RowCount.ToString();
+            }
+        }
+
+        private void ShowPieChartByGruop_Mon(Chart pChart, string pGrpVal, string pKey)
+        {
+            //=================================================================================================================================
+            //Declare and initialize variables 
+            //=================================================================================================================================
+            pChart.Series.Clear();
+
+            Series pieSeries = new Series("SiteRatio");
+            pieSeries.ChartType = SeriesChartType.Pie;
+            pieSeries.IsValueShownAsLabel = true; // 라벨 표시 활성화
+            pChart.Series.Add(pieSeries);
+
+            Func<LotItem, string> grpSel = pGrpVal switch
+            {
+                "SITE" => x => x.SiteNm,
+                "EQUIP" => x => x.EquipNm,
+                "TECH" => x => x.TechNm,
+                _ => x => x.Site,
+            };
+
+            //=================================================================================================================================
+            //Processing
+            //=================================================================================================================================
+            string startOfThisYear = DateTime.Today.ToString("yyyy0101");
+
+            var dayInMonthlist = _lotlist
+                                    .Where(x => string.Compare(x.StdDt, startOfThisYear) >= 0)
+                                    .Select(x => new
+                                    {
+                                        MonthKey = x.StdDt.Substring(4, 2), // "yyyyMMdd"에서 MM 추출
+                                        Item = x
+                                    })                                    
+                                    .Where(x => x.MonthKey == pKey)                                    
+                                    .Select(x => x.Item)                                                                        
+                                    .ToList();
+
+
+            double totalCount = dayInMonthlist.Count();
+
+            var dateList = dayInMonthlist
+                              .GroupBy(grpSel)
+                              .Select(g => new
+                              {
+                                  GrpNm = g.Key,
+                                  RowCount = g.Count(),
+                                  Ratio = totalCount > 0 ? (g.Count() / totalCount) * 100 : 0
+                              })
+                              .ToList();
+
+            //=================================================================================================================================
+            //Output
+            //=================================================================================================================================
+            foreach (var data in dateList)
+            {
+                int index = pieSeries.Points.AddXY(data.GrpNm, data.RowCount);
+                double percentage = totalCount > 0 ? (data.RowCount / totalCount) * 100 : 0.0;
+
+                //pieSeries.Points[index].Label = $"{data.GrpNm}";
+                //pieSeries.Points[index].Label = $"{data.GrpNm}" + "_" + data.Ratio.ToString() + "%";
+                pieSeries.Points[index].Label = $"{data.GrpNm}" + "_" + data.RowCount.ToString();
             }
         }
 
@@ -799,6 +966,7 @@ namespace CeDev.DataMng
 
             foreach (var seriesItem in detailChart.Series)
             {
+
                 for (int i = 0; i < _monDetailList.Count; i++)
                 {
                     switch (seriesItem.Name)
@@ -835,7 +1003,31 @@ namespace CeDev.DataMng
                     }
 
                     int index = seriesItem.Points.AddXY(i, val);
-                    seriesItem.Points[index].AxisLabel = _monDetailList[i].kind;
+                    seriesItem.Points[index].AxisLabel = _monDetailList[i].kind;                    
+                }
+
+                //if(12 - _monDetailList.Count > 0)
+                //{ 
+                //    var remaCnt = 12 - _monDetailList.Count;
+                //    var startMon = _monDetailList.Count + 1;
+
+                //    for(int i = 0; i < remaCnt; i++)
+                //    {
+                //        int index2 = seriesItem.Points.AddXY(startMon + (i - 1) , 0);
+                //        seriesItem.Points[index2].AxisLabel = (startMon + i).ToString("D2") ;
+                //    }
+                //}
+
+                if (12 - _monDetailList.Count > 0)
+                {
+                    var remaCnt = 12 - _monDetailList.Count;
+                    var startMon = _monDetailList.Count + 1;
+
+                    for (int i = 0; i < remaCnt; i++)
+                    {                        
+                        int index2 = seriesItem.Points.AddXY(seriesItem.Points.Count, 0);                        
+                        seriesItem.Points[index2].AxisLabel = (startMon + i).ToString("D2");
+                    }
                 }
             }
 
@@ -1021,8 +1213,7 @@ namespace CeDev.DataMng
 
                                 return new
                                 {
-                                    Item = x,
-                                    //WeekKey = $"{isoYear}-WW{cal.GetWeekOfYear(parsedDate, rule, firstDay):D2}"
+                                    Item = x,                                    
                                     WeekKey = $"WW{cal.GetWeekOfYear(parsedDate, rule, firstDay):D2}"
                                 };
                             })                            
@@ -1040,8 +1231,6 @@ namespace CeDev.DataMng
                                 vAdd = Math.Round(g.Average(x => x.Item.vAdd ?? 0.0), 2)
                             })
                             .ToList();
-
-            //var ddd = "333";
 
             // -----------------------------------------------------------------------------------------------------
             //  summary
@@ -1063,7 +1252,7 @@ namespace CeDev.DataMng
 
             totalSummaryList.Add(summaryRow);
 
-            
+
             //================================================================================================================
             // 3. 월별
             //================================================================================================================
@@ -1091,6 +1280,65 @@ namespace CeDev.DataMng
                                 vAdd = Math.Round(g.Average(x => x.Item.vAdd ?? 0.0), 2)
                             })
                             .ToList();
+
+
+            //var remainCnt = 12 - _monDetailList.Count;
+
+            //List<DetailItem> addlist = new List<DetailItem>();
+
+            //for(int i = 0; i < remainCnt; i++)
+            //{
+            //    DetailItem item = new DetailItem();
+            //    //item.kind = _monDetailList[_monDetailList.Count - 1].kind + (i + 1);
+            //    //item.kind = (int.Parse(_monDetailList[_monDetailList.Count - 1].kind) + (i + 1)).ToString("D2");
+            //    item.kind = (Convert.ToInt16(_monDetailList[_monDetailList.Count - 1].kind) + (i + 1)).ToString("D2");
+            //    addlist.Add(item);
+            //}
+
+            //foreach(var item in addlist)
+            //{
+            //    _monDetailList.Add(item);
+            //}
+
+
+            //var ddd3 = "333";
+
+
+            //// 1. 기존 연산 (데이터가 존재하는 월만 계산됨)
+            //var existingMonthData = _lotlist
+            //                .Where(x => string.Compare(x.StdDt, startOfThisYear) >= 0)
+            //                .Select(x => new
+            //                {
+            //                    MonthKey = x.StdDt.Substring(4, 2),
+            //                    Item = x
+            //                })
+            //                .GroupBy(x => x.MonthKey)
+            //                .Select(g => new DetailItem
+            //                {
+            //                    kind = g.Key,
+            //                    vPgIn = Math.Round(g.Average(x => x.Item.vPgIn ?? 0.0), 2),
+            //                    vNoGwang = Math.Round(g.Average(x => x.Item.vNoGwang ?? 0.0), 2), // 기존 괄호 오타 수정
+
+            //                    v1stA = Math.Round(g.Average(x => x.Item.v1stA ?? 0.0), 2),
+            //                    v1stA2 = Math.Round(g.Average(x => x.Item.v1stA2 ?? 0.0), 2),
+            //                    v1stB = Math.Round(g.Average(x => x.Item.v1stB ?? 0.0), 2),
+            //                    v1stB2 = Math.Round(g.Average(x => x.Item.v1stB2 ?? 0.0), 2),
+
+            //                    v2nd = Math.Round(g.Average(x => x.Item.v2nd ?? 0.0), 2),
+            //                    vAdd = Math.Round(g.Average(x => x.Item.vAdd ?? 0.0), 2)
+            //                })
+            //                .ToList();
+
+            //// 2. 1월부터 12월까지의 빈 껍데기(틀) 데이터를 만듭니다.
+            //var allMonthsFramework = Enumerable.Range(1, 12)
+            //                                   .Select(m => new DetailItem { kind = m.ToString("D2") })
+            //                                   .ToList();
+
+            //// 3. 실제 계산된 데이터와 12달 틀을 합친 뒤, 중복(kind)을 제거하고 정렬합니다.
+            //_monDetailList = existingMonthData
+            //                .Union(allMonthsFramework, new DetailItemComparer()) // 아래에 정의할 비교자 사용
+            //                .OrderBy(x => x.kind) // "01"부터 "12"까지 순서대로 정렬
+            //                .ToList();
 
             // -----------------------------------------------------------------------------------------------------
             //  summary
@@ -1690,15 +1938,32 @@ namespace CeDev.DataMng
                 new ChartDataRow { Gubun = "월별", SectNm = "노광", Val = 2 },
                 new ChartDataRow { Gubun = "월별", SectNm = "1st A", Val = 7 },
                 new ChartDataRow { Gubun = "월별", SectNm = "1st B", Val = 3 },
-                new ChartDataRow { Gubun = "월별", SectNm = "추가", Val = 1 }
+                new ChartDataRow { Gubun = "월별", SectNm = "추가", Val = 1 },
+
+                new ChartDataRow { Gubun = "연누적", SectNm = "PG In", Val = 3 },
+                new ChartDataRow { Gubun = "연누적", SectNm = "노광", Val = 2 },
+                new ChartDataRow { Gubun = "연누적", SectNm = "1st A", Val = 7 },
+                new ChartDataRow { Gubun = "연누적", SectNm = "1st B", Val = 3 },
+                new ChartDataRow { Gubun = "연누적", SectNm = "추가", Val = 1 },
+
+                new ChartDataRow { Gubun = "목표", SectNm = "PG In", Val = 3 },
+                new ChartDataRow { Gubun = "목표", SectNm = "노광", Val = 2 },
+                new ChartDataRow { Gubun = "목표", SectNm = "1st A", Val = 7 },
+                new ChartDataRow { Gubun = "목표", SectNm = "1st B", Val = 3 },
+                new ChartDataRow { Gubun = "목표", SectNm = "추가", Val = 1 }
 
 
             };
         }
 
 
+
         
     }
 
-
+    //public class DetailItemComparer : IEqualityComparer<DetailItem>
+    //{
+    //    public bool Equals(DetailItem x, DetailItem y) => x.kind == y.kind;
+    //    public int GetHashCode(DetailItem obj) => obj.kind == null ? 0 : obj.kind.GetHashCode();
+    //}
 }
