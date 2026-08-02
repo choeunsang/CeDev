@@ -211,12 +211,20 @@ namespace CeDev.DataMng
                         ShowDetailChart(axisLabel);
                         break;
 
-                    case "주별":                        
+                    case "금주":                        
                         ShowDetailChart(axisLabel);
                         break;
 
-                    case "월별":                        
+                    case "금월":                        
                         ShowDetailChart(axisLabel);
+                        break;
+
+                    case "연누적":
+                        ClearSubChart();
+                        break;
+
+                    case "목표":
+                        ClearSubChart();
                         break;
 
                     default:
@@ -227,6 +235,20 @@ namespace CeDev.DataMng
                 catagory = axisLabel;
             }            
         }
+
+        private void ClearSubChart()
+        {
+            foreach (var series in detailChart.Series)
+            {
+                series.Points.Clear();
+            }
+
+            chartSite.Series.Clear();
+            chartEquip.Series.Clear();
+            chartTech.Series.Clear();            
+        }
+
+        
 
         private void DetailChart_MouseClick(object? sender, MouseEventArgs e)
         {
@@ -255,7 +277,7 @@ namespace CeDev.DataMng
                         }
                         break;
 
-                    case "주별":
+                    case "금주":
                         ////MessageBox.Show(axisLabel);
                         //ShowDetailChart(axisLabel);
 
@@ -265,7 +287,7 @@ namespace CeDev.DataMng
 
                         break;
 
-                    case "월별":
+                    case "금월":
                         ////MessageBox.Show(axisLabel);
                         //ShowDetailChart(axisLabel);
 
@@ -303,13 +325,13 @@ namespace CeDev.DataMng
                     }                    
                     break;
 
-                case "주별":
+                case "금주":
                     {
                         ShowDetailChart_Week();                        
                     }
                     break;
 
-                case "월별":
+                case "금월":
                     {
                         ShowDetailChart_Month();                        
                     }
@@ -350,7 +372,7 @@ namespace CeDev.DataMng
                     }
                     break;
 
-                case "주별":
+                case "금주":
                     {
                         ShowDetailChart_Week();
 
@@ -358,7 +380,7 @@ namespace CeDev.DataMng
                     }
                     break;
 
-                case "월별":
+                case "금월":
                     {
                         //ShowDetailChart_Month();
                     }
@@ -371,7 +393,7 @@ namespace CeDev.DataMng
         }
 
 
-        private void DrawStackChart()
+        private void DrawStackChart2()
         {
             //--------------------------------------------------------------------------------------------------------------------------
             //Declare and initialize variables 
@@ -381,44 +403,22 @@ namespace CeDev.DataMng
                 series.Points.Clear();
             }
 
+            //total
+            double dayTotal = 0;
+            double weekTotal = 0;
+            double monTotal = 0;
+            double yearTotal = 0;
+            double targetTotal = 0;
+
             //--------------------------------------------------------------------------------------------------------------------------
             //Processing
             //--------------------------------------------------------------------------------------------------------------------------
-            //BindChartDataFromDB();
-
-            //foreach (Series series in stackChart.Series)
-            //{
-            //    // 차트에 바인딩된 데이터 개수가 최소 3개 이상인지 안전하게 체크
-            //    if (series.Points.Count >= 3)
-            //    {
-            //        // 데이터가 들어간 순서대로 "전일", "주별", "월별" 라벨을 매칭합니다.
-            //        // (BindChartDataFromDB 내부에서 전일->주별->월별 순으로 AddXY 했다고 가정)
-            //        series.Points[0].AxisLabel = "전일";
-            //        series.Points[1].AxisLabel = "주별";
-            //        series.Points[2].AxisLabel = "월별";
-            //    }
-            //}
-
-            List<ChartDataRow> list = FetchWorkResultFromDB(); // 실제 DB 조회 매서드 매핑
-
-
-
-            //foreach (var stackItem in stackChart.Series)
-            //{
-            //    double val = new Random().Next(1, 10);
-
-            //    int index = stackItem.Points.AddXY(0, val);
-            //    stackItem.Points[index].AxisLabel = ("전일");
-
-            //    index = stackItem.Points.AddXY(1, val);
-            //    stackItem.Points[index].AxisLabel = ("주별");
-
-            //    index = stackItem.Points.AddXY(2, val);
-            //    stackItem.Points[index].AxisLabel = ("월별");
-            //}
+            List<ChartDataRow> list = FetchWorkResultFromDB();
 
             foreach (var stackItem in stackChart.Series)
-            {
+            {                
+                if (stackItem.Name == "ToTal") continue;
+
                 foreach (var item in list)
                 {
                     switch (item.Gubun)
@@ -429,27 +429,33 @@ namespace CeDev.DataMng
                                 {
                                     int index = stackItem.Points.AddXY(0, item.Val);
                                     stackItem.Points[index].AxisLabel = "전일";
+                                    
+                                    dayTotal += item.Val;
                                 } 
                             }
                             break;
 
-                        case "주별":
+                        case "금주":
                             {
                                 if (stackItem.Name == item.SectNm)
                                 {
                                     int index = stackItem.Points.AddXY(1, item.Val);
-                                    stackItem.Points[index].AxisLabel = "주별";
+                                    stackItem.Points[index].AxisLabel = "금주";
+
+                                    weekTotal += item.Val;
                                 }
                             }
                             break;
 
 
-                        case "월별":
+                        case "금월":
                             {
                                 if (stackItem.Name == item.SectNm)
                                 {
                                     int index = stackItem.Points.AddXY(2, item.Val);
-                                    stackItem.Points[index].AxisLabel = "월별";
+                                    stackItem.Points[index].AxisLabel = "금월";
+
+                                    monTotal += item.Val;
                                 }
                             }
                             break;
@@ -460,6 +466,8 @@ namespace CeDev.DataMng
                                 {
                                     int index = stackItem.Points.AddXY(3, item.Val);
                                     stackItem.Points[index].AxisLabel = "연누적";
+
+                                    yearTotal += item.Val;
                                 }
                             }
                             break;
@@ -470,6 +478,8 @@ namespace CeDev.DataMng
                                 {
                                     int index = stackItem.Points.AddXY(4, item.Val);
                                     stackItem.Points[index].AxisLabel = "목표";
+
+                                    targetTotal += item.Val;
                                 }
                             }
                             break;
@@ -480,90 +490,183 @@ namespace CeDev.DataMng
                 }
             }
 
-            //stackChart.Series[0].Points[0].AxisLabel = "전일";
-            //stackChart.Series[0].Points[1].AxisLabel = "전일";
-            //stackChart.Series[0].Points[2].AxisLabel = "전일";
+            //--------------------------------------------------------------------------------------------------------------------------
+            // ⭐ [핵심 추가] ToTal 시리즈에 5개 행의 자리를 만들어주고, 전일 위치에 합계 값 넣기
+            //--------------------------------------------------------------------------------------------------------------------------
+            var totalSeries = stackChart.Series["ToTal"];
+            if (totalSeries != null)
+            {
+                // 1. 차트 레이아웃의 데이터 순서(0=전일, 1=주별...)와 동일하게 0점을 잡아 포인트 배열을 생성합니다.
+                int idx0 = totalSeries.Points.AddXY(0, 0); // 전일 행
+                int idx1 = totalSeries.Points.AddXY(1, 0); // 주별 행
+                int idx2 = totalSeries.Points.AddXY(2, 0); // 월별 행
+                int idx3 = totalSeries.Points.AddXY(3, 0); // 연누적 행
+                int idx4 = totalSeries.Points.AddXY(4, 0); // 목표 행
+                
+                //totalSeries.Color = System.Drawing.Color.Transparent;
+                totalSeries["BarLabelStyle"] = "Left";
+                
+                totalSeries.Points[idx0].Label = "      " + dayTotal.ToString();                
+                totalSeries.Points[idx1].Label = "      " + weekTotal.ToString();
+                totalSeries.Points[idx2].Label = "      " + monTotal.ToString();
+                totalSeries.Points[idx3].Label = "      " + yearTotal.ToString();
+                totalSeries.Points[idx4].Label = "      " + targetTotal.ToString();
+            }
 
-            //stackChart.ChartAreas[0].AxisX.Interval = 1;
-            //stackChart.ChartAreas[0].AxisX.LabelStyle.Interval = 1;
-            stackChart.ChartAreas[0].AxisX.IsReversed = true;
+            totalSeries.LabelFormat = "#";
 
-            //foreach (var item in list)
-            //{
-            //    switch(item.Gubun)
-            //    {
-            //        case "전일":
-            //            {
-
-            //            }
-            //            break;
-
-            //        case "주별":
-            //            {
-
-            //            }
-            //            break;
-
-
-            //        case "월별":
-            //            {
-
-            //            }
-            //            break;
-
-            //        default:
-            //            break;
-            //    }
-
-            //double val = new Random().Next(1, 10);
-
-            //int index = stackItem.Points.AddXY(0, val);
-            //stackItem.Points[index].AxisLabel = ("전일");
-
-            //index = stackItem.Points.AddXY(1, val);
-            //stackItem.Points[index].AxisLabel = ("주별");
-
-            //index = stackItem.Points.AddXY(2, val);
-            //stackItem.Points[index].AxisLabel = ("월별");
-            //}
-
-            //int index = stackChart.Series[0].Points.AddXY(0, "5");
-            //stackChart.Series[0].Points[index].AxisLabel = "전일";
-
-            //index = stackChart.Series[0].Points.AddXY(1, "5");
-            //stackChart.Series[0].Points[index].AxisLabel = "주별";
-
-
-            //int index = stackChart.Series[0].Points.AddXY(0, "5");
-            //stackChart.Series[0].Points[index].AxisLabel = "전일";
-
-            //index = stackChart.Series[0].Points.AddXY(1, "5");
-            //stackChart.Series[0].Points[index].AxisLabel = "주별";
-
-            //index = stackChart.Series[0].Points.AddXY(3, "5");
-            //stackChart.Series[0].Points[index].AxisLabel = "주별";
+            //totalSeries.BackColor = System.Drawing.Color.White;
 
             //--------------------------------------------------------------------------------------------------------------------------
             //Output
             //--------------------------------------------------------------------------------------------------------------------------
-            //if (stackChart.ChartAreas.Count > 0)
-            //{
-            //    var axisX = stackChart.ChartAreas[0].AxisX;
+            stackChart.ChartAreas[0].AxisX.IsReversed = true;
+            //stackChart.Series[0].IsValueShownAsLabel = true;
 
-            //    axisX.Interval = 1;
-            //    axisX.LabelStyle.Interval = 1;
-
-            //    // 정렬 순서 뒤집기 (금일이 위로 가게 하려면 추가, 필요 없다면 주석 처리 가능)
-            //    axisX.IsReversed = true;
-
-            //    // 기존 라벨을 깨끗이 비운 후, 1번방과 2번방에 각각 알맞은 간판을 동시에 달아줍니다.
-            //    axisX.CustomLabels.Clear();
-            //    axisX.CustomLabels.Add(0.5, 1.5, "전일"); // 1번 좌표 구역 이름
-            //    axisX.CustomLabels.Add(1.5, 2.5, "주별"); // 2번 좌표 구역 이름
-            //    axisX.CustomLabels.Add(2.5, 3.5, "월별"); // 3번 좌표 구역 이름
-            //}
+            //stackChart.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
         }
 
+        private void DrawStackChart()
+        {
+            //--------------------------------------------------------------------------------------------------------------------------
+            //Declare and initialize variables 
+            //--------------------------------------------------------------------------------------------------------------------------
+            foreach (var series in stackChart.Series)
+            {
+                series.Points.Clear();
+            }
+
+            //total
+            double dayTotal = 0;
+            double weekTotal = 0;
+            double monTotal = 0;
+            double yearTotal = 0;
+            double targetTotal = 0;
+
+            //--------------------------------------------------------------------------------------------------------------------------
+            //Processing
+            //--------------------------------------------------------------------------------------------------------------------------            
+            foreach (var stackItem in stackChart.Series)
+            {
+                if (stackItem.Name == "ToTal") continue;
+                
+                foreach (var item in totalSummaryList)
+                {
+                    double currVal = 0;
+
+                    switch(stackItem.Name)
+                    {
+                        case "PG In":
+                            currVal = item.vPgIn;
+                            break;
+                        case "노광":
+                            currVal = item.vNoGwang;
+                            break;
+                        case "1st A":
+                            currVal = item.v1stA;
+                            break;
+                        case "1st B":
+                            currVal = item.v1stB;
+                            break;
+                        case "2nd":
+                            currVal = item.v2nd;
+                            break;
+                        case "추가":
+                            currVal = item.vAdd;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    switch (item.catagory)
+                    {
+                        case "전일":
+                            {
+                                int index = stackItem.Points.AddXY(0, currVal);
+                                stackItem.Points[index].AxisLabel = "전일";
+
+                                dayTotal += currVal;                                
+                            }
+                            break;
+
+                        case "금주":
+                            {                                
+                                int index = stackItem.Points.AddXY(1, currVal);
+                                stackItem.Points[index].AxisLabel = "금주";
+
+                                weekTotal += currVal;                                
+                            }
+                            break;
+
+
+                        case "금월":
+                            {
+                                int index = stackItem.Points.AddXY(2, currVal);
+                                stackItem.Points[index].AxisLabel = "금월";
+
+                                monTotal += currVal;                                
+                            }
+                            break;
+
+                        case "연누적":
+                            {
+                                int index = stackItem.Points.AddXY(3, currVal);
+                                stackItem.Points[index].AxisLabel = "연누적";
+
+                                yearTotal += currVal;                                
+                            }
+                            break;
+
+                        case "목표":
+                            {
+                                int index = stackItem.Points.AddXY(4, currVal);
+                                stackItem.Points[index].AxisLabel = "목표";
+
+                                targetTotal += currVal;                                
+                            }
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            //--------------------------------------------------------------------------------------------------------------------------
+            // ⭐ [핵심 추가] ToTal 시리즈에 5개 행의 자리를 만들어주고, 전일 위치에 합계 값 넣기
+            //--------------------------------------------------------------------------------------------------------------------------
+            var totalSeries = stackChart.Series["ToTal"];
+            if (totalSeries != null)
+            {
+                // 1. 차트 레이아웃의 데이터 순서(0=전일, 1=주별...)와 동일하게 0점을 잡아 포인트 배열을 생성합니다.
+                int idx0 = totalSeries.Points.AddXY(0, 0); // 전일 행
+                int idx1 = totalSeries.Points.AddXY(1, 0); // 주별 행
+                int idx2 = totalSeries.Points.AddXY(2, 0); // 월별 행
+                int idx3 = totalSeries.Points.AddXY(3, 0); // 연누적 행
+                int idx4 = totalSeries.Points.AddXY(4, 0); // 목표 행
+
+                //totalSeries.Color = System.Drawing.Color.Transparent;
+                totalSeries["BarLabelStyle"] = "Left";
+
+                totalSeries.Points[idx0].Label = "      " + dayTotal.ToString();
+                totalSeries.Points[idx1].Label = "      " + weekTotal.ToString();
+                totalSeries.Points[idx2].Label = "      " + monTotal.ToString();
+                totalSeries.Points[idx3].Label = "      " + yearTotal.ToString();
+                totalSeries.Points[idx4].Label = "      " + targetTotal.ToString();
+                
+            }
+
+            totalSeries.LabelFormat = "#";
+            //totalSeries.BackColor = System.Drawing.Color.White;
+
+            //totalSeries.Points[idx4].Label = "      " + targetTotal.ToString();
+
+            //--------------------------------------------------------------------------------------------------------------------------
+            //Output
+            //--------------------------------------------------------------------------------------------------------------------------
+            stackChart.ChartAreas[0].AxisX.IsReversed = true;
+            //stackChart.Series[0].IsValueShownAsLabel = true;
+        }
 
         private void SetSeriesStackChart()
         {
@@ -582,8 +685,18 @@ namespace CeDev.DataMng
                 Series series = new Series(item.Nm);
                 series.ChartType = SeriesChartType.StackedBar;
                 
+                series.IsValueShownAsLabel = true;
                 stackChart.Series.Add(series);
             }
+
+
+            //총계값 보여줄 - Total series 추가 
+            var addSeries = new Series("ToTal");
+            addSeries.ChartType = SeriesChartType.StackedBar;
+            //addSeries.IsValueShownAsLabel = true;
+            addSeries.IsVisibleInLegend = false;
+
+            stackChart.Series.Add(addSeries);
 
             //---------------------------------------------------------------------------------------------------
             //Output
@@ -2007,17 +2120,17 @@ namespace CeDev.DataMng
                 new ChartDataRow { Gubun = "전일", SectNm = "1st B", Val = 3 },
                 new ChartDataRow { Gubun = "전일", SectNm = "추가", Val = 1 },
 
-                new ChartDataRow { Gubun = "주별", SectNm = "PG In", Val = 2 },
-                new ChartDataRow { Gubun = "주별", SectNm = "노광", Val = 1 },
-                new ChartDataRow { Gubun = "주별", SectNm = "1st A", Val = 3 },
-                new ChartDataRow { Gubun = "주별", SectNm = "1st B", Val = 6 },
-                new ChartDataRow { Gubun = "주별", SectNm = "추가", Val = 2 },
+                new ChartDataRow { Gubun = "금주", SectNm = "PG In", Val = 2 },
+                new ChartDataRow { Gubun = "금주", SectNm = "노광", Val = 1 },
+                new ChartDataRow { Gubun = "금주", SectNm = "1st A", Val = 3 },
+                new ChartDataRow { Gubun = "금주", SectNm = "1st B", Val = 6 },
+                new ChartDataRow { Gubun = "금주", SectNm = "추가", Val = 2 },
 
-                new ChartDataRow { Gubun = "월별", SectNm = "PG In", Val = 3 },
-                new ChartDataRow { Gubun = "월별", SectNm = "노광", Val = 2 },
-                new ChartDataRow { Gubun = "월별", SectNm = "1st A", Val = 7 },
-                new ChartDataRow { Gubun = "월별", SectNm = "1st B", Val = 3 },
-                new ChartDataRow { Gubun = "월별", SectNm = "추가", Val = 1 },
+                new ChartDataRow { Gubun = "금월", SectNm = "PG In", Val = 3 },
+                new ChartDataRow { Gubun = "금월", SectNm = "노광", Val = 2 },
+                new ChartDataRow { Gubun = "금월", SectNm = "1st A", Val = 7 },
+                new ChartDataRow { Gubun = "금월", SectNm = "1st B", Val = 3 },
+                new ChartDataRow { Gubun = "금월", SectNm = "추가", Val = 1 },
 
                 new ChartDataRow { Gubun = "연누적", SectNm = "PG In", Val = 3 },
                 new ChartDataRow { Gubun = "연누적", SectNm = "노광", Val = 2 },
