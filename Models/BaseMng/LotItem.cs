@@ -3,8 +3,13 @@
     public class LotItem
     {
         // 이미지 내 SQL 컬럼 기반 추가 필드
-        public string LotId { get; set; }
+        public string LotId { get; set; }        
         public string StdDt { get; set; }
+
+        public string LotInfo { get; set; }
+
+        public string Wave { get; set; }
+
         public string Oper { get; set; }
 
         public string Site { get; set; }

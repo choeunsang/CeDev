@@ -40,7 +40,7 @@ namespace CeDev.DataMng
         private List<string> weeklist = new List<string>();
         private List<string> monlist = new List<string>();
 
-        List<LotItem> _lotlist = new List<LotItem>();        
+        List<LotItem> _lotlist = new List<LotItem>();
 
         List<DetailItem> _dayDetailList = new List<DetailItem>();
         List<DetailItem> _weekDetailList = new List<DetailItem>();
@@ -57,10 +57,10 @@ namespace CeDev.DataMng
         private List<SummaryItem> _targetSummaryList = new List<SummaryItem>();
 
         public TDashBoard()
-        {            
+        {
             InitializeComponent();
             InitEvents();
-            InitControls();            
+            InitControls();
         }
 
         private void InitEvents()
@@ -75,7 +75,7 @@ namespace CeDev.DataMng
             gridDay.Visible = false;
             gridWeek.Visible = false;
             gridMonth.Visible = false;
-            
+
             //await GetPuInfo();
             //await GetWaveInfo();
             //await GetSectInfo();
@@ -87,7 +87,7 @@ namespace CeDev.DataMng
             cboWave.DataSource = null;
             cboWave.Items.Clear();
 
-            //cboWave.Items.Add("전체");
+            cboWave.Items.Add("ALL");
             cboWave.Items.Add("EUV");
             cboWave.Items.Add("Arf_I");
             cboWave.Items.Add("Arf_F");
@@ -200,22 +200,22 @@ namespace CeDev.DataMng
 
             // 클릭한 곳이 데이터 포인트(막대)인 경우에만 실행합니다.
             if (result.ChartElementType == ChartElementType.DataPoint)
-            {                
-                int pointIndex = result.PointIndex;                
-                Series selectedSeries = result.Series;                
+            {
+                int pointIndex = result.PointIndex;
+                Series selectedSeries = result.Series;
                 string axisLabel = selectedSeries.Points[pointIndex].AxisLabel;
 
                 switch (axisLabel)
                 {
-                    case "전일":                        
+                    case "전일":
                         ShowDetailChart(axisLabel);
                         break;
 
-                    case "금주":                        
+                    case "금주":
                         ShowDetailChart(axisLabel);
                         break;
 
-                    case "금월":                        
+                    case "금월":
                         ShowDetailChart(axisLabel);
                         break;
 
@@ -233,7 +233,7 @@ namespace CeDev.DataMng
                 }
 
                 catagory = axisLabel;
-            }            
+            }
         }
 
         private void ClearSubChart()
@@ -245,10 +245,10 @@ namespace CeDev.DataMng
 
             chartSite.Series.Clear();
             chartEquip.Series.Clear();
-            chartTech.Series.Clear();            
+            chartTech.Series.Clear();
         }
 
-        
+
 
         private void DetailChart_MouseClick(object? sender, MouseEventArgs e)
         {
@@ -321,19 +321,19 @@ namespace CeDev.DataMng
             {
                 case "전일":
                     {
-                        ShowDetailChart_Day();                        
-                    }                    
+                        ShowDetailChart_Day();
+                    }
                     break;
 
                 case "금주":
                     {
-                        ShowDetailChart_Week();                        
+                        ShowDetailChart_Week();
                     }
                     break;
 
                 case "금월":
                     {
-                        ShowDetailChart_Month();                        
+                        ShowDetailChart_Month();
                     }
                     break;
 
@@ -353,7 +353,7 @@ namespace CeDev.DataMng
             //    series.Points.Clear();
             //}
 
-            
+
 
 
 
@@ -416,7 +416,7 @@ namespace CeDev.DataMng
             List<ChartDataRow> list = FetchWorkResultFromDB();
 
             foreach (var stackItem in stackChart.Series)
-            {                
+            {
                 if (stackItem.Name == "ToTal") continue;
 
                 foreach (var item in list)
@@ -424,14 +424,14 @@ namespace CeDev.DataMng
                     switch (item.Gubun)
                     {
                         case "전일":
-                            {        
-                                if(stackItem.Name == item.SectNm)
+                            {
+                                if (stackItem.Name == item.SectNm)
                                 {
                                     int index = stackItem.Points.AddXY(0, item.Val);
                                     stackItem.Points[index].AxisLabel = "전일";
-                                    
+
                                     dayTotal += item.Val;
-                                } 
+                                }
                             }
                             break;
 
@@ -502,11 +502,11 @@ namespace CeDev.DataMng
                 int idx2 = totalSeries.Points.AddXY(2, 0); // 월별 행
                 int idx3 = totalSeries.Points.AddXY(3, 0); // 연누적 행
                 int idx4 = totalSeries.Points.AddXY(4, 0); // 목표 행
-                
+
                 //totalSeries.Color = System.Drawing.Color.Transparent;
                 totalSeries["BarLabelStyle"] = "Left";
-                
-                totalSeries.Points[idx0].Label = "      " + dayTotal.ToString();                
+
+                totalSeries.Points[idx0].Label = "      " + dayTotal.ToString();
                 totalSeries.Points[idx1].Label = "      " + weekTotal.ToString();
                 totalSeries.Points[idx2].Label = "      " + monTotal.ToString();
                 totalSeries.Points[idx3].Label = "      " + yearTotal.ToString();
@@ -549,12 +549,12 @@ namespace CeDev.DataMng
             foreach (var stackItem in stackChart.Series)
             {
                 if (stackItem.Name == "ToTal") continue;
-                
+
                 foreach (var item in totalSummaryList)
                 {
                     double currVal = 0;
 
-                    switch(stackItem.Name)
+                    switch (stackItem.Name)
                     {
                         case "PG In":
                             currVal = item.vPgIn;
@@ -585,16 +585,16 @@ namespace CeDev.DataMng
                                 int index = stackItem.Points.AddXY(0, currVal);
                                 stackItem.Points[index].AxisLabel = "전일";
 
-                                dayTotal += currVal;                                
+                                dayTotal += currVal;
                             }
                             break;
 
                         case "금주":
-                            {                                
+                            {
                                 int index = stackItem.Points.AddXY(1, currVal);
                                 stackItem.Points[index].AxisLabel = "금주";
 
-                                weekTotal += currVal;                                
+                                weekTotal += currVal;
                             }
                             break;
 
@@ -604,7 +604,7 @@ namespace CeDev.DataMng
                                 int index = stackItem.Points.AddXY(2, currVal);
                                 stackItem.Points[index].AxisLabel = "금월";
 
-                                monTotal += currVal;                                
+                                monTotal += currVal;
                             }
                             break;
 
@@ -613,7 +613,7 @@ namespace CeDev.DataMng
                                 int index = stackItem.Points.AddXY(3, currVal);
                                 stackItem.Points[index].AxisLabel = "연누적";
 
-                                yearTotal += currVal;                                
+                                yearTotal += currVal;
                             }
                             break;
 
@@ -622,7 +622,7 @@ namespace CeDev.DataMng
                                 int index = stackItem.Points.AddXY(4, currVal);
                                 stackItem.Points[index].AxisLabel = "목표";
 
-                                targetTotal += currVal;                                
+                                targetTotal += currVal;
                             }
                             break;
 
@@ -653,7 +653,7 @@ namespace CeDev.DataMng
                 totalSeries.Points[idx2].Label = "      " + monTotal.ToString();
                 totalSeries.Points[idx3].Label = "      " + yearTotal.ToString();
                 totalSeries.Points[idx4].Label = "      " + targetTotal.ToString();
-                
+
             }
 
             totalSeries.LabelFormat = "#";
@@ -684,7 +684,7 @@ namespace CeDev.DataMng
             {
                 Series series = new Series(item.Nm);
                 series.ChartType = SeriesChartType.StackedBar;
-                
+
                 series.IsValueShownAsLabel = true;
                 stackChart.Series.Add(series);
             }
@@ -876,7 +876,7 @@ namespace CeDev.DataMng
 
             Func<LotItem, string> grpSel = pGrpVal switch
             {
-                "SITE" => x=> x.SiteNm,
+                "SITE" => x => x.SiteNm,
                 "EQUIP" => x => x.EquipNm,
                 "TECH" => x => x.TechNm,
                 _ => x => x.Site,
@@ -885,9 +885,9 @@ namespace CeDev.DataMng
             //=================================================================================================================================
             //Processing
             //=================================================================================================================================
-            double totalCount = _lotlist.Count(x => x.StdDt == pKey);            
+            double totalCount = _lotlist.Count(x => x.StdDt == pKey);
             var dateList = _lotlist
-                              .Where(x => x.StdDt == pKey)                              
+                              .Where(x => x.StdDt == pKey)
                               .GroupBy(grpSel)
                               .Select(g => new
                               {
@@ -902,8 +902,8 @@ namespace CeDev.DataMng
             //Output
             //=================================================================================================================================
             foreach (var data in dateList)
-            {                
-                int index = pieSeries.Points.AddXY(data.GrpNm, data.RowCount);                
+            {
+                int index = pieSeries.Points.AddXY(data.GrpNm, data.RowCount);
                 double percentage = totalCount > 0 ? (data.RowCount / totalCount) * 100 : 0.0;
 
                 //pieSeries.Points[index].Label = $"{data.GrpNm}";
@@ -951,9 +951,9 @@ namespace CeDev.DataMng
                                     Item = x,
                                     WeekKey = $"WW{cal.GetWeekOfYear(parsedDate, rule, firstDay):D2}"
                                 };
-                            })                            
+                            })
                             .Where(x => x.WeekKey == pKey)
-                            .Select(x => x.Item)                            
+                            .Select(x => x.Item)
                             .ToList();
 
             double totalCount = dayInWeeklist.Count();
@@ -1013,9 +1013,9 @@ namespace CeDev.DataMng
                                     {
                                         MonthKey = x.StdDt.Substring(4, 2), // "yyyyMMdd"에서 MM 추출
                                         Item = x
-                                    })                                    
-                                    .Where(x => x.MonthKey == pKey)                                    
-                                    .Select(x => x.Item)                                                                        
+                                    })
+                                    .Where(x => x.MonthKey == pKey)
+                                    .Select(x => x.Item)
                                     .ToList();
 
 
@@ -1057,7 +1057,7 @@ namespace CeDev.DataMng
                     {
                         case "PG In":
                             {
-                                val = _dayDetailList[i].vPgIn; 
+                                val = _dayDetailList[i].vPgIn;
                             }
                             break;
 
@@ -1069,7 +1069,7 @@ namespace CeDev.DataMng
 
                         case "1st":
                             {
-                                double avg = _dayDetailList[i].v1stA  + _dayDetailList[i].v1stB  / 2.0;
+                                double avg = _dayDetailList[i].v1stA + _dayDetailList[i].v1stB / 2.0;
                             }
                             break;
 
@@ -1188,7 +1188,7 @@ namespace CeDev.DataMng
                     }
 
                     int index = seriesItem.Points.AddXY(i, val);
-                    seriesItem.Points[index].AxisLabel = _monDetailList[i].kind;                    
+                    seriesItem.Points[index].AxisLabel = _monDetailList[i].kind;
                 }
 
                 //if(12 - _monDetailList.Count > 0)
@@ -1209,8 +1209,8 @@ namespace CeDev.DataMng
                     var startMon = _monDetailList.Count + 1;
 
                     for (int i = 0; i < remaCnt; i++)
-                    {                        
-                        int index2 = seriesItem.Points.AddXY(seriesItem.Points.Count, 0);                        
+                    {
+                        int index2 = seriesItem.Points.AddXY(seriesItem.Points.Count, 0);
                         seriesItem.Points[index2].AxisLabel = (startMon + i).ToString("D2");
                     }
                 }
@@ -1307,8 +1307,116 @@ namespace CeDev.DataMng
 
             gridLot.DataSource = list;
 
-            _lotlist = list.ToList();            
+            _lotlist = list.ToList();
+
+            ShowKpiYieldInfo();
+            ShowKpiTatInfo();
+
             MakeDataList();
+        }
+
+        private void ShowKpiTatInfo()
+        {
+            //-----------------------------------------------------------------------------------------------------------------
+            //Declare and initialize variables
+            //-----------------------------------------------------------------------------------------------------------------
+            var tatlist = _lotlist
+                            .Select(x =>
+                            {
+                                var totalTat = (x.vPgIn ?? 0.0)
+                                                + (x.vNoGwang ?? 0.0)
+
+                                                + (x.v1stA ?? 0.0)
+                                                + (x.v1stA2 ?? 0.0)
+                                                + (x.v1stB ?? 0.0)
+                                                + (x.v1stB2 ?? 0.0)
+
+                                                + (x.v2nd ?? 0.0)
+                                                + (x.vAdd ?? 0.0);
+
+                                return new
+                                {
+                                    tat = Math.Round(totalTat, 2),
+                                    Item = x
+                                };
+
+                            }).ToList();
+
+            //-----------------------------------------------------------------------------------------------------------------
+            //Processing
+            //-----------------------------------------------------------------------------------------------------------------
+            //파장(wave) - 코드 정보
+            //EUV       --01
+            //Arf_I     --02 
+            //Arf_F     --03
+
+            //var totalCnt = tatlist.Count;
+            //var euvCnt = tatlist.Count(x => x.Item.Wave == "01");
+            //var arf_I_Cnt = tatlist.Count(x => x.Item.Wave == "02");
+            //var arf_F_Cnt = tatlist.Count(x => x.Item.Wave == "03");
+
+            //var dfdfeg = euvCnt + arf_I_Cnt + arf_F_Cnt;
+
+            var euvTat = Math.Round(tatlist.Where(x => x.Item.Wave == "01").Average(x => x.tat), 2);
+            var arf_I_Tat = Math.Round(tatlist.Where(x => x.Item.Wave == "02").Average(x => x.tat), 2);
+            var arf_F_Tat = Math.Round(tatlist.Where(x => x.Item.Wave == "03").Average(x => x.tat), 2);
+
+            //-----------------------------------------------------------------------------------------------------------------
+            //Output
+            //-----------------------------------------------------------------------------------------------------------------
+            lblEuv_Tat.Text = $"{euvTat:F2}";
+            lblArf_I_Tat.Text = $"{arf_I_Tat:F2}";
+            lblArf_F_Tat.Text = $"{arf_F_Tat:F2}";
+        }
+
+
+        private void ShowKpiYieldInfo()
+        {
+            //-----------------------------------------------------------------------------------------------------------------
+            //Declare and initialize variables
+            //-----------------------------------------------------------------------------------------------------------------
+            var totalCnt = _lotlist.ToList().Count;
+            var goodCnt = _lotlist.Where(x => x.LotInfo == "정품").ToList().Count;
+            var defectCnt = _lotlist.Where(x => x.LotInfo != "정품").ToList().Count;
+
+            //파장(wave) - 코드 정보
+            //EUV       --01
+            //Arf_I     --02 
+            //Arf_F     --03
+
+            var euv_Cnt = _lotlist.Where(x => x.Wave == "01").ToList().Count;
+            var euv_goodCnt = _lotlist.Where(x => x.LotInfo == "정품" && x.Wave == "01").ToList().Count;
+            var euv_defectCnt = _lotlist.Where(x => x.LotInfo != "정품" && x.Wave == "01").ToList().Count;
+
+            var arf_I_Cnt = _lotlist.Where(x => x.Wave == "02").ToList().Count;
+            var arf_I_goodCnt = _lotlist.Where(x => x.LotInfo == "정품" && x.Wave == "02").ToList().Count;
+            var arf_I_defectCnt = _lotlist.Where(x => x.LotInfo != "정품" && x.Wave == "02").ToList().Count;
+
+            var arf_F_Cnt = _lotlist.Where(x => x.Wave == "03").ToList().Count;
+            var arf_F_goodCnt = _lotlist.Where(x => x.LotInfo == "정품" && x.Wave == "03").ToList().Count;
+            var arf_F_defectCnt = _lotlist.Where(x => x.LotInfo != "정품" && x.Wave == "03").ToList().Count;
+
+            //-----------------------------------------------------------------------------------------------------------------
+            //Processing
+            //-----------------------------------------------------------------------------------------------------------------
+            double euvYield = 0;
+            double arf_I_Yield = 0;
+            double arf_F_Yield = 0;
+
+
+            euvYield = Math.Round(((double)euv_goodCnt / euv_Cnt) * 100, 2);
+            arf_I_Yield = Math.Round(((double)arf_I_goodCnt / arf_I_Cnt) * 100, 2);
+            arf_F_Yield = Math.Round(((double)arf_F_goodCnt / arf_F_Cnt) * 100, 2);
+
+            //var ccc = "333";
+
+            //-----------------------------------------------------------------------------------------------------------------
+            //Output
+            //-----------------------------------------------------------------------------------------------------------------
+            lblEuvYield.Text = euvYield.ToString() + "%";
+            lblArf_I_Yield.Text = arf_I_Yield.ToString() + "%";
+            lblArf_F_Yield.Text = arf_F_Yield.ToString() + "%";
+            
         }
 
         //private void MakeDataList(List<LotItem> list)
@@ -1329,6 +1437,7 @@ namespace CeDev.DataMng
 
 
 
+
             //================================================================================================================
             // 1. 전일
             //================================================================================================================           
@@ -1338,7 +1447,7 @@ namespace CeDev.DataMng
             // -----------------------------------------------------------------------------------------------------
             _dayDetailList = _lotlist
                             .Where(x => DateTime.ParseExact(x.StdDt, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture) >= thirtyDaysAgoFromYesterday
-                                     && DateTime.ParseExact(x.StdDt, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture) <= yesterday)                            
+                                     && DateTime.ParseExact(x.StdDt, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture) <= yesterday)
                             .GroupBy(x => x.StdDt)
                             .Select(g => new DetailItem
                             {
@@ -1399,7 +1508,7 @@ namespace CeDev.DataMng
 
 
             //================================================================================================================
-            // 2. 주별
+            // 2. 금주
             //================================================================================================================           
             string startOfThisYear = DateTime.Today.ToString("yyyy0101");
 
@@ -1409,7 +1518,8 @@ namespace CeDev.DataMng
 
             _weekDetailList = _lotlist
                               .Where(x => string.Compare(x.StdDt, startOfThisYear) >= 0)
-                              .Select(x => {
+                              .Select(x =>
+                              {
 
                                   var parsedDate = DateTime.ParseExact(x.StdDt, "yyyyMMdd", CultureInfo.InvariantCulture);
                                   int weekNum = cal.GetWeekOfYear(parsedDate, rule, firstDay);
@@ -1439,7 +1549,6 @@ namespace CeDev.DataMng
                                   v2nd = Math.Round(g.Average(x => x.Item.v2nd ?? 0.0), 2),
                                   vAdd = Math.Round(g.Average(x => x.Item.vAdd ?? 0.0), 2)
                               })
-                              //.OrderBy(x => x.kind)
                               .ToList();
 
             // -----------------------------------------------------------------------------------------------------
@@ -1484,10 +1593,10 @@ namespace CeDev.DataMng
                         })
                         .FirstOrDefault();
 
-            totalSummaryList.Add(summaryRow);   
+            totalSummaryList.Add(summaryRow);
 
             //================================================================================================================
-            // 3. 월별
+            // 3. 금월
             //================================================================================================================
             _monDetailList = _lotlist
                             .Where(x => string.Compare(x.StdDt, startOfThisYear) >= 0)
@@ -1567,7 +1676,7 @@ namespace CeDev.DataMng
                                 YearKey = x.StdDt.Substring(0, 4),
                                 Item = x
                             })
-                            .GroupBy(x => x.YearKey)                            
+                            .GroupBy(x => x.YearKey)
                             .Select(g => new DetailItem
                             {
                                 kind = g.Key,
@@ -1636,11 +1745,11 @@ namespace CeDev.DataMng
                             .Select(g =>
                             {
                                 double GetRandomOffset() => (rand.NextDouble() * 0.1) - 0.05;
-                                
+
                                 return new DetailItem
                                 {
                                     kind = g.Key,
-                                    vPgIn = Math.Round(g.Average(x => x.Item.vPgIn ?? 0.0)  + GetRandomOffset(), 2),
+                                    vPgIn = Math.Round(g.Average(x => x.Item.vPgIn ?? 0.0) + GetRandomOffset(), 2),
                                     vNoGwang = Math.Round(g.Average(x => x.Item.vNoGwang ?? 0.0) + GetRandomOffset(), 2),
 
                                     v1stA = Math.Round(g.Average(x => x.Item.v1stA ?? 0.0) + GetRandomOffset(), 2),
@@ -1693,44 +1802,44 @@ namespace CeDev.DataMng
             //================================================================================================================
             // 1. 전일
             //================================================================================================================
-             _daySummaryList = list
-                .Where(item =>
-                {
-                    if (DateTime.TryParseExact(item.StdDt, "yyyyMMdd",
-                                               System.Globalization.CultureInfo.InvariantCulture,
-                                               System.Globalization.DateTimeStyles.None,
-                                               out DateTime itemDate))
-                    {
-                        return itemDate >= thirtyDaysAgoFromYesterday && itemDate <= yesterday;
-                    }
-                    return false;
-                })
-                .Select(item => new
-                {
-                    // "20260702" -> "2026-07-02" 형태로 날짜 키 생성
-                    DateName = DateTime.ParseExact(item.StdDt, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture).ToString("yyyy-MM-dd"),
-                    Item = item
-                })
-                .GroupBy(x => x.DateName) // 날짜별로 그룹 묶기
-                .Select(g => new SummaryItem
-                {
-                    // 세부 리스트의 구분 열에는 실제 날짜가 들어감
-                    catagory = g.Key,
+            _daySummaryList = list
+               .Where(item =>
+               {
+                   if (DateTime.TryParseExact(item.StdDt, "yyyyMMdd",
+                                              System.Globalization.CultureInfo.InvariantCulture,
+                                              System.Globalization.DateTimeStyles.None,
+                                              out DateTime itemDate))
+                   {
+                       return itemDate >= thirtyDaysAgoFromYesterday && itemDate <= yesterday;
+                   }
+                   return false;
+               })
+               .Select(item => new
+               {
+                   // "20260702" -> "2026-07-02" 형태로 날짜 키 생성
+                   DateName = DateTime.ParseExact(item.StdDt, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture).ToString("yyyy-MM-dd"),
+                   Item = item
+               })
+               .GroupBy(x => x.DateName) // 날짜별로 그룹 묶기
+               .Select(g => new SummaryItem
+               {
+                   // 세부 리스트의 구분 열에는 실제 날짜가 들어감
+                   catagory = g.Key,
 
-                    // 해당 날짜의 공정별 평균값 계산
-                    vPgIn = Math.Round(g.Average(x => x.Item.vPgIn ?? 0.0), 2),
-                    vNoGwang = Math.Round(g.Average(x => x.Item.vNoGwang ?? 0.0), 2),
+                   // 해당 날짜의 공정별 평균값 계산
+                   vPgIn = Math.Round(g.Average(x => x.Item.vPgIn ?? 0.0), 2),
+                   vNoGwang = Math.Round(g.Average(x => x.Item.vNoGwang ?? 0.0), 2),
 
-                    v1stA = Math.Round(g.Average(x => x.Item.v1stA ?? 0.0), 2),
-                    v1stA2 = Math.Round(g.Average(x => x.Item.v1stA2 ?? 0.0), 2),
-                    v1stB = Math.Round(g.Average(x => x.Item.v1stB ?? 0.0), 2),
-                    v1stB2 = Math.Round(g.Average(x => x.Item.v1stB2 ?? 0.0), 2),
+                   v1stA = Math.Round(g.Average(x => x.Item.v1stA ?? 0.0), 2),
+                   v1stA2 = Math.Round(g.Average(x => x.Item.v1stA2 ?? 0.0), 2),
+                   v1stB = Math.Round(g.Average(x => x.Item.v1stB ?? 0.0), 2),
+                   v1stB2 = Math.Round(g.Average(x => x.Item.v1stB2 ?? 0.0), 2),
 
-                    v2nd = Math.Round(g.Average(x => x.Item.v2nd ?? 0.0), 2),
-                    vAdd = Math.Round(g.Average(x => x.Item.vAdd ?? 0.0), 2)
-                })
-                .OrderBy(r => r.catagory) // 과거 날짜부터 순서대로 정렬
-                .ToList();
+                   v2nd = Math.Round(g.Average(x => x.Item.v2nd ?? 0.0), 2),
+                   vAdd = Math.Round(g.Average(x => x.Item.vAdd ?? 0.0), 2)
+               })
+               .OrderBy(r => r.catagory) // 과거 날짜부터 순서대로 정렬
+               .ToList();
 
             // -----------------------------------------------------------------------------------------------------
             // 2. [요약 리스트 가공] 생성된 전일 세부 리스트(daySummaryRows)를 다시 통째로 평균 내어 1행으로 압축
@@ -1980,7 +2089,7 @@ namespace CeDev.DataMng
             //gridDay.DataSource = daySummaryList;
 
 
-         
+
 
             //-----------------------------------------------------------------------------------------------------
             // 2. 주차별 그룹화 및 VPgIn 합산 연산 진행
@@ -2103,7 +2212,7 @@ namespace CeDev.DataMng
                 if (gubunToXAxis.TryGetValue(row.Gubun, out double xAxisValue))
                 {
                     // 찾은 Series의 해당 X좌표에 Y값(수치)을 추가
-                    targetSeries.Points.AddXY(xAxisValue, row.Val);                    
+                    targetSeries.Points.AddXY(xAxisValue, row.Val);
                 }
             }
         }
@@ -2144,7 +2253,12 @@ namespace CeDev.DataMng
                 new ChartDataRow { Gubun = "목표", SectNm = "1st B", Val = 3 },
                 new ChartDataRow { Gubun = "목표", SectNm = "추가", Val = 1 }
             };
-        }        
+        }
+
+        private void tableLayoutPanel5_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 
     //public class DetailItemComparer : IEqualityComparer<DetailItem>

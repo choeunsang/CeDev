@@ -28,56 +28,85 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea11 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend11 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 0D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(1D, 0D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2D, 0D);
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea12 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend12 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea13 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend13 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series13 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea14 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend14 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series14 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea15 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend15 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series15 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(0D, 0D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(1D, 0D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(2D, 0D);
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend7 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend8 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea9 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend9 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea10 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend10 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
             label2 = new Label();
             tableLayoutPanel1 = new TableLayoutPanel();
             stackChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             tableLayoutPanel4 = new TableLayoutPanel();
+            chartTech = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            chartEquip = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            chartSite = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            tableLayoutPanel2 = new TableLayoutPanel();
+            btnSearch = new Button();
+            cboWave = new ComboBox();
+            label1 = new Label();
+            tableLayoutPanel3 = new TableLayoutPanel();
+            detailChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            gridSection = new DataGridView();
             gridMonth = new DataGridView();
             gridWeek = new DataGridView();
             gridDay = new DataGridView();
-            detailChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            tableLayoutPanel2 = new TableLayoutPanel();
-            label1 = new Label();
-            cboWave = new ComboBox();
-            tableLayoutPanel3 = new TableLayoutPanel();
-            btnSearch = new Button();
             gridLot = new DataGridView();
-            gridSection = new DataGridView();
-            chartSite = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            chartEquip = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            chartTech = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            tableLayoutPanel5 = new TableLayoutPanel();
+            lblArf_F_ProcState = new Label();
+            lblArf_I_ProcState = new Label();
+            lblEuvProcState = new Label();
+            label26 = new Label();
+            label25 = new Label();
+            label24 = new Label();
+            label23 = new Label();
+            label22 = new Label();
+            label21 = new Label();
+            label20 = new Label();
+            label19 = new Label();
+            label18 = new Label();
+            label17 = new Label();
+            lblArf_F_Yield = new Label();
+            lblArf_F_Tat = new Label();
+            label14 = new Label();
+            lblArf_I_Yield = new Label();
+            lblArf_I_Tat = new Label();
+            lblEuvYield = new Label();
+            lblEuv_Tat = new Label();
+            label9 = new Label();
+            label6 = new Label();
+            label5 = new Label();
+            label4 = new Label();
+            label3 = new Label();
+            lblTime = new Label();
+            label7 = new Label();
+            label8 = new Label();
             tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)stackChart).BeginInit();
             tableLayoutPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)chartTech).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)chartEquip).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)chartSite).BeginInit();
+            tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)detailChart).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)gridSection).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gridMonth).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gridWeek).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gridDay).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)detailChart).BeginInit();
-            tableLayoutPanel2.SuspendLayout();
-            tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)gridLot).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)gridSection).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)chartSite).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)chartEquip).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)chartTech).BeginInit();
+            tableLayoutPanel5.SuspendLayout();
             SuspendLayout();
             // 
             // label2
@@ -100,38 +129,38 @@
             tableLayoutPanel1.Controls.Add(tableLayoutPanel3, 0, 0);
             tableLayoutPanel1.Controls.Add(detailChart, 1, 1);
             tableLayoutPanel1.Controls.Add(gridSection, 0, 2);
-            tableLayoutPanel1.Location = new Point(12, 48);
+            tableLayoutPanel1.Location = new Point(12, 171);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 3;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 10.1928377F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 89.80716F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 285F));
-            tableLayoutPanel1.Size = new Size(1247, 684);
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 216F));
+            tableLayoutPanel1.Size = new Size(1247, 606);
             tableLayoutPanel1.TabIndex = 50;
             // 
             // stackChart
             // 
-            chartArea11.Name = "ChartArea1";
-            stackChart.ChartAreas.Add(chartArea11);
+            chartArea6.Name = "ChartArea1";
+            stackChart.ChartAreas.Add(chartArea6);
             stackChart.Dock = DockStyle.Fill;
-            legend11.Name = "Legend1";
-            stackChart.Legends.Add(legend11);
-            stackChart.Location = new Point(3, 43);
+            legend6.Name = "Legend1";
+            stackChart.Legends.Add(legend6);
+            stackChart.Location = new Point(3, 42);
             stackChart.Name = "stackChart";
-            series11.ChartArea = "ChartArea1";
-            series11.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
-            series11.Legend = "Legend1";
-            series11.Name = "Series1";
-            dataPoint7.Label = "전일";
-            dataPoint8.IsValueShownAsLabel = true;
-            dataPoint8.Label = "주별";
-            dataPoint9.IsValueShownAsLabel = true;
-            dataPoint9.Label = "월별";
-            series11.Points.Add(dataPoint7);
-            series11.Points.Add(dataPoint8);
-            series11.Points.Add(dataPoint9);
-            stackChart.Series.Add(series11);
-            stackChart.Size = new Size(549, 352);
+            series6.ChartArea = "ChartArea1";
+            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
+            series6.Legend = "Legend1";
+            series6.Name = "Series1";
+            dataPoint4.Label = "전일";
+            dataPoint5.IsValueShownAsLabel = true;
+            dataPoint5.Label = "주별";
+            dataPoint6.IsValueShownAsLabel = true;
+            dataPoint6.Label = "월별";
+            series6.Points.Add(dataPoint4);
+            series6.Points.Add(dataPoint5);
+            series6.Points.Add(dataPoint6);
+            stackChart.Series.Add(series6);
+            stackChart.Size = new Size(549, 344);
             stackChart.TabIndex = 0;
             stackChart.Text = "chart1";
             // 
@@ -145,88 +174,113 @@
             tableLayoutPanel4.Controls.Add(chartEquip, 1, 0);
             tableLayoutPanel4.Controls.Add(chartSite, 0, 0);
             tableLayoutPanel4.Dock = DockStyle.Fill;
-            tableLayoutPanel4.Location = new Point(558, 401);
+            tableLayoutPanel4.Location = new Point(558, 392);
             tableLayoutPanel4.Name = "tableLayoutPanel4";
             tableLayoutPanel4.RowCount = 1;
             tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel4.Size = new Size(686, 280);
+            tableLayoutPanel4.Size = new Size(686, 211);
             tableLayoutPanel4.TabIndex = 51;
             // 
-            // gridMonth
+            // chartTech
             // 
-            gridMonth.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            gridMonth.Location = new Point(1265, 567);
-            gridMonth.Name = "gridMonth";
-            gridMonth.Size = new Size(158, 124);
-            gridMonth.TabIndex = 4;
+            chartArea7.Name = "ChartArea1";
+            chartTech.ChartAreas.Add(chartArea7);
+            chartTech.Dock = DockStyle.Fill;
+            legend7.Name = "Legend1";
+            chartTech.Legends.Add(legend7);
+            chartTech.Location = new Point(466, 3);
+            chartTech.Name = "chartTech";
+            series7.ChartArea = "ChartArea1";
+            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
+            series7.Legend = "Legend1";
+            series7.Name = "Series1";
+            chartTech.Series.Add(series7);
+            chartTech.Size = new Size(217, 205);
+            chartTech.TabIndex = 55;
+            chartTech.Text = "chart3";
             // 
-            // gridWeek
+            // chartEquip
             // 
-            gridWeek.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            gridWeek.Location = new Point(1265, 438);
-            gridWeek.Name = "gridWeek";
-            gridWeek.Size = new Size(158, 123);
-            gridWeek.TabIndex = 3;
+            chartArea8.Name = "ChartArea1";
+            chartEquip.ChartAreas.Add(chartArea8);
+            chartEquip.Dock = DockStyle.Fill;
+            legend8.Name = "Legend1";
+            chartEquip.Legends.Add(legend8);
+            chartEquip.Location = new Point(234, 3);
+            chartEquip.Name = "chartEquip";
+            series8.ChartArea = "ChartArea1";
+            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
+            series8.Legend = "Legend1";
+            series8.Name = "Series1";
+            chartEquip.Series.Add(series8);
+            chartEquip.Size = new Size(226, 205);
+            chartEquip.TabIndex = 54;
+            chartEquip.Text = "chart2";
             // 
-            // gridDay
+            // chartSite
             // 
-            gridDay.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            gridDay.Location = new Point(1265, 325);
-            gridDay.Name = "gridDay";
-            gridDay.Size = new Size(158, 107);
-            gridDay.TabIndex = 2;
-            // 
-            // detailChart
-            // 
-            chartArea12.Name = "ChartArea1";
-            detailChart.ChartAreas.Add(chartArea12);
-            detailChart.Dock = DockStyle.Fill;
-            legend12.Name = "Legend1";
-            detailChart.Legends.Add(legend12);
-            detailChart.Location = new Point(558, 43);
-            detailChart.Name = "detailChart";
-            series12.ChartArea = "ChartArea1";
-            series12.Legend = "Legend1";
-            series12.Name = "Series1";
-            detailChart.Series.Add(series12);
-            detailChart.Size = new Size(686, 352);
-            detailChart.TabIndex = 52;
-            detailChart.Text = "chart1";
+            chartArea9.Name = "ChartArea1";
+            chartSite.ChartAreas.Add(chartArea9);
+            chartSite.Dock = DockStyle.Fill;
+            legend9.Name = "Legend1";
+            chartSite.Legends.Add(legend9);
+            chartSite.Location = new Point(3, 3);
+            chartSite.Name = "chartSite";
+            series9.ChartArea = "ChartArea1";
+            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
+            series9.Legend = "Legend1";
+            series9.Name = "Series1";
+            chartSite.Series.Add(series9);
+            chartSite.Size = new Size(225, 205);
+            chartSite.TabIndex = 53;
+            chartSite.Text = "chart1";
             // 
             // tableLayoutPanel2
             // 
-            tableLayoutPanel2.ColumnCount = 3;
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 90.47619F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 9.523809F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 155F));
-            tableLayoutPanel2.Controls.Add(label1, 1, 0);
+            tableLayoutPanel2.ColumnCount = 4;
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 81.55844F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18.4415588F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 158F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 142F));
+            tableLayoutPanel2.Controls.Add(btnSearch, 3, 0);
             tableLayoutPanel2.Controls.Add(cboWave, 2, 0);
+            tableLayoutPanel2.Controls.Add(label1, 1, 0);
             tableLayoutPanel2.Dock = DockStyle.Fill;
             tableLayoutPanel2.Location = new Point(558, 3);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 1;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Size = new Size(686, 34);
+            tableLayoutPanel2.Size = new Size(686, 33);
             tableLayoutPanel2.TabIndex = 53;
             // 
-            // label1
+            // btnSearch
             // 
-            label1.Anchor = AnchorStyles.None;
-            label1.AutoSize = true;
-            label1.Location = new Point(489, 9);
-            label1.Name = "label1";
-            label1.Size = new Size(31, 15);
-            label1.TabIndex = 52;
-            label1.Text = "파장";
+            btnSearch.Location = new Point(546, 3);
+            btnSearch.Name = "btnSearch";
+            btnSearch.Size = new Size(91, 27);
+            btnSearch.TabIndex = 51;
+            btnSearch.Text = "조회";
+            btnSearch.UseVisualStyleBackColor = true;
+            btnSearch.Click += btnSearch_Click;
             // 
             // cboWave
             // 
             cboWave.Anchor = AnchorStyles.None;
             cboWave.FormattingEnabled = true;
-            cboWave.Location = new Point(546, 5);
+            cboWave.Location = new Point(388, 5);
             cboWave.Name = "cboWave";
-            cboWave.Size = new Size(123, 23);
+            cboWave.Size = new Size(152, 23);
             cboWave.TabIndex = 51;
+            // 
+            // label1
+            // 
+            label1.Anchor = AnchorStyles.None;
+            label1.AutoSize = true;
+            label1.Location = new Point(334, 9);
+            label1.Name = "label1";
+            label1.Size = new Size(31, 15);
+            label1.TabIndex = 52;
+            label1.Text = "파장";
             // 
             // tableLayoutPanel3
             // 
@@ -234,101 +288,413 @@
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 102F));
-            tableLayoutPanel3.Controls.Add(btnSearch, 2, 0);
             tableLayoutPanel3.Dock = DockStyle.Fill;
             tableLayoutPanel3.Location = new Point(3, 3);
             tableLayoutPanel3.Name = "tableLayoutPanel3";
             tableLayoutPanel3.RowCount = 1;
             tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel3.Size = new Size(549, 34);
+            tableLayoutPanel3.Size = new Size(549, 33);
             tableLayoutPanel3.TabIndex = 54;
             // 
-            // btnSearch
+            // detailChart
             // 
-            btnSearch.Location = new Point(449, 3);
-            btnSearch.Name = "btnSearch";
-            btnSearch.Size = new Size(91, 28);
-            btnSearch.TabIndex = 51;
-            btnSearch.Text = "조회";
-            btnSearch.UseVisualStyleBackColor = true;
-            btnSearch.Click += btnSearch_Click;
-            // 
-            // gridLot
-            // 
-            gridLot.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            gridLot.Location = new Point(1265, 48);
-            gridLot.Name = "gridLot";
-            gridLot.Size = new Size(158, 145);
-            gridLot.TabIndex = 55;
+            chartArea10.Name = "ChartArea1";
+            detailChart.ChartAreas.Add(chartArea10);
+            detailChart.Dock = DockStyle.Fill;
+            legend10.Name = "Legend1";
+            detailChart.Legends.Add(legend10);
+            detailChart.Location = new Point(558, 42);
+            detailChart.Name = "detailChart";
+            series10.ChartArea = "ChartArea1";
+            series10.Legend = "Legend1";
+            series10.Name = "Series1";
+            detailChart.Series.Add(series10);
+            detailChart.Size = new Size(686, 344);
+            detailChart.TabIndex = 52;
+            detailChart.Text = "chart1";
             // 
             // gridSection
             // 
             gridSection.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            gridSection.Dock = DockStyle.Fill;
-            gridSection.Location = new Point(3, 401);
+            gridSection.Location = new Point(3, 392);
             gridSection.Name = "gridSection";
-            gridSection.Size = new Size(549, 280);
+            gridSection.Size = new Size(549, 211);
             gridSection.TabIndex = 1;
             // 
-            // chartSite
+            // gridMonth
             // 
-            chartArea13.Name = "ChartArea1";
-            chartSite.ChartAreas.Add(chartArea13);
-            chartSite.Dock = DockStyle.Fill;
-            legend13.Name = "Legend1";
-            chartSite.Legends.Add(legend13);
-            chartSite.Location = new Point(3, 3);
-            chartSite.Name = "chartSite";
-            series13.ChartArea = "ChartArea1";
-            series13.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
-            series13.Legend = "Legend1";
-            series13.Name = "Series1";
-            chartSite.Series.Add(series13);
-            chartSite.Size = new Size(225, 274);
-            chartSite.TabIndex = 53;
-            chartSite.Text = "chart1";
+            gridMonth.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            gridMonth.Location = new Point(1282, 648);
+            gridMonth.Name = "gridMonth";
+            gridMonth.Size = new Size(158, 124);
+            gridMonth.TabIndex = 4;
             // 
-            // chartEquip
+            // gridWeek
             // 
-            chartArea14.Name = "ChartArea1";
-            chartEquip.ChartAreas.Add(chartArea14);
-            chartEquip.Dock = DockStyle.Fill;
-            legend14.Name = "Legend1";
-            chartEquip.Legends.Add(legend14);
-            chartEquip.Location = new Point(234, 3);
-            chartEquip.Name = "chartEquip";
-            series14.ChartArea = "ChartArea1";
-            series14.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
-            series14.Legend = "Legend1";
-            series14.Name = "Series1";
-            chartEquip.Series.Add(series14);
-            chartEquip.Size = new Size(226, 274);
-            chartEquip.TabIndex = 54;
-            chartEquip.Text = "chart2";
+            gridWeek.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            gridWeek.Location = new Point(1282, 519);
+            gridWeek.Name = "gridWeek";
+            gridWeek.Size = new Size(158, 123);
+            gridWeek.TabIndex = 3;
             // 
-            // chartTech
+            // gridDay
             // 
-            chartArea15.Name = "ChartArea1";
-            chartTech.ChartAreas.Add(chartArea15);
-            chartTech.Dock = DockStyle.Fill;
-            legend15.Name = "Legend1";
-            chartTech.Legends.Add(legend15);
-            chartTech.Location = new Point(466, 3);
-            chartTech.Name = "chartTech";
-            series15.ChartArea = "ChartArea1";
-            series15.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
-            series15.Legend = "Legend1";
-            series15.Name = "Series1";
-            chartTech.Series.Add(series15);
-            chartTech.Size = new Size(217, 274);
-            chartTech.TabIndex = 55;
-            chartTech.Text = "chart3";
+            gridDay.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            gridDay.Location = new Point(1282, 406);
+            gridDay.Name = "gridDay";
+            gridDay.Size = new Size(158, 107);
+            gridDay.TabIndex = 2;
+            // 
+            // gridLot
+            // 
+            gridLot.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            gridLot.Location = new Point(1282, 213);
+            gridLot.Name = "gridLot";
+            gridLot.Size = new Size(158, 145);
+            gridLot.TabIndex = 55;
+            // 
+            // tableLayoutPanel5
+            // 
+            tableLayoutPanel5.ColumnCount = 7;
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 183F));
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 187F));
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 147F));
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 151F));
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 228F));
+            tableLayoutPanel5.Controls.Add(lblArf_F_ProcState, 6, 3);
+            tableLayoutPanel5.Controls.Add(lblArf_I_ProcState, 6, 2);
+            tableLayoutPanel5.Controls.Add(lblEuvProcState, 6, 1);
+            tableLayoutPanel5.Controls.Add(label26, 6, 0);
+            tableLayoutPanel5.Controls.Add(label25, 5, 3);
+            tableLayoutPanel5.Controls.Add(label24, 4, 3);
+            tableLayoutPanel5.Controls.Add(label23, 5, 2);
+            tableLayoutPanel5.Controls.Add(label22, 4, 2);
+            tableLayoutPanel5.Controls.Add(label21, 5, 1);
+            tableLayoutPanel5.Controls.Add(label20, 4, 1);
+            tableLayoutPanel5.Controls.Add(label19, 5, 0);
+            tableLayoutPanel5.Controls.Add(label18, 4, 0);
+            tableLayoutPanel5.Controls.Add(label17, 3, 3);
+            tableLayoutPanel5.Controls.Add(lblArf_F_Yield, 2, 3);
+            tableLayoutPanel5.Controls.Add(lblArf_F_Tat, 1, 3);
+            tableLayoutPanel5.Controls.Add(label14, 3, 2);
+            tableLayoutPanel5.Controls.Add(lblArf_I_Yield, 2, 2);
+            tableLayoutPanel5.Controls.Add(lblArf_I_Tat, 1, 2);
+            tableLayoutPanel5.Controls.Add(lblEuvYield, 2, 1);
+            tableLayoutPanel5.Controls.Add(lblEuv_Tat, 1, 1);
+            tableLayoutPanel5.Controls.Add(label9, 3, 1);
+            tableLayoutPanel5.Controls.Add(label6, 0, 1);
+            tableLayoutPanel5.Controls.Add(label5, 3, 0);
+            tableLayoutPanel5.Controls.Add(label4, 2, 0);
+            tableLayoutPanel5.Controls.Add(label3, 1, 0);
+            tableLayoutPanel5.Controls.Add(lblTime, 0, 0);
+            tableLayoutPanel5.Controls.Add(label7, 0, 2);
+            tableLayoutPanel5.Controls.Add(label8, 0, 3);
+            tableLayoutPanel5.Location = new Point(12, 12);
+            tableLayoutPanel5.Name = "tableLayoutPanel5";
+            tableLayoutPanel5.RowCount = 4;
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 46.5753441F));
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 53.4246559F));
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Absolute, 44F));
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
+            tableLayoutPanel5.Size = new Size(1247, 153);
+            tableLayoutPanel5.TabIndex = 56;
+            tableLayoutPanel5.Paint += tableLayoutPanel5_Paint;
+            // 
+            // lblArf_F_ProcState
+            // 
+            lblArf_F_ProcState.AutoSize = true;
+            lblArf_F_ProcState.Dock = DockStyle.Fill;
+            lblArf_F_ProcState.Location = new Point(1021, 117);
+            lblArf_F_ProcState.Name = "lblArf_F_ProcState";
+            lblArf_F_ProcState.Size = new Size(223, 36);
+            lblArf_F_ProcState.TabIndex = 27;
+            lblArf_F_ProcState.Text = "●(작업전)";
+            // 
+            // lblArf_I_ProcState
+            // 
+            lblArf_I_ProcState.AutoSize = true;
+            lblArf_I_ProcState.Dock = DockStyle.Fill;
+            lblArf_I_ProcState.Location = new Point(1021, 73);
+            lblArf_I_ProcState.Name = "lblArf_I_ProcState";
+            lblArf_I_ProcState.Size = new Size(223, 44);
+            lblArf_I_ProcState.TabIndex = 26;
+            lblArf_I_ProcState.Text = "●(작업전)";
+            // 
+            // lblEuvProcState
+            // 
+            lblEuvProcState.AutoSize = true;
+            lblEuvProcState.Dock = DockStyle.Fill;
+            lblEuvProcState.Location = new Point(1021, 34);
+            lblEuvProcState.Name = "lblEuvProcState";
+            lblEuvProcState.Size = new Size(223, 39);
+            lblEuvProcState.TabIndex = 25;
+            lblEuvProcState.Text = "●(작업전)";
+            // 
+            // label26
+            // 
+            label26.AutoSize = true;
+            label26.Dock = DockStyle.Fill;
+            label26.Font = new Font("맑은 고딕", 9F, FontStyle.Bold);
+            label26.Location = new Point(1021, 0);
+            label26.Name = "label26";
+            label26.Size = new Size(223, 34);
+            label26.TabIndex = 24;
+            label26.Text = "목표 진행상태";
+            // 
+            // label25
+            // 
+            label25.AutoSize = true;
+            label25.Dock = DockStyle.Fill;
+            label25.Location = new Point(870, 117);
+            label25.Name = "label25";
+            label25.Size = new Size(145, 36);
+            label25.TabIndex = 23;
+            label25.Text = "80%(작업전)";
+            // 
+            // label24
+            // 
+            label24.AutoSize = true;
+            label24.Dock = DockStyle.Fill;
+            label24.Location = new Point(723, 117);
+            label24.Name = "label24";
+            label24.Size = new Size(141, 36);
+            label24.TabIndex = 22;
+            label24.Text = "초과(작업전)";
+            // 
+            // label23
+            // 
+            label23.AutoSize = true;
+            label23.Dock = DockStyle.Fill;
+            label23.Location = new Point(870, 73);
+            label23.Name = "label23";
+            label23.Size = new Size(145, 44);
+            label23.TabIndex = 21;
+            label23.Text = "80%(작업전)";
+            // 
+            // label22
+            // 
+            label22.AutoSize = true;
+            label22.Dock = DockStyle.Fill;
+            label22.Location = new Point(723, 73);
+            label22.Name = "label22";
+            label22.Size = new Size(141, 44);
+            label22.TabIndex = 20;
+            label22.Text = "미달(작업전)";
+            // 
+            // label21
+            // 
+            label21.AutoSize = true;
+            label21.Dock = DockStyle.Fill;
+            label21.Location = new Point(870, 34);
+            label21.Name = "label21";
+            label21.Size = new Size(145, 39);
+            label21.TabIndex = 19;
+            label21.Text = "80%(작업전)";
+            // 
+            // label20
+            // 
+            label20.AutoSize = true;
+            label20.Dock = DockStyle.Fill;
+            label20.Location = new Point(723, 34);
+            label20.Name = "label20";
+            label20.Size = new Size(141, 39);
+            label20.TabIndex = 18;
+            label20.Text = "초과(작업전)";
+            // 
+            // label19
+            // 
+            label19.AutoSize = true;
+            label19.Dock = DockStyle.Fill;
+            label19.Font = new Font("맑은 고딕", 9F, FontStyle.Bold);
+            label19.Location = new Point(870, 0);
+            label19.Name = "label19";
+            label19.Size = new Size(145, 34);
+            label19.TabIndex = 17;
+            label19.Text = "목표 수율";
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.Dock = DockStyle.Fill;
+            label18.Font = new Font("맑은 고딕", 9F, FontStyle.Bold);
+            label18.Location = new Point(723, 0);
+            label18.Name = "label18";
+            label18.Size = new Size(141, 34);
+            label18.TabIndex = 16;
+            label18.Text = "10일 초과 출하율";
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Dock = DockStyle.Fill;
+            label17.Location = new Point(536, 117);
+            label17.Name = "label17";
+            label17.Size = new Size(181, 36);
+            label17.TabIndex = 15;
+            label17.Text = "초과(작업전)";
+            // 
+            // lblArf_F_Yield
+            // 
+            lblArf_F_Yield.AutoSize = true;
+            lblArf_F_Yield.Dock = DockStyle.Fill;
+            lblArf_F_Yield.Location = new Point(353, 117);
+            lblArf_F_Yield.Name = "lblArf_F_Yield";
+            lblArf_F_Yield.Size = new Size(177, 36);
+            lblArf_F_Yield.TabIndex = 14;
+            lblArf_F_Yield.Text = "0%(작업전)";
+            // 
+            // lblArf_F_Tat
+            // 
+            lblArf_F_Tat.AutoSize = true;
+            lblArf_F_Tat.Dock = DockStyle.Fill;
+            lblArf_F_Tat.Location = new Point(178, 117);
+            lblArf_F_Tat.Name = "lblArf_F_Tat";
+            lblArf_F_Tat.Size = new Size(169, 36);
+            lblArf_F_Tat.TabIndex = 13;
+            lblArf_F_Tat.Text = "0(작업전)";
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Dock = DockStyle.Fill;
+            label14.Location = new Point(536, 73);
+            label14.Name = "label14";
+            label14.Size = new Size(181, 44);
+            label14.TabIndex = 12;
+            label14.Text = "미달(작업전)";
+            // 
+            // lblArf_I_Yield
+            // 
+            lblArf_I_Yield.AutoSize = true;
+            lblArf_I_Yield.Dock = DockStyle.Fill;
+            lblArf_I_Yield.Location = new Point(353, 73);
+            lblArf_I_Yield.Name = "lblArf_I_Yield";
+            lblArf_I_Yield.Size = new Size(177, 44);
+            lblArf_I_Yield.TabIndex = 11;
+            lblArf_I_Yield.Text = "0%(작업전)";
+            // 
+            // lblArf_I_Tat
+            // 
+            lblArf_I_Tat.AutoSize = true;
+            lblArf_I_Tat.Dock = DockStyle.Fill;
+            lblArf_I_Tat.Location = new Point(178, 73);
+            lblArf_I_Tat.Name = "lblArf_I_Tat";
+            lblArf_I_Tat.Size = new Size(169, 44);
+            lblArf_I_Tat.TabIndex = 10;
+            lblArf_I_Tat.Text = "0(작업전)";
+            // 
+            // lblEuvYield
+            // 
+            lblEuvYield.AutoSize = true;
+            lblEuvYield.Dock = DockStyle.Fill;
+            lblEuvYield.Location = new Point(353, 34);
+            lblEuvYield.Name = "lblEuvYield";
+            lblEuvYield.Size = new Size(177, 39);
+            lblEuvYield.TabIndex = 9;
+            lblEuvYield.Text = "0%(작업전)";
+            // 
+            // lblEuv_Tat
+            // 
+            lblEuv_Tat.AutoSize = true;
+            lblEuv_Tat.Dock = DockStyle.Fill;
+            lblEuv_Tat.Location = new Point(178, 34);
+            lblEuv_Tat.Name = "lblEuv_Tat";
+            lblEuv_Tat.Size = new Size(169, 39);
+            lblEuv_Tat.TabIndex = 8;
+            lblEuv_Tat.Text = "0(작업전)";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Dock = DockStyle.Fill;
+            label9.Location = new Point(536, 34);
+            label9.Name = "label9";
+            label9.Size = new Size(181, 39);
+            label9.TabIndex = 7;
+            label9.Text = "초과(작업전)";
+            // 
+            // label6
+            // 
+            label6.Anchor = AnchorStyles.None;
+            label6.AutoSize = true;
+            label6.Location = new Point(73, 46);
+            label6.Name = "label6";
+            label6.Size = new Size(29, 15);
+            label6.TabIndex = 4;
+            label6.Text = "EUV";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Dock = DockStyle.Fill;
+            label5.Font = new Font("맑은 고딕", 9F, FontStyle.Bold);
+            label5.Location = new Point(536, 0);
+            label5.Name = "label5";
+            label5.Size = new Size(181, 34);
+            label5.TabIndex = 3;
+            label5.Text = "10일 이내 출하율";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Dock = DockStyle.Fill;
+            label4.Font = new Font("맑은 고딕", 9F, FontStyle.Bold);
+            label4.Location = new Point(353, 0);
+            label4.Name = "label4";
+            label4.Size = new Size(177, 34);
+            label4.TabIndex = 2;
+            label4.Text = "평균 수율";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Dock = DockStyle.Fill;
+            label3.Font = new Font("맑은 고딕", 9F, FontStyle.Bold);
+            label3.Location = new Point(178, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(169, 34);
+            label3.TabIndex = 1;
+            label3.Text = "평균 TAT";
+            // 
+            // lblTime
+            // 
+            lblTime.AutoSize = true;
+            lblTime.Dock = DockStyle.Fill;
+            lblTime.Font = new Font("맑은 고딕", 9F, FontStyle.Bold);
+            lblTime.Location = new Point(3, 0);
+            lblTime.Name = "lblTime";
+            lblTime.Size = new Size(169, 34);
+            lblTime.TabIndex = 0;
+            lblTime.Text = "파장분류";
+            // 
+            // label7
+            // 
+            label7.Anchor = AnchorStyles.None;
+            label7.AutoSize = true;
+            label7.Location = new Point(72, 87);
+            label7.Name = "label7";
+            label7.Size = new Size(31, 15);
+            label7.TabIndex = 5;
+            label7.Text = "Arf_I";
+            // 
+            // label8
+            // 
+            label8.Anchor = AnchorStyles.None;
+            label8.AutoSize = true;
+            label8.Location = new Point(70, 127);
+            label8.Name = "label8";
+            label8.Size = new Size(34, 15);
+            label8.TabIndex = 6;
+            label8.Text = "Arf_F";
             // 
             // TDashBoard
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1452, 780);
+            ClientSize = new Size(1264, 780);
+            Controls.Add(tableLayoutPanel5);
             Controls.Add(gridMonth);
             Controls.Add(gridWeek);
             Controls.Add(tableLayoutPanel1);
@@ -341,18 +707,19 @@
             tableLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)stackChart).EndInit();
             tableLayoutPanel4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)chartTech).EndInit();
+            ((System.ComponentModel.ISupportInitialize)chartEquip).EndInit();
+            ((System.ComponentModel.ISupportInitialize)chartSite).EndInit();
+            tableLayoutPanel2.ResumeLayout(false);
+            tableLayoutPanel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)detailChart).EndInit();
+            ((System.ComponentModel.ISupportInitialize)gridSection).EndInit();
             ((System.ComponentModel.ISupportInitialize)gridMonth).EndInit();
             ((System.ComponentModel.ISupportInitialize)gridWeek).EndInit();
             ((System.ComponentModel.ISupportInitialize)gridDay).EndInit();
-            ((System.ComponentModel.ISupportInitialize)detailChart).EndInit();
-            tableLayoutPanel2.ResumeLayout(false);
-            tableLayoutPanel2.PerformLayout();
-            tableLayoutPanel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)gridLot).EndInit();
-            ((System.ComponentModel.ISupportInitialize)gridSection).EndInit();
-            ((System.ComponentModel.ISupportInitialize)chartSite).EndInit();
-            ((System.ComponentModel.ISupportInitialize)chartEquip).EndInit();
-            ((System.ComponentModel.ISupportInitialize)chartTech).EndInit();
+            tableLayoutPanel5.ResumeLayout(false);
+            tableLayoutPanel5.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -360,21 +727,50 @@
         #endregion
         private Label label2;
         private TableLayoutPanel tableLayoutPanel1;
-        private Button btnSearch;
         private System.Windows.Forms.DataVisualization.Charting.Chart stackChart;
         private DataGridView gridSection;
-        private System.Windows.Forms.DataVisualization.Charting.Chart detailChart;
-        private ComboBox cboWave;
-        private Label label1;
-        private TableLayoutPanel tableLayoutPanel2;
         private TableLayoutPanel tableLayoutPanel3;
         private DataGridView gridLot;
-        private TableLayoutPanel tableLayoutPanel4;
         private DataGridView gridMonth;
         private DataGridView gridWeek;
         private DataGridView gridDay;
+        private TableLayoutPanel tableLayoutPanel5;
+        private Label label5;
+        private Label label4;
+        private Label label3;
+        private Label lblTime;
+        private Label label9;
+        private Label label6;
+        private Label label7;
+        private Label label8;
+        private Label label17;
+        private Label lblArf_F_Yield;
+        private Label lblArf_F_Tat;
+        private Label label14;
+        private Label lblArf_I_Yield;
+        private Label lblArf_I_Tat;
+        private Label lblEuvYield;
+        private Label lblEuv_Tat;
+        private Label label20;
+        private Label label19;
+        private Label label18;
+        private Label lblArf_F_ProcState;
+        private Label lblArf_I_ProcState;
+        private Label lblEuvProcState;
+        private Label label26;
+        private Label label25;
+        private Label label24;
+        private Label label23;
+        private Label label22;
+        private Label label21;
+        private TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartTech;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartEquip;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartSite;
+        private TableLayoutPanel tableLayoutPanel2;
+        private Button btnSearch;
+        private ComboBox cboWave;
+        private Label label1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart detailChart;
     }
 }
