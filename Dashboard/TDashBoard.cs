@@ -1311,6 +1311,7 @@ namespace CeDev.DataMng
 
             ShowKpiYieldInfo();
             ShowKpiTatInfo();
+            ShowShipRateIn10();
 
             MakeDataList();
         }
@@ -1369,7 +1370,6 @@ namespace CeDev.DataMng
             lblArf_F_Tat.Text = $"{arf_F_Tat:F2}";
         }
 
-
         private void ShowKpiYieldInfo()
         {
             //-----------------------------------------------------------------------------------------------------------------
@@ -1418,6 +1418,119 @@ namespace CeDev.DataMng
             lblArf_F_Yield.Text = arf_F_Yield.ToString() + "%";
             
         }
+
+        private void ShowShipRateIn10()
+        {
+            //-----------------------------------------------------------------------------------------------------------------
+            //Declare and initialize variables
+            //-----------------------------------------------------------------------------------------------------------------
+            var totalCnt = _lotlist.ToList().Count;
+            //var goodCnt = _lotlist.Where(x => x.LotInfo == "정품").ToList().Count;
+            //var defectCnt = _lotlist.Where(x => x.LotInfo != "정품").ToList().Count;
+
+            //var outCnt = _lotlist.Where(x => x.End != null).ToList();
+            var tatlist = _lotlist
+                         .Select(x =>
+                         {
+                             var totalTat = (x.vPgIn ?? 0.0)
+                                            + (x.vNoGwang ?? 0.0)
+
+                                            + (x.v1stA ?? 0.0)
+                                            + (x.v1stA2 ?? 0.0)
+                                            + (x.v1stB ?? 0.0)
+                                            + (x.v1stB2 ?? 0.0)
+
+                                            + (x.v2nd ?? 0.0)
+                                            + (x.vAdd ?? 0.0);
+
+                             return new
+                             {
+                                 tat = totalTat,
+                                 Item = x
+                             };
+                         })
+                         .ToList();
+                         //.Where(x => x.Item.End != null).ToList();
+
+            var dfdf = "333";
+
+
+
+            ////파장(wave) - 코드 정보
+            ////EUV       --01
+            ////Arf_I     --02 
+            ////Arf_F     --03
+
+
+            var all_total = tatlist.Where(x => x.Item.End != null).ToList();            
+            var all_In = all_total.Where(x => x.tat <= 1.8).ToList();
+            var all_Over = all_total.Where(x => x.tat > 1.8).ToList();
+
+            var euv_total = all_total.Where(x => x.Item.Wave == "01").ToList();
+            var euv_In = all_total.Where(x => x.Item.Wave == "01" &&  x.tat <= 1.8).ToList();
+            var euv_Over = all_total.Where(x => x.Item.Wave == "01" && x.tat > 1.8).ToList();
+
+            var arf_I_total = all_total.Where(x => x.Item.Wave == "02").ToList();
+            var arf_I_In = all_total.Where(x => x.Item.Wave == "02" && x.tat <= 1.8).ToList();
+            var arf_I_Over = all_total.Where(x => x.Item.Wave == "02" && x.tat > 1.8).ToList();
+
+            var arf_F_total = all_total.Where(x => x.Item.Wave == "03").ToList();
+            var arf_F_In = all_total.Where(x => x.Item.Wave == "03" && x.tat <= 1.8).ToList();
+            var arf_F_Over = all_total.Where(x => x.Item.Wave == "03" && x.tat > 1.8).ToList();
+
+            //-----------------------------------------------------------------------------------------------------------------
+            //Processing
+            //-----------------------------------------------------------------------------------------------------------------
+            double allShipIn = 0;
+            double euvShipIn = 0;
+            double arf_I_ShipIn = 0;
+            double arf_F_ShipIn = 0;
+
+            double allShipOver = 0;
+            double euvShipOver = 0;
+            double arf_I_ShipOver = 0;
+            double arf_F_ShipOver = 0;
+
+            allShipIn = Math.Round(((double)all_In.Count / all_total.Count) * 100, 2);            
+            euvShipIn = Math.Round(((double)euv_In.Count / euv_total.Count) * 100, 2);
+            arf_I_ShipIn = Math.Round(((double)arf_I_In.Count / arf_I_total.Count) * 100, 2);
+            arf_F_ShipIn = Math.Round(((double)arf_F_In.Count / arf_F_total.Count) * 100, 2);
+
+            allShipOver = Math.Round(((double)all_Over.Count / all_total.Count) * 100, 2);
+            euvShipOver = Math.Round(((double)euv_Over.Count / euv_total.Count) * 100, 2);
+            arf_I_ShipOver = Math.Round(((double)arf_I_Over.Count / arf_I_total.Count) * 100, 2);
+            arf_F_ShipOver = Math.Round(((double)arf_F_Over.Count / arf_F_total.Count) * 100, 2);
+
+            //-----------------------------------------------------------------------------------------------------------------
+            //Output
+            //-----------------------------------------------------------------------------------------------------------------
+            //if(double.IsNaN(euvShipIn))
+            //{
+            //    lblEuvShipRateIn10.Text = "";
+            //}
+            //else
+            //{
+            //    lblEuvShipRateIn10.Text = euvShipIn + "%";
+            //}
+
+            //lblEuvShipRateIn10.Text = euvShipIn + "%";
+            //lblArf_IShipRateIn10.Text = arf_I_ShipIn + "%";            
+            //lblArf_FShipRateIn10.Text = arf_F_ShipIn + "%";
+
+            //lblEuvShipRateOver10.Text = euvShipOver + "%";
+            //lblArf_IShipRateOver10.Text = arf_I_ShipOver + "%";
+            //lblArf_FShipRateOver10.Text = arf_F_ShipOver + "%";
+
+
+            lblEuvShipRateIn10.Text = double.IsNaN(euvShipIn) ? "": $"{euvShipIn}%";
+            lblArf_IShipRateIn10.Text = double.IsNaN(arf_I_ShipIn) ? "" : $"{arf_I_ShipIn}%";
+            lblArf_FShipRateIn10.Text = double.IsNaN(arf_F_ShipIn) ? "": $"{arf_F_ShipIn}%";
+
+            lblEuvShipRateOver10.Text = double.IsNaN(euvShipOver) ? "" : $"{euvShipOver}%";
+            lblArf_IShipRateOver10.Text = double.IsNaN(arf_I_ShipOver) ? "": $"{arf_I_ShipOver}%";
+            lblArf_FShipRateOver10.Text = double.IsNaN(arf_F_ShipOver) ? "" : $"{arf_F_ShipOver}%";
+        }
+
 
         //private void MakeDataList(List<LotItem> list)
         private void MakeDataList()

@@ -69,23 +69,23 @@
             lblArf_I_ProcState = new Label();
             lblEuvProcState = new Label();
             label26 = new Label();
-            label25 = new Label();
-            label24 = new Label();
-            label23 = new Label();
-            label22 = new Label();
-            label21 = new Label();
-            label20 = new Label();
+            lblArf_FTargetYield = new Label();
+            lblArf_FShipRateOver10 = new Label();
+            lblArf_ITargetYield = new Label();
+            lblArf_IShipRateOver10 = new Label();
+            lblEuvTargetYield = new Label();
+            lblEuvShipRateOver10 = new Label();
             label19 = new Label();
             label18 = new Label();
-            label17 = new Label();
+            lblArf_FShipRateIn10 = new Label();
             lblArf_F_Yield = new Label();
             lblArf_F_Tat = new Label();
-            label14 = new Label();
+            lblArf_IShipRateIn10 = new Label();
             lblArf_I_Yield = new Label();
             lblArf_I_Tat = new Label();
             lblEuvYield = new Label();
             lblEuv_Tat = new Label();
-            label9 = new Label();
+            lblEuvShipRateIn10 = new Label();
             label6 = new Label();
             label5 = new Label();
             label4 = new Label();
@@ -367,23 +367,23 @@
             tableLayoutPanel5.Controls.Add(lblArf_I_ProcState, 6, 2);
             tableLayoutPanel5.Controls.Add(lblEuvProcState, 6, 1);
             tableLayoutPanel5.Controls.Add(label26, 6, 0);
-            tableLayoutPanel5.Controls.Add(label25, 5, 3);
-            tableLayoutPanel5.Controls.Add(label24, 4, 3);
-            tableLayoutPanel5.Controls.Add(label23, 5, 2);
-            tableLayoutPanel5.Controls.Add(label22, 4, 2);
-            tableLayoutPanel5.Controls.Add(label21, 5, 1);
-            tableLayoutPanel5.Controls.Add(label20, 4, 1);
+            tableLayoutPanel5.Controls.Add(lblArf_FTargetYield, 5, 3);
+            tableLayoutPanel5.Controls.Add(lblArf_FShipRateOver10, 4, 3);
+            tableLayoutPanel5.Controls.Add(lblArf_ITargetYield, 5, 2);
+            tableLayoutPanel5.Controls.Add(lblArf_IShipRateOver10, 4, 2);
+            tableLayoutPanel5.Controls.Add(lblEuvTargetYield, 5, 1);
+            tableLayoutPanel5.Controls.Add(lblEuvShipRateOver10, 4, 1);
             tableLayoutPanel5.Controls.Add(label19, 5, 0);
             tableLayoutPanel5.Controls.Add(label18, 4, 0);
-            tableLayoutPanel5.Controls.Add(label17, 3, 3);
+            tableLayoutPanel5.Controls.Add(lblArf_FShipRateIn10, 3, 3);
             tableLayoutPanel5.Controls.Add(lblArf_F_Yield, 2, 3);
             tableLayoutPanel5.Controls.Add(lblArf_F_Tat, 1, 3);
-            tableLayoutPanel5.Controls.Add(label14, 3, 2);
+            tableLayoutPanel5.Controls.Add(lblArf_IShipRateIn10, 3, 2);
             tableLayoutPanel5.Controls.Add(lblArf_I_Yield, 2, 2);
             tableLayoutPanel5.Controls.Add(lblArf_I_Tat, 1, 2);
             tableLayoutPanel5.Controls.Add(lblEuvYield, 2, 1);
             tableLayoutPanel5.Controls.Add(lblEuv_Tat, 1, 1);
-            tableLayoutPanel5.Controls.Add(label9, 3, 1);
+            tableLayoutPanel5.Controls.Add(lblEuvShipRateIn10, 3, 1);
             tableLayoutPanel5.Controls.Add(label6, 0, 1);
             tableLayoutPanel5.Controls.Add(label5, 3, 0);
             tableLayoutPanel5.Controls.Add(label4, 2, 0);
@@ -443,65 +443,65 @@
             label26.TabIndex = 24;
             label26.Text = "목표 진행상태";
             // 
-            // label25
+            // lblArf_FTargetYield
             // 
-            label25.AutoSize = true;
-            label25.Dock = DockStyle.Fill;
-            label25.Location = new Point(870, 117);
-            label25.Name = "label25";
-            label25.Size = new Size(145, 36);
-            label25.TabIndex = 23;
-            label25.Text = "80%(작업전)";
+            lblArf_FTargetYield.AutoSize = true;
+            lblArf_FTargetYield.Dock = DockStyle.Fill;
+            lblArf_FTargetYield.Location = new Point(870, 117);
+            lblArf_FTargetYield.Name = "lblArf_FTargetYield";
+            lblArf_FTargetYield.Size = new Size(145, 36);
+            lblArf_FTargetYield.TabIndex = 23;
+            lblArf_FTargetYield.Text = "80%(작업전)";
             // 
-            // label24
+            // lblArf_FShipRateOver10
             // 
-            label24.AutoSize = true;
-            label24.Dock = DockStyle.Fill;
-            label24.Location = new Point(723, 117);
-            label24.Name = "label24";
-            label24.Size = new Size(141, 36);
-            label24.TabIndex = 22;
-            label24.Text = "초과(작업전)";
+            lblArf_FShipRateOver10.AutoSize = true;
+            lblArf_FShipRateOver10.Dock = DockStyle.Fill;
+            lblArf_FShipRateOver10.Location = new Point(723, 117);
+            lblArf_FShipRateOver10.Name = "lblArf_FShipRateOver10";
+            lblArf_FShipRateOver10.Size = new Size(141, 36);
+            lblArf_FShipRateOver10.TabIndex = 22;
+            lblArf_FShipRateOver10.Text = "초과(작업전)";
             // 
-            // label23
+            // lblArf_ITargetYield
             // 
-            label23.AutoSize = true;
-            label23.Dock = DockStyle.Fill;
-            label23.Location = new Point(870, 73);
-            label23.Name = "label23";
-            label23.Size = new Size(145, 44);
-            label23.TabIndex = 21;
-            label23.Text = "80%(작업전)";
+            lblArf_ITargetYield.AutoSize = true;
+            lblArf_ITargetYield.Dock = DockStyle.Fill;
+            lblArf_ITargetYield.Location = new Point(870, 73);
+            lblArf_ITargetYield.Name = "lblArf_ITargetYield";
+            lblArf_ITargetYield.Size = new Size(145, 44);
+            lblArf_ITargetYield.TabIndex = 21;
+            lblArf_ITargetYield.Text = "80%(작업전)";
             // 
-            // label22
+            // lblArf_IShipRateOver10
             // 
-            label22.AutoSize = true;
-            label22.Dock = DockStyle.Fill;
-            label22.Location = new Point(723, 73);
-            label22.Name = "label22";
-            label22.Size = new Size(141, 44);
-            label22.TabIndex = 20;
-            label22.Text = "미달(작업전)";
+            lblArf_IShipRateOver10.AutoSize = true;
+            lblArf_IShipRateOver10.Dock = DockStyle.Fill;
+            lblArf_IShipRateOver10.Location = new Point(723, 73);
+            lblArf_IShipRateOver10.Name = "lblArf_IShipRateOver10";
+            lblArf_IShipRateOver10.Size = new Size(141, 44);
+            lblArf_IShipRateOver10.TabIndex = 20;
+            lblArf_IShipRateOver10.Text = "미달(작업전)";
             // 
-            // label21
+            // lblEuvTargetYield
             // 
-            label21.AutoSize = true;
-            label21.Dock = DockStyle.Fill;
-            label21.Location = new Point(870, 34);
-            label21.Name = "label21";
-            label21.Size = new Size(145, 39);
-            label21.TabIndex = 19;
-            label21.Text = "80%(작업전)";
+            lblEuvTargetYield.AutoSize = true;
+            lblEuvTargetYield.Dock = DockStyle.Fill;
+            lblEuvTargetYield.Location = new Point(870, 34);
+            lblEuvTargetYield.Name = "lblEuvTargetYield";
+            lblEuvTargetYield.Size = new Size(145, 39);
+            lblEuvTargetYield.TabIndex = 19;
+            lblEuvTargetYield.Text = "80%(작업전)";
             // 
-            // label20
+            // lblEuvShipRateOver10
             // 
-            label20.AutoSize = true;
-            label20.Dock = DockStyle.Fill;
-            label20.Location = new Point(723, 34);
-            label20.Name = "label20";
-            label20.Size = new Size(141, 39);
-            label20.TabIndex = 18;
-            label20.Text = "초과(작업전)";
+            lblEuvShipRateOver10.AutoSize = true;
+            lblEuvShipRateOver10.Dock = DockStyle.Fill;
+            lblEuvShipRateOver10.Location = new Point(723, 34);
+            lblEuvShipRateOver10.Name = "lblEuvShipRateOver10";
+            lblEuvShipRateOver10.Size = new Size(141, 39);
+            lblEuvShipRateOver10.TabIndex = 18;
+            lblEuvShipRateOver10.Text = "초과(작업전)";
             // 
             // label19
             // 
@@ -525,15 +525,15 @@
             label18.TabIndex = 16;
             label18.Text = "10일 초과 출하율";
             // 
-            // label17
+            // lblArf_FShipRateIn10
             // 
-            label17.AutoSize = true;
-            label17.Dock = DockStyle.Fill;
-            label17.Location = new Point(536, 117);
-            label17.Name = "label17";
-            label17.Size = new Size(181, 36);
-            label17.TabIndex = 15;
-            label17.Text = "초과(작업전)";
+            lblArf_FShipRateIn10.AutoSize = true;
+            lblArf_FShipRateIn10.Dock = DockStyle.Fill;
+            lblArf_FShipRateIn10.Location = new Point(536, 117);
+            lblArf_FShipRateIn10.Name = "lblArf_FShipRateIn10";
+            lblArf_FShipRateIn10.Size = new Size(181, 36);
+            lblArf_FShipRateIn10.TabIndex = 15;
+            lblArf_FShipRateIn10.Text = "초과(작업전)";
             // 
             // lblArf_F_Yield
             // 
@@ -543,7 +543,7 @@
             lblArf_F_Yield.Name = "lblArf_F_Yield";
             lblArf_F_Yield.Size = new Size(177, 36);
             lblArf_F_Yield.TabIndex = 14;
-            lblArf_F_Yield.Text = "0%(작업전)";
+            lblArf_F_Yield.Text = "0%";
             // 
             // lblArf_F_Tat
             // 
@@ -553,17 +553,17 @@
             lblArf_F_Tat.Name = "lblArf_F_Tat";
             lblArf_F_Tat.Size = new Size(169, 36);
             lblArf_F_Tat.TabIndex = 13;
-            lblArf_F_Tat.Text = "0(작업전)";
+            lblArf_F_Tat.Text = "0";
             // 
-            // label14
+            // lblArf_IShipRateIn10
             // 
-            label14.AutoSize = true;
-            label14.Dock = DockStyle.Fill;
-            label14.Location = new Point(536, 73);
-            label14.Name = "label14";
-            label14.Size = new Size(181, 44);
-            label14.TabIndex = 12;
-            label14.Text = "미달(작업전)";
+            lblArf_IShipRateIn10.AutoSize = true;
+            lblArf_IShipRateIn10.Dock = DockStyle.Fill;
+            lblArf_IShipRateIn10.Location = new Point(536, 73);
+            lblArf_IShipRateIn10.Name = "lblArf_IShipRateIn10";
+            lblArf_IShipRateIn10.Size = new Size(181, 44);
+            lblArf_IShipRateIn10.TabIndex = 12;
+            lblArf_IShipRateIn10.Text = "미달(작업전)";
             // 
             // lblArf_I_Yield
             // 
@@ -573,7 +573,7 @@
             lblArf_I_Yield.Name = "lblArf_I_Yield";
             lblArf_I_Yield.Size = new Size(177, 44);
             lblArf_I_Yield.TabIndex = 11;
-            lblArf_I_Yield.Text = "0%(작업전)";
+            lblArf_I_Yield.Text = "0%";
             // 
             // lblArf_I_Tat
             // 
@@ -583,7 +583,7 @@
             lblArf_I_Tat.Name = "lblArf_I_Tat";
             lblArf_I_Tat.Size = new Size(169, 44);
             lblArf_I_Tat.TabIndex = 10;
-            lblArf_I_Tat.Text = "0(작업전)";
+            lblArf_I_Tat.Text = "0";
             // 
             // lblEuvYield
             // 
@@ -593,7 +593,7 @@
             lblEuvYield.Name = "lblEuvYield";
             lblEuvYield.Size = new Size(177, 39);
             lblEuvYield.TabIndex = 9;
-            lblEuvYield.Text = "0%(작업전)";
+            lblEuvYield.Text = "0%";
             // 
             // lblEuv_Tat
             // 
@@ -603,17 +603,17 @@
             lblEuv_Tat.Name = "lblEuv_Tat";
             lblEuv_Tat.Size = new Size(169, 39);
             lblEuv_Tat.TabIndex = 8;
-            lblEuv_Tat.Text = "0(작업전)";
+            lblEuv_Tat.Text = "0";
             // 
-            // label9
+            // lblEuvShipRateIn10
             // 
-            label9.AutoSize = true;
-            label9.Dock = DockStyle.Fill;
-            label9.Location = new Point(536, 34);
-            label9.Name = "label9";
-            label9.Size = new Size(181, 39);
-            label9.TabIndex = 7;
-            label9.Text = "초과(작업전)";
+            lblEuvShipRateIn10.AutoSize = true;
+            lblEuvShipRateIn10.Dock = DockStyle.Fill;
+            lblEuvShipRateIn10.Location = new Point(536, 34);
+            lblEuvShipRateIn10.Name = "lblEuvShipRateIn10";
+            lblEuvShipRateIn10.Size = new Size(181, 39);
+            lblEuvShipRateIn10.TabIndex = 7;
+            lblEuvShipRateIn10.Text = "초과(작업전)";
             // 
             // label6
             // 
@@ -739,30 +739,30 @@
         private Label label4;
         private Label label3;
         private Label lblTime;
-        private Label label9;
+        private Label lblEuvShipRateIn10;
         private Label label6;
         private Label label7;
         private Label label8;
-        private Label label17;
+        private Label lblArf_FShipRateIn10;
         private Label lblArf_F_Yield;
         private Label lblArf_F_Tat;
-        private Label label14;
+        private Label lblArf_IShipRateIn10;
         private Label lblArf_I_Yield;
         private Label lblArf_I_Tat;
         private Label lblEuvYield;
         private Label lblEuv_Tat;
-        private Label label20;
+        private Label lblEuvShipRateOver10;
         private Label label19;
         private Label label18;
         private Label lblArf_F_ProcState;
         private Label lblArf_I_ProcState;
         private Label lblEuvProcState;
         private Label label26;
-        private Label label25;
-        private Label label24;
-        private Label label23;
-        private Label label22;
-        private Label label21;
+        private Label lblArf_FTargetYield;
+        private Label lblArf_FShipRateOver10;
+        private Label lblArf_ITargetYield;
+        private Label lblArf_IShipRateOver10;
+        private Label lblEuvTargetYield;
         private TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartTech;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartEquip;

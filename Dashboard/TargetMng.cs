@@ -539,7 +539,7 @@ namespace CeDev.DataMng
             // Declare and initialize variables
             //======================================================================================================================
             TargetSaveModel saveModel = new TargetSaveModel();
-            
+
             List<TargetItem> list = (List<TargetItem>)gridTarget.DataSource;
 
             if (list == null || list.Count == 0)
@@ -555,7 +555,7 @@ namespace CeDev.DataMng
             saveModel.year = strYear;
 
             //saveModel.reason = txtReason.Text.Trim();
-            saveModel.userId = "ADMIN";                
+            saveModel.userId = "ADMIN";
             saveModel.gridData = list;
 
             //string url = "http://localhost:9081/api/basemng-target-info/save-snapshot";
@@ -607,7 +607,7 @@ namespace CeDev.DataMng
                 else
                 {
                     MessageBox.Show($"서버에서 처리에 실패했습니다.\n사유: {message}", "경고", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }                            
+                }
             }
             else
             {
@@ -615,9 +615,13 @@ namespace CeDev.DataMng
                 MessageBox.Show($"저장 처리 중 오류가 발생했습니다.\n오류 내용: {errorMsg}", "에러", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            
+
 
         }
 
+        private void btnSaveKpi_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

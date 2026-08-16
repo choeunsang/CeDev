@@ -153,23 +153,19 @@ namespace CeDev
 
         #endregion
 
-        #region 
-
-        private void kPI목표관리ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            TargetMng form = new TargetMng();
-
-            form.MdiParent = this;
-            form.Show();
-        }
-
-        #endregion
-
+        #region 대쉬보드 - 기준정보
         private void series설정ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SeriesMng form = new SeriesMng();
-
             form.MdiParent = this;
+
+            // 부모 폼 내부 중앙에 위치시키기 위한 계산
+            form.StartPosition = FormStartPosition.Manual;
+            form.Location = new Point(
+                (this.ClientSize.Width - form.Width) / 2,
+                (this.ClientSize.Height - form.Height) / 2
+            );
+
             form.Show();
         }
 
@@ -177,9 +173,37 @@ namespace CeDev
         private void 대쉬보드ToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             TDashBoard form = new TDashBoard();
-
             form.MdiParent = this;
+
+            form.StartPosition = FormStartPosition.Manual;
+            form.Location = new Point(
+                (this.ClientSize.Width - form.Width) / 2,
+                (this.ClientSize.Height - form.Height) / 2  
+            );
+
             form.Show();
         }
+
+        #endregion
+
+        #region 대쉬보드
+
+        private void kPI목표관리ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TargetMng form = new TargetMng();
+            form.MdiParent = this;
+
+            form.StartPosition = FormStartPosition.Manual;
+            form.Location = new Point(
+                (this.ClientSize.Width - form.Width) / 2,
+                (this.ClientSize.Height - form.Height) / 2
+            );
+
+            form.Show();
+        }
+
+        #endregion
+
+
     }
 }
