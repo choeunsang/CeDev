@@ -32,17 +32,15 @@
             label1 = new Label();
             gridSect = new DataGridView();
             label2 = new Label();
-            label3 = new Label();
-            gridTat = new DataGridView();
             btnSectSearch = new Button();
             btnWaveSearch = new Button();
             btnPuSearch = new Button();
             gridPu = new DataGridView();
             label4 = new Label();
             btnPuSave = new Button();
+            btnWaveSave = new Button();
             ((System.ComponentModel.ISupportInitialize)gridWave).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gridSect).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)gridTat).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gridPu).BeginInit();
             SuspendLayout();
             // 
@@ -81,24 +79,6 @@
             label2.TabIndex = 39;
             label2.Text = "SECTION 정보";
             label2.TextAlign = ContentAlignment.TopRight;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(518, 309);
-            label3.Name = "label3";
-            label3.Size = new Size(107, 15);
-            label3.TabIndex = 41;
-            label3.Text = "TAT 시작지점 설정";
-            label3.TextAlign = ContentAlignment.TopRight;
-            // 
-            // gridTat
-            // 
-            gridTat.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            gridTat.Location = new Point(498, 339);
-            gridTat.Name = "gridTat";
-            gridTat.Size = new Size(410, 252);
-            gridTat.TabIndex = 42;
             // 
             // btnSectSearch
             // 
@@ -158,19 +138,28 @@
             btnPuSave.UseVisualStyleBackColor = true;
             btnPuSave.Click += btnPuSave_Click;
             // 
+            // btnWaveSave
+            // 
+            btnWaveSave.Location = new Point(395, 597);
+            btnWaveSave.Name = "btnWaveSave";
+            btnWaveSave.Size = new Size(83, 27);
+            btnWaveSave.TabIndex = 55;
+            btnWaveSave.Text = "저장";
+            btnWaveSave.UseVisualStyleBackColor = true;
+            btnWaveSave.Click += btnWaveSave_Click;
+            // 
             // SeriesMng
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1124, 621);
+            ClientSize = new Size(1124, 630);
+            Controls.Add(btnWaveSave);
             Controls.Add(btnPuSave);
             Controls.Add(btnPuSearch);
             Controls.Add(gridPu);
             Controls.Add(label4);
             Controls.Add(btnWaveSearch);
             Controls.Add(btnSectSearch);
-            Controls.Add(gridTat);
-            Controls.Add(label3);
             Controls.Add(gridSect);
             Controls.Add(label2);
             Controls.Add(gridWave);
@@ -180,7 +169,6 @@
             Load += SeriesMng_Load;
             ((System.ComponentModel.ISupportInitialize)gridWave).EndInit();
             ((System.ComponentModel.ISupportInitialize)gridSect).EndInit();
-            ((System.ComponentModel.ISupportInitialize)gridTat).EndInit();
             ((System.ComponentModel.ISupportInitialize)gridPu).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -192,13 +180,12 @@
         private Label label1;
         private DataGridView gridSect;
         private Label label2;
-        private Label label3;
-        private DataGridView gridTat;
         private Button btnSectSearch;
         private Button btnWaveSearch;
         private Button btnPuSearch;
         private DataGridView gridPu;
         private Label label4;
         private Button btnPuSave;
+        private Button btnWaveSave;
     }
 }

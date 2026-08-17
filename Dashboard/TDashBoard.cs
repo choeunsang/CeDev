@@ -1629,6 +1629,7 @@ namespace CeDev.DataMng
             CalendarWeekRule rule = CalendarWeekRule.FirstFourDayWeek;
             DayOfWeek firstDay = DayOfWeek.Sunday;
 
+
             _weekDetailList = _lotlist
                               .Where(x => string.Compare(x.StdDt, startOfThisYear) >= 0)
                               .Select(x =>
@@ -1663,6 +1664,55 @@ namespace CeDev.DataMng
                                   vAdd = Math.Round(g.Average(x => x.Item.vAdd ?? 0.0), 2)
                               })
                               .ToList();
+
+            //var dfeg = "333";
+
+            var _weekDetailList2 = _lotlist
+                              .Where(x => string.Compare(x.StdDt, startOfThisYear) >= 0)
+                              .GroupBy(x => 
+                              {
+
+                                  var parsedDate = DateTime.ParseExact(x.StdDt, "yyyyMMdd", CultureInfo.InvariantCulture);
+                                  int weekNum = cal.GetWeekOfYear(parsedDate, rule, firstDay);
+
+                                  // [보정] 1월인데 53주차로 계산된다면 올해의 1주차(WW01)로 강제 매핑합니다.
+                                  if (weekNum == 53 && parsedDate.Month == 1)
+                                  {
+                                      weekNum = 1;
+                                  }
+
+                                  //return new
+                                  //{
+                                  //    //weekKey = weekNum,
+                                  //    weekKey = $"WW{weekNum:D2}"
+                                  //};
+
+                                  //return weekNum;
+                                  return $"WW{weekNum:D2}";
+
+
+                              })
+                              .Select(gg => new DetailItem
+                              {
+                                  //kind = gg.Key.weekKey.ToString(),
+                                  kind = gg.Key.ToString(),
+                                  vPgIn = Math.Round(gg.Average(x => x.vPgIn ?? 0.0), 2),
+                                  vNoGwang = Math.Round(gg.Average(x => x.vNoGwang ?? 0.0), 2),
+                                  v1stA = Math.Round(gg.Average(x => x.v1stA ?? 0.0), 2),
+                                  v1stA2 = Math.Round(gg.Average(x => x.v1stA2 ?? 0.0), 2),
+                                  v1stB = Math.Round(gg.Average(x => x.v1stB ?? 0.0), 2),
+                                  v1stB2 = Math.Round(gg.Average(x => x.v1stB2 ?? 0.0), 2),
+                                  v2nd = Math.Round(gg.Average(x => x.v2nd ?? 0.0), 2),
+                                  vAdd = Math.Round(gg.Average(x => x.vAdd ?? 0.0), 2)
+                              })
+                              .ToList();
+
+
+            //var dfeg2 = "333";
+
+
+
+
 
             // -----------------------------------------------------------------------------------------------------
             //  summary
