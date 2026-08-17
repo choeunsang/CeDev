@@ -321,21 +321,23 @@ namespace CeDev.DataMng
                 return;
             }
 
-            List<PuSaveItem> savelist = new List<PuSaveItem>();
+            //List<PuSaveItem> savelist = new List<PuSaveItem>();
 
-            foreach (var item in list)
-            {
-                PuSaveItem saveItem = new PuSaveItem();
-                saveItem.puCd = item.PuCd;
-                saveItem.puNm = item.PuNm;
-                saveItem.parentCd = item.ParentCd;
-                saveItem.parentNm = item.ParentNm;
+            //foreach (var item in list)
+            //{
+            //    PuSaveItem saveItem = new PuSaveItem();
+            //    saveItem.puCd = item.PuCd;
+            //    saveItem.puNm = item.PuNm;
+            //    saveItem.parentCd = item.ParentCd;
+            //    saveItem.parentNm = item.ParentNm;
 
-                savelist.Add(saveItem);
-            }
+            //    savelist.Add(saveItem);
+            //}
 
-            //saveModel.gridData = list;
-            saveModel.gridData = savelist;
+            //saveModel.gridData = savelist;
+
+            saveModel.gridData = list;
+
 
             string url = "http://localhost:9081/api/basemng-pu-info/save";
 
@@ -403,20 +405,22 @@ namespace CeDev.DataMng
                 return;
             }
 
-            List<WaveSaveItem> savelist = new List<WaveSaveItem>();
+            //List<WaveSaveItem> savelist = new List<WaveSaveItem>();
 
-            foreach (var item in list)
-            {
-                WaveSaveItem saveItem = new WaveSaveItem();
-                saveItem.waveCd = item.WaveCd;
-                saveItem.waveNm = item.WaveNm;
-                saveItem.tatStart = item.TatStart;
+            //foreach (var item in list)
+            //{
+            //    WaveSaveItem saveItem = new WaveSaveItem();
+            //    saveItem.waveCd = item.WaveCd;
+            //    saveItem.waveNm = item.WaveNm;
+            //    saveItem.tatStart = item.TatStart;
 
-                savelist.Add(saveItem);
-            }
+            //    savelist.Add(saveItem);
+            //}
 
-            //saveModel.gridData = list;
-            saveModel.gridData = savelist;
+            //saveModel.gridData = savelist;
+
+            saveModel.gridData = list;
+
 
             string url = "http://localhost:9081/api/basemng-wave-info/save";
 
