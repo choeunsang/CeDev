@@ -40,8 +40,6 @@ namespace CeDev.DataMng
             gridKpi.EditingControlShowing += GridKpi_EditingControlShowing;
         }
 
-
-
         private void GridTarget_CellClick(object? sender, DataGridViewCellEventArgs e)
         {
             //// 클릭한 셀이 새로 만든 콤보박스 컬럼이고, 헤더가 아닐 때
@@ -120,8 +118,6 @@ namespace CeDev.DataMng
             }
         }
 
-
-
         private void TextBox_Number_KeyPress(object sender, KeyPressEventArgs e)
         {
             // 숫자가 아니고, 제어 문자(백스페이스, 복사/붙여넣기 단축키 등)도 아니라면 입력 차단
@@ -130,7 +126,6 @@ namespace CeDev.DataMng
                 e.Handled = true;
             }
         }
-
         private void TextBox_Decimal_KeyPress(object sender, KeyPressEventArgs e)
         {
             TextBox txt = sender as TextBox;
@@ -264,8 +259,6 @@ namespace CeDev.DataMng
                 }
             }
         }
-
-
 
         private async Task GetTargetInfo()
         {
@@ -511,7 +504,7 @@ namespace CeDev.DataMng
             }
         }
 
-        private void btnTargetHis_Click(object sender, EventArgs e)
+        private async void btnTargetHis_Click(object sender, EventArgs e)
         {
             List<TargetItem> list = (List<TargetItem>)gridTarget.DataSource;
 
@@ -523,7 +516,10 @@ namespace CeDev.DataMng
 
             using (HisPop pop = new HisPop(list))
             {
-                pop.ShowDialog();
+                if(pop.ShowDialog() == DialogResult.OK)
+                {
+                    await GetTargetInfo();
+                }
             }
         }
 
@@ -596,13 +592,9 @@ namespace CeDev.DataMng
                 // 4. 비즈니스 조건 검증
                 if (status == "SUCCESS")
                 {
-                    MessageBox.Show("호출성공", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    //MessageBox.Show("정상적으로 저장 및 이력 등록이 완료되었습니다.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    //MessageBox.Show($"{message}\n(생성된 이력 번호: {histId})", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    //this.DialogResult = DialogResult.OK;
-                    //this.Close();
+                    //MessageBox.Show("호출성공", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("저장성공", "알림", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    await GetTargetInfo();
                 }
                 else
                 {
@@ -614,9 +606,6 @@ namespace CeDev.DataMng
                 string errorMsg = await response.Content.ReadAsStringAsync();
                 MessageBox.Show($"저장 처리 중 오류가 발생했습니다.\n오류 내용: {errorMsg}", "에러", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-
-
         }
 
         private void btnSaveKpi_Click(object sender, EventArgs e)
