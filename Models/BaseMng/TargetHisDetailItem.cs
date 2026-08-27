@@ -1,8 +1,8 @@
 ﻿namespace CeDev.Models.BaseMng
 {
-    public class TargetItem
+    public class TargetHisDetailItem
     {
-        public string year { get; set; }
+        public string histId { get; set; }
         public string waveCd { get; set; }
 
         public string waveNm { get; set; }
@@ -21,6 +21,9 @@
         public string a4st { get; set; }
         public string a5st { get; set; }
         public string fabOut { get; set; }
+
+
+
 
     }
 }

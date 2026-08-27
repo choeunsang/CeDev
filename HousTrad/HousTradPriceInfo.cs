@@ -10,8 +10,8 @@ namespace CeDev
     {
         public HousTradPriceInfo()
         {
-            InitializeComponent();            
-            InitEvent();            
+            InitializeComponent();
+            InitEvent();
         }
 
         private async void HousTradPriceInfo_Load(object? sender, EventArgs e)
@@ -27,7 +27,7 @@ namespace CeDev
             //dataGridView1.SelectionChanged += dataGridView1_SelectionChanged;            
             dataGridView1.CellClick += DataGridView1_CellClick;
         }
-         
+
         private async Task InitCont()
         {
             //-------------------------------------------------------------------------------------------
@@ -71,7 +71,7 @@ namespace CeDev
 
         private async void btnSearch_Click(object sender, EventArgs e)
         {
-            await DoSearch();            
+            await DoSearch();
         }
 
         private async void DataGridView1_CellClick(object? sender, DataGridViewCellEventArgs e)
@@ -293,6 +293,11 @@ namespace CeDev
             //데이터 바인딩 또는 조회 완료 후 실행
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
 
+
+        }
+
+        private void progressBar1_Click(object sender, EventArgs e)
+        {
 
         }
     }

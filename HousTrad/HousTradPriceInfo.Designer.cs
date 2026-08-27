@@ -127,6 +127,7 @@
             progressBar1.Name = "progressBar1";
             progressBar1.Size = new Size(188, 23);
             progressBar1.TabIndex = 36;
+            progressBar1.Click += progressBar1_Click;
             // 
             // HousTradPriceInfo
             // 
@@ -144,7 +145,7 @@
             Controls.Add(dataGridView1);
             Controls.Add(btnSearch);
             Name = "HousTradPriceInfo";
-            Text = "주택 매매 평균가격";            
+            Text = "주택 매매 평균가격";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             ResumeLayout(false);

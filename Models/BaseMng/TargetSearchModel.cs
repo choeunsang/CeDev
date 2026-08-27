@@ -2,6 +2,8 @@
 {
     public class TargetSearchModel
     {
+        public string histId { get; set; }
+
         public string year { get; set; }
 
         public string PuCd { get; set; }
