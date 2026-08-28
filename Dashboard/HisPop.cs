@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.DirectoryServices;
 using System.Drawing;
 using System.Linq;
 using System.Net;
@@ -21,6 +22,7 @@ namespace CeDev.DataMng
 {
     public partial class HisPop : Form
     {
+        private List<TargetHisDetailItem> _templist;
         private List<TargetItem> _list;
 
         public HisPop()
@@ -62,13 +64,33 @@ namespace CeDev.DataMng
             }
 
             TargetHisMasterItem item = gridHisMaster.CurrentRow.DataBoundItem as TargetHisMasterItem;
+            TargetHisMasterItem preItem = new TargetHisMasterItem();
 
             if (item == null)
             {
                 return;
             }
 
-            txtChgReason.Text = item.chgReason;
+            _templist = new List<TargetHisDetailItem>();
+
+            //-------------------------------------------------------------------------------------------
+            // Processing
+            //-------------------------------------------------------------------------------------------
+            var idx = gridHisMaster.CurrentRow.Index;
+            var preIdx = 0;
+
+            if(idx > 0)
+            {
+                preIdx = idx - 1;
+                preItem = gridHisMaster.Rows[preIdx].DataBoundItem as TargetHisMasterItem;
+                
+                _templist = await GetHisDetailList(preItem);                
+            }            
+
+            //-------------------------------------------------------------------------------------------
+            // Output
+            //-------------------------------------------------------------------------------------------
+            txtChgReason.Text = item.chgReason;            
             await GetHisDetail(item);
         }
 
@@ -102,24 +124,8 @@ namespace CeDev.DataMng
             //======================================================================================================================
             TargetSearchModel model = new TargetSearchModel();
 
-            //string year = txtYear.Text.Trim();
-            //model.Sido = cboSido.Text == "전체" ? "" : cboSido.Text.Trim();
-
             string baseUrl = "http://localhost:9081/api/basemng-target-his-master";
-
-
             var queryString = HttpUtility.ParseQueryString(string.Empty);
-
-            ////model.year = "2026";
-            //model.year = cboYearTarget.Text;
-
-            //queryString["year"] = model.year;
-
-            //query["sido"] = model.Sido;
-            //query["sigungu"] = model.Sigungu;
-
-
-
             string url = $"{baseUrl}?{queryString}";
 
             //======================================================================================================================
@@ -154,6 +160,40 @@ namespace CeDev.DataMng
             //gridTarget.Columns["waveNm"].ReadOnly = true;
         }
 
+        private async Task<List<TargetHisDetailItem>> GetHisDetailList(TargetHisMasterItem pItem)
+        {
+            //-------------------------------------------------------------------------------------------
+            // Declare and initialize variables
+            //-------------------------------------------------------------------------------------------
+            TargetSearchModel model = new TargetSearchModel();
+
+            var queryString = HttpUtility.ParseQueryString(string.Empty);
+            queryString["histId"] = pItem.histId;
+
+            string baseUrl = "http://localhost:9081/api/basemng-target-his-detail";
+            string url = $"{baseUrl}?{queryString}";
+
+            //-------------------------------------------------------------------------------------------
+            // Processing
+            //-------------------------------------------------------------------------------------------
+            using (HttpClient client = new HttpClient())
+            {
+                Stopwatch stopwatch = Stopwatch.StartNew();
+
+                string json = await client.GetStringAsync(url);
+                List<TargetHisDetailItem> list = JsonConvert.DeserializeObject<List<TargetHisDetailItem>>(json);
+        
+                if (list == null || list.Count == 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    return list; 
+                }                
+            }
+        }
+
         private async Task GetHisDetail(TargetHisMasterItem pItem)
         {
             //-------------------------------------------------------------------------------------------
@@ -175,8 +215,10 @@ namespace CeDev.DataMng
             //-------------------------------------------------------------------------------------------
             // Processing
             //-------------------------------------------------------------------------------------------
-            using (HttpClient client = new HttpClient())
-            {
+            //using (HttpClient client = new HttpClient())
+            //{
+                HttpClient client = new HttpClient();
+
                 Stopwatch stopwatch = Stopwatch.StartNew();
 
                 string json = await client.GetStringAsync(url);
@@ -198,9 +240,164 @@ namespace CeDev.DataMng
                 gridHisDetail.DataSource = list;
                 gridHisDetail.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
 
-                //lblCnt2.Text = $"{list.Count:N0} 건({seconds:0.0}초)";
+            //lblCnt2.Text = $"{list.Count:N0} 건({seconds:0.0}초)";
 
-                //SetGridHeader();
+            //SetGridHeader();
+            //}
+
+            //-------------------------------------------------------------------------------------------
+            // Output 
+            //-------------------------------------------------------------------------------------------
+            //if(_templist == null)
+            if ((_templist == null) || (_templist.Count == 0))
+            {
+                return;
+            }
+
+            //foreach(var item in list)
+            //{
+            //    foreach(var subItem in _templist)
+            //    {
+            //        var ddd = "333";
+            //    }
+            //}
+
+            foreach (DataGridViewRow row in gridHisDetail.Rows )
+            {
+                if(row.DataBoundItem is TargetHisDetailItem item)
+                {
+                    var subItem = _templist.FirstOrDefault( x=> x.waveCd == item.waveCd);                    
+
+                    //01.fabIn
+                    if (item.fabIn != subItem.fabIn)
+                    {
+                        row.Cells["fabIn"].Style.BackColor = Color.MistyRose;
+                    }
+                    else
+                    {
+                        row.Cells["fabIn"].Style.BackColor = Color.White;
+                    }
+
+                    //02.b1st
+                    if (item.b1st != subItem.b1st)
+                    {
+                        row.Cells["b1st"].Style.BackColor = Color.MistyRose;
+                    }
+                    else
+                    {
+                        row.Cells["b1st"].Style.BackColor = Color.White;
+                    }
+
+                    //03.b2st
+                    if (item.b2st != subItem.b2st)
+                    {
+                        row.Cells["b2st"].Style.BackColor = Color.MistyRose;
+                    }
+                    else
+                    {
+                        row.Cells["b2st"].Style.BackColor = Color.White;
+                    }
+
+                    //04.b3st
+                    if (item.b3st != subItem.b3st)
+                    {
+                        row.Cells["b3st"].Style.BackColor = Color.MistyRose;
+                    }
+                    else
+                    {
+                        row.Cells["b3st"].Style.BackColor = Color.White;
+                    }
+
+                    //05.b4st
+                    if (item.b4st != subItem.b4st)
+                    {
+                        row.Cells["b4st"].Style.BackColor = Color.MistyRose;
+                    }
+                    else
+                    {
+                        row.Cells["b4st"].Style.BackColor = Color.White;
+                    }
+
+                    //06.b5st
+                    if (item.b5st != subItem.b5st)
+                    {
+                        row.Cells["b5st"].Style.BackColor = Color.MistyRose;
+                    }
+                    else
+                    {
+                        row.Cells["b5st"].Style.BackColor = Color.White;
+                    }
+
+                    //07.pgin
+                    if (item.pgin != subItem.pgin)
+                    {
+                        row.Cells["pgin"].Style.BackColor = Color.MistyRose;
+                    }
+                    else
+                    {
+                        row.Cells["pgin"].Style.BackColor = Color.White;
+                    }
+
+                    //08.a1st
+                    if (item.a1st != subItem.a1st)
+                    {
+                        row.Cells["a1st"].Style.BackColor = Color.MistyRose;
+                    }
+                    else
+                    {
+                        row.Cells["a1st"].Style.BackColor = Color.White;
+                    }
+
+                    //09.a2st
+                    if (item.a2st != subItem.a2st)
+                    {
+                        row.Cells["a2st"].Style.BackColor = Color.MistyRose;
+                    }
+                    else
+                    {
+                        row.Cells["a2st"].Style.BackColor = Color.White;
+                    }
+
+                    //10.a3st
+                    if (item.a3st != subItem.a3st)
+                    {
+                        row.Cells["a3st"].Style.BackColor = Color.MistyRose;
+                    }
+                    else
+                    {
+                        row.Cells["a3st"].Style.BackColor = Color.White;
+                    }
+
+                    //11.a4st
+                    if (item.a4st != subItem.a4st)
+                    {
+                        row.Cells["a4st"].Style.BackColor = Color.MistyRose;
+                    }
+                    else
+                    {
+                        row.Cells["a4st"].Style.BackColor = Color.White;
+                    }
+
+                    //12.a5st
+                    if (item.a5st != subItem.a5st)
+                    {
+                        row.Cells["a5st"].Style.BackColor = Color.MistyRose;
+                    }
+                    else
+                    {
+                        row.Cells["a5st"].Style.BackColor = Color.White;
+                    }
+
+                    //13.fabOut
+                    if (item.fabOut != subItem.fabOut)
+                    {
+                        row.Cells["fabOut"].Style.BackColor = Color.MistyRose;
+                    }
+                    else
+                    {
+                        row.Cells["fabOut"].Style.BackColor = Color.White;
+                    }
+                }
             }
         }
 
