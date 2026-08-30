@@ -3,14 +3,12 @@
     public class KpiItem
     {
         public string year { get; set; }
-        public string kpiCd { get; set; }
+        public string kpiCd { get; set; }        
         public string kpiNm { get; set; }
+
         public string gubun { get; set; }
-
-        
-        public string gubunDay { get; set; }
-
-        public string gubunSign { get; set; }
+        public string gubunVal { get; set; }
+        public string gubunSign { get; set; }                
 
         public string kpiVal { get; set; }
 
