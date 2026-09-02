@@ -196,71 +196,45 @@ namespace CeDev.DataMng
 
         private async Task GetHisDetail(TargetHisMasterItem pItem)
         {
-            //-------------------------------------------------------------------------------------------
+            //=================================================================================================================
             // Declare and initialize variables
-            //-------------------------------------------------------------------------------------------
+            //=================================================================================================================
             TargetSearchModel model = new TargetSearchModel();
-
-            var queryString = HttpUtility.ParseQueryString(string.Empty);
-            
-
-
+            var queryString = HttpUtility.ParseQueryString(string.Empty);            
             queryString["histId"] = pItem.histId;
 
-            string baseUrl = "http://localhost:9081/api/basemng-target-his-detail";
-                        
-
+            string baseUrl = "http://localhost:9081/api/basemng-target-his-detail";                        
             string url = $"{baseUrl}?{queryString}";
 
-            //-------------------------------------------------------------------------------------------
+            //=================================================================================================================
             // Processing
-            //-------------------------------------------------------------------------------------------
-            //using (HttpClient client = new HttpClient())
-            //{
-                HttpClient client = new HttpClient();
+            //=================================================================================================================
+            HttpClient client = new HttpClient();
+            
+            string json = await client.GetStringAsync(url);
+            List<TargetHisDetailItem> list = JsonConvert.DeserializeObject<List<TargetHisDetailItem>>(json);
+            
+            if (list == null || list.Count == 0)
+            {
+                MessageBox.Show("조회된 데이터가 없습니다.");
+                gridHisDetail.DataSource = null;
+                //chart1.Series.Clear();
+                return;
+            }
 
-                Stopwatch stopwatch = Stopwatch.StartNew();
+            gridHisDetail.DataSource = list;
+            gridHisDetail.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
 
-                string json = await client.GetStringAsync(url);
-                List<TargetHisDetailItem> list = JsonConvert.DeserializeObject<List<TargetHisDetailItem>>(json);
+            Color chgColorY = Color.MistyRose;
+            Color chgColorN = Color.White;
 
-                stopwatch.Stop();
-
-                if (list == null || list.Count == 0)
-                {
-                    MessageBox.Show("조회된 데이터가 없습니다.");
-                    gridHisDetail.DataSource = null;
-                    //chart1.Series.Clear();
-                    return;
-                }
-
-                long elapsedMs = stopwatch.ElapsedMilliseconds;
-                double seconds = elapsedMs / 1000.0; // 초 단위 변환 (0.8초)
-
-                gridHisDetail.DataSource = list;
-                gridHisDetail.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-
-            //lblCnt2.Text = $"{list.Count:N0} 건({seconds:0.0}초)";
-
-            //SetGridHeader();
-            //}
-
-            //-------------------------------------------------------------------------------------------
+            //=================================================================================================================
             // Output 
-            //-------------------------------------------------------------------------------------------
-            //if(_templist == null)
+            //=================================================================================================================
             if ((_templist == null) || (_templist.Count == 0))
             {
                 return;
             }
-
-            //foreach(var item in list)
-            //{
-            //    foreach(var subItem in _templist)
-            //    {
-            //        var ddd = "333";
-            //    }
-            //}
 
             foreach (DataGridViewRow row in gridHisDetail.Rows )
             {
@@ -271,131 +245,131 @@ namespace CeDev.DataMng
                     //01.fabIn
                     if (item.fabIn != subItem.fabIn)
                     {
-                        row.Cells["fabIn"].Style.BackColor = Color.MistyRose;
+                        row.Cells["fabIn"].Style.BackColor = chgColorY;
                     }
                     else
                     {
-                        row.Cells["fabIn"].Style.BackColor = Color.White;
+                        row.Cells["fabIn"].Style.BackColor = chgColorN;
                     }
 
                     //02.b1st
                     if (item.b1st != subItem.b1st)
                     {
-                        row.Cells["b1st"].Style.BackColor = Color.MistyRose;
+                        row.Cells["b1st"].Style.BackColor = chgColorY;
                     }
                     else
                     {
-                        row.Cells["b1st"].Style.BackColor = Color.White;
+                        row.Cells["b1st"].Style.BackColor = chgColorN;
                     }
 
                     //03.b2st
                     if (item.b2st != subItem.b2st)
                     {
-                        row.Cells["b2st"].Style.BackColor = Color.MistyRose;
+                        row.Cells["b2st"].Style.BackColor = chgColorY;
                     }
                     else
                     {
-                        row.Cells["b2st"].Style.BackColor = Color.White;
+                        row.Cells["b2st"].Style.BackColor = chgColorN;
                     }
 
                     //04.b3st
                     if (item.b3st != subItem.b3st)
                     {
-                        row.Cells["b3st"].Style.BackColor = Color.MistyRose;
+                        row.Cells["b3st"].Style.BackColor = chgColorY;
                     }
                     else
                     {
-                        row.Cells["b3st"].Style.BackColor = Color.White;
+                        row.Cells["b3st"].Style.BackColor = chgColorN;
                     }
 
                     //05.b4st
                     if (item.b4st != subItem.b4st)
                     {
-                        row.Cells["b4st"].Style.BackColor = Color.MistyRose;
+                        row.Cells["b4st"].Style.BackColor = chgColorY;
                     }
                     else
                     {
-                        row.Cells["b4st"].Style.BackColor = Color.White;
+                        row.Cells["b4st"].Style.BackColor = chgColorN;
                     }
 
                     //06.b5st
                     if (item.b5st != subItem.b5st)
                     {
-                        row.Cells["b5st"].Style.BackColor = Color.MistyRose;
+                        row.Cells["b5st"].Style.BackColor = chgColorY;
                     }
                     else
                     {
-                        row.Cells["b5st"].Style.BackColor = Color.White;
+                        row.Cells["b5st"].Style.BackColor = chgColorN;
                     }
 
                     //07.pgin
                     if (item.pgin != subItem.pgin)
                     {
-                        row.Cells["pgin"].Style.BackColor = Color.MistyRose;
+                        row.Cells["pgin"].Style.BackColor = chgColorY;
                     }
                     else
                     {
-                        row.Cells["pgin"].Style.BackColor = Color.White;
+                        row.Cells["pgin"].Style.BackColor = chgColorN;
                     }
 
                     //08.a1st
                     if (item.a1st != subItem.a1st)
                     {
-                        row.Cells["a1st"].Style.BackColor = Color.MistyRose;
+                        row.Cells["a1st"].Style.BackColor = chgColorY;
                     }
                     else
                     {
-                        row.Cells["a1st"].Style.BackColor = Color.White;
+                        row.Cells["a1st"].Style.BackColor = chgColorN;
                     }
 
                     //09.a2st
                     if (item.a2st != subItem.a2st)
                     {
-                        row.Cells["a2st"].Style.BackColor = Color.MistyRose;
+                        row.Cells["a2st"].Style.BackColor = chgColorY;
                     }
                     else
                     {
-                        row.Cells["a2st"].Style.BackColor = Color.White;
+                        row.Cells["a2st"].Style.BackColor = chgColorN;
                     }
 
                     //10.a3st
                     if (item.a3st != subItem.a3st)
                     {
-                        row.Cells["a3st"].Style.BackColor = Color.MistyRose;
+                        row.Cells["a3st"].Style.BackColor = chgColorY;
                     }
                     else
                     {
-                        row.Cells["a3st"].Style.BackColor = Color.White;
+                        row.Cells["a3st"].Style.BackColor = chgColorN;
                     }
 
                     //11.a4st
                     if (item.a4st != subItem.a4st)
                     {
-                        row.Cells["a4st"].Style.BackColor = Color.MistyRose;
+                        row.Cells["a4st"].Style.BackColor = chgColorY;
                     }
                     else
                     {
-                        row.Cells["a4st"].Style.BackColor = Color.White;
+                        row.Cells["a4st"].Style.BackColor = chgColorN;
                     }
 
                     //12.a5st
                     if (item.a5st != subItem.a5st)
                     {
-                        row.Cells["a5st"].Style.BackColor = Color.MistyRose;
+                        row.Cells["a5st"].Style.BackColor = chgColorY;
                     }
                     else
                     {
-                        row.Cells["a5st"].Style.BackColor = Color.White;
+                        row.Cells["a5st"].Style.BackColor = chgColorN;
                     }
 
                     //13.fabOut
                     if (item.fabOut != subItem.fabOut)
                     {
-                        row.Cells["fabOut"].Style.BackColor = Color.MistyRose;
+                        row.Cells["fabOut"].Style.BackColor = chgColorY;
                     }
                     else
                     {
-                        row.Cells["fabOut"].Style.BackColor = Color.White;
+                        row.Cells["fabOut"].Style.BackColor = chgColorN;
                     }
                 }
             }

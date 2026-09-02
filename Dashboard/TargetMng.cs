@@ -28,7 +28,9 @@ namespace CeDev.DataMng
 
         private async void TargetMng_Load(object sender, EventArgs e)
         {
-            await GetTargetInfo();
+            InitKpiGridColSetting();
+
+            await GetTargetInfo();                        
             await GetKpiInfo();
         }
 
@@ -201,131 +203,7 @@ namespace CeDev.DataMng
 
             //InitKpiGridColSetting();
         }
-
-
         
-        private void IntGridControl_Combox(int pColNum, List<string> pList, string pHeaderTxt)
-        {
-            // 1. 기존 '3'이 들어있는 컬럼 인덱스 지정 (예: 6번째 컬럼이면 Index 5)
-            //int targetColumnIndex = 9;
-            int targetColumnIndex = pColNum;
-
-            // 2. 기존 행들의 데이터 값(예: "3")을 미리 배열이나 리스트에 백업
-            string[] originalValues = new string[gridKpi.Rows.Count];
-            for (int i = 0; i < gridKpi.Rows.Count; i++)
-            {
-                if (gridKpi.Rows[i].Cells[targetColumnIndex].Value != null)
-                {
-                    originalValues[i] = gridKpi.Rows[i].Cells[targetColumnIndex].Value.ToString().Trim();
-                }
-            }
-
-            // 3. 기존의 텍스트박스 컬럼 제거
-            gridKpi.Columns.RemoveAt(targetColumnIndex);
-
-            // 4. 새로운 콤보박스 컬럼 생성
-            DataGridViewComboBoxColumn cmbCol = new DataGridViewComboBoxColumn();
-
-            cmbCol.Width = 52;
-
-            //cmbCol.Name = "MonthSelectColumn";
-            //cmbCol.HeaderText = "3차"; // 기존 헤더 이름에 맞게 지정하세요
-            cmbCol.HeaderText = pHeaderTxt;
-
-            // ⚠️ 중요: 만약 DataTable을 DataSource로 바인딩 중이라면 아래 속성을 바인딩 필드명과 맞춰야 합니다.
-            // cmbCol.DataPropertyName = "해당필드명"; 
-
-            // 5. 콤보박스에 1~12 아이템 추가 (안전하게 문자열 .ToString()으로 추가)
-            //for (int i = 1; i <= 12; i++)
-            //{
-            //    cmbCol.Items.Add(i.ToString());
-            //}
-
-            foreach (var item in pList)
-            {
-                cmbCol.Items.Add(item.ToString());
-            }
-
-
-            // 6. 원래 위치에 콤보박스 컬럼 삽입
-            gridKpi.Columns.Insert(targetColumnIndex, cmbCol);
-
-            // 7. 백업해 두었던 기존 값을 각 셀에 다시 대입하여 기본 선택 상태로 만들기
-            for (int i = 0; i < gridKpi.Rows.Count; i++)
-            {
-                if (!string.IsNullOrEmpty(originalValues[i]))
-                {
-                    // 콤보박스 아이템 목록에 백업된 값("3")이 존재하는지 확인 후 세팅
-                    if (cmbCol.Items.Contains(originalValues[i]))
-                    {
-                        gridKpi.Rows[i].Cells[targetColumnIndex].Value = originalValues[i];
-                    }
-                }
-            }
-        }
-
-        private void IntGridControl_Combox(int pColNum, List<string> pList, string pHeaderTxt, string pPropNm)
-        {
-            // 1. 기존 '3'이 들어있는 컬럼 인덱스 지정 (예: 6번째 컬럼이면 Index 5)
-            //int targetColumnIndex = 9;
-            int targetColumnIndex = pColNum;
-
-            // 2. 기존 행들의 데이터 값(예: "3")을 미리 배열이나 리스트에 백업
-            string[] originalValues = new string[gridKpi.Rows.Count];
-            for (int i = 0; i < gridKpi.Rows.Count; i++)
-            {
-                if (gridKpi.Rows[i].Cells[targetColumnIndex].Value != null)
-                {
-                    originalValues[i] = gridKpi.Rows[i].Cells[targetColumnIndex].Value.ToString().Trim();
-                }
-            }
-
-            // 3. 기존의 텍스트박스 컬럼 제거
-            gridKpi.Columns.RemoveAt(targetColumnIndex);
-
-            // 4. 새로운 콤보박스 컬럼 생성
-            DataGridViewComboBoxColumn cmbCol = new DataGridViewComboBoxColumn();
-            cmbCol.DataPropertyName = pPropNm;
-
-            cmbCol.Width = 52;
-
-            //cmbCol.Name = "MonthSelectColumn";
-            //cmbCol.HeaderText = "3차"; // 기존 헤더 이름에 맞게 지정하세요
-            cmbCol.HeaderText = pHeaderTxt;
-
-            // ⚠️ 중요: 만약 DataTable을 DataSource로 바인딩 중이라면 아래 속성을 바인딩 필드명과 맞춰야 합니다.
-            // cmbCol.DataPropertyName = "해당필드명"; 
-
-            // 5. 콤보박스에 1~12 아이템 추가 (안전하게 문자열 .ToString()으로 추가)
-            //for (int i = 1; i <= 12; i++)
-            //{
-            //    cmbCol.Items.Add(i.ToString());
-            //}
-
-            foreach (var item in pList)
-            {
-                cmbCol.Items.Add(item.ToString());
-            }
-
-
-            // 6. 원래 위치에 콤보박스 컬럼 삽입
-            gridKpi.Columns.Insert(targetColumnIndex, cmbCol);
-
-            // 7. 백업해 두었던 기존 값을 각 셀에 다시 대입하여 기본 선택 상태로 만들기
-            for (int i = 0; i < gridKpi.Rows.Count; i++)
-            {
-                if (!string.IsNullOrEmpty(originalValues[i]))
-                {
-                    // 콤보박스 아이템 목록에 백업된 값("3")이 존재하는지 확인 후 세팅
-                    if (cmbCol.Items.Contains(originalValues[i]))
-                    {
-                        gridKpi.Rows[i].Cells[targetColumnIndex].Value = originalValues[i];
-                    }
-                }
-            }
-        }
-
-
         private async Task GetTargetInfo()
         {
             //======================================================================================================================
@@ -389,20 +267,9 @@ namespace CeDev.DataMng
             //======================================================================================================================
             // Declare and initialize variables
             //======================================================================================================================            
-
-            KpiSearchModel model = new KpiSearchModel();
-
-            //string year = txtYear.Text.Trim();
-            //model.Sido = cboSido.Text == "전체" ? "" : cboSido.Text.Trim();
-
-            string baseUrl = "http://localhost:9081/api/basemng-kpi-info";
-
-            //string queryString = BuildQueryString(model);
+            KpiSearchModel model = new KpiSearchModel();            
+            string baseUrl = "http://localhost:9081/api/basemng-kpi-info";            
             var queryString = HttpUtility.ParseQueryString(string.Empty);
-
-            //query["sido"] = model.Sido;
-            //query["sigungu"] = model.Sigungu;
-
             string url = $"{baseUrl}?{queryString}";
 
             //======================================================================================================================
@@ -422,245 +289,196 @@ namespace CeDev.DataMng
                 return;
             }
 
-
             foreach(var item in list)
             {
                 item.gubun = item.gubunVal + "일 " + item.gubunSign;
             }
             
-
             gridKpi.DataSource = list;
-
-
-            //if(isKpiColSetYn == true)
-            //{
-            //    return;
-            //}
-
-            gridKpi.Columns["year"].Visible = false;
-            gridKpi.Columns["kpiCd"].Visible = false;
-
-            gridKpi.Columns["kpiNm"].ReadOnly = true;
-            gridKpi.Columns["gubun"].ReadOnly = true;
-
-            gridKpi.Columns["gubunVal"].HeaderText = "";
-            gridKpi.Columns["gubunVal"].Width = 70;
-
-            gridKpi.Columns["gubunSign"].HeaderText = "";
-            gridKpi.Columns["gubunSign"].Width = 70;
-
-            gridKpi.Columns["kpiVal"].Width = 350;
-            gridKpi.Columns["kpiVal"].ReadOnly = true;
-
-            gridKpi.Columns["v1stSign"].HeaderText = "1차";
-            gridKpi.Columns["v1stSign"].Width = 70;
-            gridKpi.Columns["v1stVal"].HeaderText = "";
-            gridKpi.Columns["v1stVal"].Width = 70;
-            gridKpi.Columns["v1stMon"].HeaderText = "";
-            gridKpi.Columns["v1stMon"].Width = 70;
-            gridKpi.Columns["v1stUseYn"].HeaderText = "";
-            gridKpi.Columns["v1stUseYn"].Width = 70;
-
-            gridKpi.Columns["v2stSign"].HeaderText = "2차";
-            gridKpi.Columns["v2stSign"].Width = 70;
-            gridKpi.Columns["v2stVal"].HeaderText = "";
-            gridKpi.Columns["v2stVal"].Width = 70;
-            gridKpi.Columns["v2stMon"].HeaderText = "";
-            gridKpi.Columns["v2stMon"].Width = 70;
-            gridKpi.Columns["v2stUseYn"].HeaderText = "";
-            gridKpi.Columns["v2stUseYn"].Width = 70;
-
-            gridKpi.Columns["v3stSign"].HeaderText = "3차";
-            gridKpi.Columns["v3stSign"].Width = 70;
-            gridKpi.Columns["v3stVal"].HeaderText = "";
-            gridKpi.Columns["v3stVal"].Width = 70;
-            gridKpi.Columns["v3stMon"].HeaderText = "";
-            gridKpi.Columns["v3stMon"].Width = 70;
-            gridKpi.Columns["v3stUseYn"].HeaderText = "";
-            gridKpi.Columns["v3stUseYn"].Width = 70;
-
-            gridKpi.Columns["v4stSign"].HeaderText = "4차";
-            gridKpi.Columns["v4stSign"].Width = 70;
-            gridKpi.Columns["v4stVal"].HeaderText = "";
-            gridKpi.Columns["v4stVal"].Width = 70;
-            gridKpi.Columns["v4stMon"].HeaderText = "";
-            gridKpi.Columns["v4stMon"].Width = 70;
-            gridKpi.Columns["v4stUseYn"].HeaderText = "";
-            gridKpi.Columns["v4stUseYn"].Width = 70;
-
-            gridKpi.Columns["regId"].Visible = false;
-            gridKpi.Columns["regDt"].Visible = false;
-            gridKpi.Columns["modId"].Visible = false;
-            gridKpi.Columns["modDt"].Visible = false;
-
-
-            //-------------------------------------------------------------------------------
-            //(2).결과 그리드 - 컨트롤
-            //-------------------------------------------------------------------------------
-            //(1).문자 부등호()
-            List<string> ynSine_Char = new List<string>();
-
-            ynSine_Char.Add("이내");
-            ynSine_Char.Add("초과");
-
-            //IntGridControl_Combox(5, ynSine_Char, "");
-            IntGridControl_Combox(5, ynSine_Char, "", "gubunSign");
-
-            //(2).부등호()
-            List<string> ynSine = new List<string>();
-
-            ynSine.Add("≥");
-            ynSine.Add(">");
-            ynSine.Add("<");
-            ynSine.Add("≤");
-
-            IntGridControl_Combox(7, ynSine, "1차", "v1stSign");
-            IntGridControl_Combox(11, ynSine, "2차", "v2stSign");
-            IntGridControl_Combox(15, ynSine, "3차", "v3stSign");
-            IntGridControl_Combox(19, ynSine, "4차", "v4stSign");
-
-            //(3).1~12월
-            List<string> monList = new List<string>();
-
-            for (int i = 1; i <= 12; i++)
-            {
-                monList.Add(i.ToString());
-            }
-            
-            IntGridControl_Combox(9, monList, "", "v1stMon");
-            IntGridControl_Combox(13, monList, "", "v2stMon");
-            IntGridControl_Combox(17, monList, "", "v3stMon");
-            IntGridControl_Combox(20, monList, "", "v4stMon");
-
-            //(4).사용여부(Y/N)
-            List<string> ynList = new List<string>();
-
-            ynList.Add("Y");
-            ynList.Add("N");
-
-            IntGridControl_Combox(10, ynList, "", "v1stUseYn");
-            IntGridControl_Combox(14, ynList, "", "v2stUseYn");
-            IntGridControl_Combox(18, ynList, "", "v3stUseYn");
-            IntGridControl_Combox(22, ynList, "", "v4stUseYn");
-
-
-            //isKpiColSetYn = true;
         }
-
 
         private void InitKpiGridColSetting()
         {
-            List<KpiItem> list = new List<KpiItem>();
-            gridKpi.DataSource = list;
+            //======================================================================================================================================
+            //Declare and initialize variables 
+            //======================================================================================================================================
+            gridKpi.Columns.Clear();
+            gridKpi.AutoGenerateColumns = false;
 
-            int colWidth = 50;
-            var ddd = gridKpi.ColumnCount;
-
-            gridKpi.Columns["year"].Visible = false;
-            gridKpi.Columns["kpiCd"].Visible = false;
-
-            gridKpi.Columns["kpiNm"].ReadOnly = true;
-            gridKpi.Columns["gubun"].ReadOnly = true;
-
-            gridKpi.Columns["gubunDay"].HeaderText = "";
-            gridKpi.Columns["gubunDay"].Width = 70;
-
-            gridKpi.Columns["gubunSign"].HeaderText = "";
-            gridKpi.Columns["gubunSign"].Width = 70;
-
-            gridKpi.Columns["kpiVal"].Width = 350;
-            gridKpi.Columns["kpiVal"].ReadOnly = true;
-
-            gridKpi.Columns["v1stSign"].HeaderText = "1차";
-            gridKpi.Columns["v1stSign"].Width = colWidth;
-            gridKpi.Columns["v1stVal"].HeaderText = "";
-            gridKpi.Columns["v1stVal"].Width = colWidth;
-            gridKpi.Columns["v1stMon"].HeaderText = "";
-            gridKpi.Columns["v1stMon"].Width = colWidth;
-            gridKpi.Columns["v1stUseYn"].HeaderText = "";
-            gridKpi.Columns["v1stUseYn"].Width = colWidth;
-
-            gridKpi.Columns["v2stSign"].HeaderText = "2차";
-            gridKpi.Columns["v2stSign"].Width = 70;
-            gridKpi.Columns["v2stVal"].HeaderText = "";
-            gridKpi.Columns["v2stVal"].Width = 70;
-            gridKpi.Columns["v2stMon"].HeaderText = "";
-            gridKpi.Columns["v2stMon"].Width = 70;
-            gridKpi.Columns["v2stUseYn"].HeaderText = "";
-            gridKpi.Columns["v2stUseYn"].Width = 70;
-
-            gridKpi.Columns["v3stSign"].HeaderText = "3차";
-            gridKpi.Columns["v3stSign"].Width = 70;
-            gridKpi.Columns["v3stVal"].HeaderText = "";
-            gridKpi.Columns["v3stVal"].Width = 70;
-            gridKpi.Columns["v3stMon"].HeaderText = "";
-            gridKpi.Columns["v3stMon"].Width = 70;
-            gridKpi.Columns["v3stUseYn"].HeaderText = "";
-            gridKpi.Columns["v3stUseYn"].Width = 70;
-
-            gridKpi.Columns["v4stSign"].HeaderText = "4차";
-            gridKpi.Columns["v4stSign"].Width = 70;
-            gridKpi.Columns["v4stVal"].HeaderText = "";
-            gridKpi.Columns["v4stVal"].Width = 70;
-            gridKpi.Columns["v4stMon"].HeaderText = "";
-            gridKpi.Columns["v4stMon"].Width = 70;
-            gridKpi.Columns["v4stUseYn"].HeaderText = "";
-            gridKpi.Columns["v4stUseYn"].Width = 70;
-
-            gridKpi.Columns["regId"].Visible = false;
-            gridKpi.Columns["regDt"].Visible = false;
-            gridKpi.Columns["modId"].Visible = false;
-            gridKpi.Columns["modDt"].Visible = false;
-
+            int colWidth = 50; // 기준 너비 변수
 
             //-------------------------------------------------------------------------------
-            //(2).결과 그리드 - 컨트롤
+            // 콤보박스용 데이터 리스트 미리 생성
             //-------------------------------------------------------------------------------
-            //(1).문자 부등호()
-            List<string> ynSine_Char = new List<string>();
+            // (1) 문자 부등호
+            List<string> ynSine_Char = new List<string> { "이내", "초과" };
 
-            ynSine_Char.Add("이내");
-            ynSine_Char.Add("초과");
+            // (2) 부등호
+            List<string> ynSine = new List<string> { "≥", ">", "<", "≤" };
 
-            IntGridControl_Combox(5, ynSine_Char, "");
-
-            //(2).부등호()
-            List<string> ynSine = new List<string>();
-
-            ynSine.Add("≥");
-            ynSine.Add(">");
-            ynSine.Add("<");
-            ynSine.Add("≤");
-
-            IntGridControl_Combox(7, ynSine, "1차");
-            IntGridControl_Combox(11, ynSine, "2차");
-            IntGridControl_Combox(15, ynSine, "3차");
-            IntGridControl_Combox(19, ynSine, "4차");
-
-            //(3).1~12월
+            // (3) 1~12월
             List<string> monList = new List<string>();
-
             for (int i = 1; i <= 12; i++)
             {
                 monList.Add(i.ToString());
             }
 
-            IntGridControl_Combox(9, monList, "");
-            IntGridControl_Combox(13, monList, "");
-            IntGridControl_Combox(17, monList, "");
-            IntGridControl_Combox(20, monList, "");
+            // (4) 사용여부
+            List<string> ynList = new List<string> { "Y", "N" };
 
-            //(4).사용여부(Y/N)
-            List<string> ynList = new List<string>();
 
-            ynList.Add("Y");
-            ynList.Add("N");
+            //======================================================================================================================================
+            //Processing
+            //======================================================================================================================================            
+            gridKpi.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "year", Name = "year", Visible = false });
+            gridKpi.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "kpiCd", Name = "kpiCd", Visible = false });            
+            gridKpi.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "kpiNm", Name = "kpiNm", HeaderText = "KPI명", ReadOnly = true });
+            gridKpi.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "gubun", Name = "gubun", HeaderText = "구분", ReadOnly = true });            
+            gridKpi.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "gubunDay", Name = "gubunDay", HeaderText = "", Width = 70 });            
+            gridKpi.Columns.Add(new DataGridViewComboBoxColumn
+            {
+                DataPropertyName = "gubunSign",
+                Name = "gubunSign",
+                HeaderText = "",
+                Width = 70,
+                DataSource = ynSine_Char,
+                FlatStyle = FlatStyle.Flat
+            });
 
-            IntGridControl_Combox(10, ynList, "");
-            IntGridControl_Combox(14, ynList, "");
-            IntGridControl_Combox(18, ynList, "");
-            IntGridControl_Combox(22, ynList, "");
+            gridKpi.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "kpiVal", Name = "kpiVal", HeaderText = "KPI값", Width = 350, ReadOnly = true });
+
+            //1차
+            gridKpi.Columns.Add(new DataGridViewComboBoxColumn
+            {
+                DataPropertyName = "v1stSign",
+                Name = "v1stSign",
+                HeaderText = "1차",
+                Width = colWidth,
+                DataSource = ynSine,
+                FlatStyle = FlatStyle.Flat
+            });
+            gridKpi.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "v1stVal", Name = "v1stVal", HeaderText = "", Width = colWidth });
+            gridKpi.Columns.Add(new DataGridViewComboBoxColumn
+            {
+                DataPropertyName = "v1stMon",
+                Name = "v1stMon",
+                HeaderText = "",
+                Width = colWidth,
+                DataSource = monList,
+                FlatStyle = FlatStyle.Flat
+            });
+            gridKpi.Columns.Add(new DataGridViewComboBoxColumn
+            {
+                DataPropertyName = "v1stUseYn",
+                Name = "v1stUseYn",
+                HeaderText = "",
+                Width = colWidth,
+                DataSource = ynList,
+                FlatStyle = FlatStyle.Flat
+            });
+
+            //2차
+            gridKpi.Columns.Add(new DataGridViewComboBoxColumn
+            {
+                DataPropertyName = "v2stSign",
+                Name = "v2stSign",
+                HeaderText = "2차",
+                Width = 70,
+                DataSource = ynSine,
+                FlatStyle = FlatStyle.Flat
+            });
+            gridKpi.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "v2stVal", Name = "v2stVal", HeaderText = "", Width = 70 });
+            gridKpi.Columns.Add(new DataGridViewComboBoxColumn
+            {
+                DataPropertyName = "v2stMon",
+                Name = "v2stMon",
+                HeaderText = "",
+                Width = 70,
+                DataSource = monList,
+                FlatStyle = FlatStyle.Flat
+            });
+            gridKpi.Columns.Add(new DataGridViewComboBoxColumn
+            {
+                DataPropertyName = "v2stUseYn",
+                Name = "v2stUseYn",
+                HeaderText = "",
+                Width = 70,
+                DataSource = ynList,
+                FlatStyle = FlatStyle.Flat
+            });
+
+            //3차
+            gridKpi.Columns.Add(new DataGridViewComboBoxColumn
+            {
+                DataPropertyName = "v3stSign",
+                Name = "v3stSign",
+                HeaderText = "3차",
+                Width = 70,
+                DataSource = ynSine,
+                FlatStyle = FlatStyle.Flat
+            });
+            gridKpi.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "v3stVal", Name = "v3stVal", HeaderText = "", Width = 70 });
+            gridKpi.Columns.Add(new DataGridViewComboBoxColumn
+            {
+                DataPropertyName = "v3stMon",
+                Name = "v3stMon",
+                HeaderText = "",
+                Width = 70,
+                DataSource = monList,
+                FlatStyle = FlatStyle.Flat
+            });
+            gridKpi.Columns.Add(new DataGridViewComboBoxColumn
+            {
+                DataPropertyName = "v3stUseYn",
+                Name = "v3stUseYn",
+                HeaderText = "",
+                Width = 70,
+                DataSource = ynList,
+                FlatStyle = FlatStyle.Flat
+            });
+
+            //4차
+            gridKpi.Columns.Add(new DataGridViewComboBoxColumn
+            {
+                DataPropertyName = "v4stSign",
+                Name = "v4stSign",
+                HeaderText = "4차",
+                Width = 70,
+                DataSource = ynSine,
+                FlatStyle = FlatStyle.Flat
+            });
+            gridKpi.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "v4stVal", Name = "v4stVal", HeaderText = "", Width = 70 });
+            gridKpi.Columns.Add(new DataGridViewComboBoxColumn
+            {
+                DataPropertyName = "v4stMon",
+                Name = "v4stMon",
+                HeaderText = "",
+                Width = 70,
+                DataSource = monList,
+                FlatStyle = FlatStyle.Flat
+            });
+            gridKpi.Columns.Add(new DataGridViewComboBoxColumn
+            {
+                DataPropertyName = "v4stUseYn",
+                Name = "v4stUseYn",
+                HeaderText = "",
+                Width = 70,
+                DataSource = ynList,
+                FlatStyle = FlatStyle.Flat
+            });
+            
+            gridKpi.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "regId", Name = "regId", Visible = false });
+            gridKpi.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "regDt", Name = "regDt", Visible = false });
+            gridKpi.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "modId", Name = "modId", Visible = false });
+            gridKpi.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "modDt", Name = "modDt", Visible = false });
+
+
+            //======================================================================================================================================
+            //Output
+            //====================================================================================================================================== 
+            gridKpi.DataSource = new List<KpiItem>();
         }
+
 
         private async void btnSearchTarget_Click(object sender, EventArgs e)
         {
@@ -726,10 +544,6 @@ namespace CeDev.DataMng
             }
         }
 
-        private async void btnSaveTest_Click(object sender, EventArgs e)
-        {
-            await SaveTargetInfo();
-        }
 
 
         private async Task SaveTargetInfo()

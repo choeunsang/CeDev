@@ -41,7 +41,6 @@
             btnTargetHis = new Button();
             btnSaveTarget = new Button();
             btnSaveKpi = new Button();
-            btnSaveTest = new Button();
             ((System.ComponentModel.ISupportInitialize)gridTarget).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gridKpi).BeginInit();
             SuspendLayout();
@@ -168,22 +167,11 @@
             btnSaveKpi.UseVisualStyleBackColor = true;
             btnSaveKpi.Click += btnSaveKpi_Click;
             // 
-            // btnSaveTest
-            // 
-            btnSaveTest.Location = new Point(1291, 331);
-            btnSaveTest.Name = "btnSaveTest";
-            btnSaveTest.Size = new Size(83, 27);
-            btnSaveTest.TabIndex = 53;
-            btnSaveTest.Text = "저장 테스트";
-            btnSaveTest.UseVisualStyleBackColor = true;
-            btnSaveTest.Click += btnSaveTest_Click;
-            // 
             // TargetMng
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1486, 684);
-            Controls.Add(btnSaveTest);
             Controls.Add(btnSaveKpi);
             Controls.Add(btnSaveTarget);
             Controls.Add(btnTargetHis);
@@ -221,6 +209,5 @@
         private Button btnTargetHis;
         private Button btnSaveTarget;
         private Button btnSaveKpi;
-        private Button btnSaveTest;
     }
 }
