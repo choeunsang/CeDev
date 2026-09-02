@@ -48,17 +48,19 @@
             회원정보ToolStripMenuItem = new ToolStripMenuItem();
             회원관리ToolStripMenuItem = new ToolStripMenuItem();
             기준정보ToolStripMenuItem1 = new ToolStripMenuItem();
-            대쉬보드ToolStripMenuItem1 = new ToolStripMenuItem();
-            대쉬보드ToolStripMenuItem = new ToolStripMenuItem();
             기준정보ToolStripMenuItem = new ToolStripMenuItem();
             kPI목표관리ToolStripMenuItem = new ToolStripMenuItem();
             series설정ToolStripMenuItem = new ToolStripMenuItem();
+            대쉬보드ToolStripMenuItem1 = new ToolStripMenuItem();
+            대쉬보드ToolStripMenuItem = new ToolStripMenuItem();
+            코인매매ToolStripMenuItem = new ToolStripMenuItem();
+            업비트코인목록ToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { 부동산ToolStripMenuItem, 매매ToolStripMenuItem, 전월세ToolStripMenuItem, 데이터ToolStripMenuItem, 회원정보ToolStripMenuItem, 기준정보ToolStripMenuItem, 대쉬보드ToolStripMenuItem1 });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { 부동산ToolStripMenuItem, 매매ToolStripMenuItem, 전월세ToolStripMenuItem, 데이터ToolStripMenuItem, 회원정보ToolStripMenuItem, 기준정보ToolStripMenuItem, 대쉬보드ToolStripMenuItem1, 코인매매ToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(901, 24);
@@ -197,20 +199,6 @@
             기준정보ToolStripMenuItem1.Size = new Size(122, 22);
             기준정보ToolStripMenuItem1.Text = "기준정보";
             // 
-            // 대쉬보드ToolStripMenuItem1
-            // 
-            대쉬보드ToolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { 대쉬보드ToolStripMenuItem });
-            대쉬보드ToolStripMenuItem1.Name = "대쉬보드ToolStripMenuItem1";
-            대쉬보드ToolStripMenuItem1.Size = new Size(67, 20);
-            대쉬보드ToolStripMenuItem1.Text = "대쉬보드";
-            // 
-            // 대쉬보드ToolStripMenuItem
-            // 
-            대쉬보드ToolStripMenuItem.Name = "대쉬보드ToolStripMenuItem";
-            대쉬보드ToolStripMenuItem.Size = new Size(180, 22);
-            대쉬보드ToolStripMenuItem.Text = "대쉬보드";
-            대쉬보드ToolStripMenuItem.Click += 대쉬보드ToolStripMenuItem_Click_1;
-            // 
             // 기준정보ToolStripMenuItem
             // 
             기준정보ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { kPI목표관리ToolStripMenuItem, series설정ToolStripMenuItem });
@@ -221,16 +209,44 @@
             // kPI목표관리ToolStripMenuItem
             // 
             kPI목표관리ToolStripMenuItem.Name = "kPI목표관리ToolStripMenuItem";
-            kPI목표관리ToolStripMenuItem.Size = new Size(180, 22);
+            kPI목표관리ToolStripMenuItem.Size = new Size(143, 22);
             kPI목표관리ToolStripMenuItem.Text = "KPI 목표관리";
             kPI목표관리ToolStripMenuItem.Click += kPI목표관리ToolStripMenuItem_Click;
             // 
             // series설정ToolStripMenuItem
             // 
             series설정ToolStripMenuItem.Name = "series설정ToolStripMenuItem";
-            series설정ToolStripMenuItem.Size = new Size(180, 22);
+            series설정ToolStripMenuItem.Size = new Size(143, 22);
             series설정ToolStripMenuItem.Text = "Series 설정";
             series설정ToolStripMenuItem.Click += series설정ToolStripMenuItem_Click;
+            // 
+            // 대쉬보드ToolStripMenuItem1
+            // 
+            대쉬보드ToolStripMenuItem1.DropDownItems.AddRange(new ToolStripItem[] { 대쉬보드ToolStripMenuItem });
+            대쉬보드ToolStripMenuItem1.Name = "대쉬보드ToolStripMenuItem1";
+            대쉬보드ToolStripMenuItem1.Size = new Size(67, 20);
+            대쉬보드ToolStripMenuItem1.Text = "대쉬보드";
+            // 
+            // 대쉬보드ToolStripMenuItem
+            // 
+            대쉬보드ToolStripMenuItem.Name = "대쉬보드ToolStripMenuItem";
+            대쉬보드ToolStripMenuItem.Size = new Size(122, 22);
+            대쉬보드ToolStripMenuItem.Text = "대쉬보드";
+            대쉬보드ToolStripMenuItem.Click += 대쉬보드ToolStripMenuItem_Click_1;
+            // 
+            // 코인매매ToolStripMenuItem
+            // 
+            코인매매ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { 업비트코인목록ToolStripMenuItem });
+            코인매매ToolStripMenuItem.Name = "코인매매ToolStripMenuItem";
+            코인매매ToolStripMenuItem.Size = new Size(67, 20);
+            코인매매ToolStripMenuItem.Text = "코인매매";
+            // 
+            // 업비트코인목록ToolStripMenuItem
+            // 
+            업비트코인목록ToolStripMenuItem.Name = "업비트코인목록ToolStripMenuItem";
+            업비트코인목록ToolStripMenuItem.Size = new Size(180, 22);
+            업비트코인목록ToolStripMenuItem.Text = "업비트 코인목록";
+            업비트코인목록ToolStripMenuItem.Click += 업비트코인목록ToolStripMenuItem_Click;
             // 
             // MainForm
             // 
@@ -275,5 +291,7 @@
         private ToolStripMenuItem 기준정보ToolStripMenuItem1;
         private ToolStripMenuItem 대쉬보드ToolStripMenuItem1;
         private ToolStripMenuItem 대쉬보드ToolStripMenuItem;
+        private ToolStripMenuItem 코인매매ToolStripMenuItem;
+        private ToolStripMenuItem 업비트코인목록ToolStripMenuItem;
     }
 }

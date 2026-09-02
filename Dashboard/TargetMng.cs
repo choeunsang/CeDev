@@ -472,7 +472,6 @@ namespace CeDev.DataMng
             gridKpi.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "modId", Name = "modId", Visible = false });
             gridKpi.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "modDt", Name = "modDt", Visible = false });
 
-
             //======================================================================================================================================
             //Output
             //====================================================================================================================================== 
