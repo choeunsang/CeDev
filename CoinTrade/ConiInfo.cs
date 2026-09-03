@@ -23,11 +23,8 @@ namespace CeDev.DataMng
 {
     public partial class ConiInfo : Form
     {
-        private List<SectItem> _sectlist = new List<SectItem>();
-        private List<PuItem> _pulist = new List<PuItem>();
-        private List<WaveItem> _wavelist = new List<WaveItem>();
+        private List<CoinItem> _coinlist = new List<CoinItem>();
 
-        private List<TatItem> _tatlist = new List<TatItem>();
 
         public ConiInfo()
         {
@@ -44,13 +41,13 @@ namespace CeDev.DataMng
 
         private void InitControls()
         {
-            //Tat시작점 설정정보 - 하드코딩
-            _tatlist.Add(new TatItem() { TatStart = "B1ST" });
-            _tatlist.Add(new TatItem() { TatStart = "B2ST" });
-            _tatlist.Add(new TatItem() { TatStart = "B3ST" });
-            _tatlist.Add(new TatItem() { TatStart = "B4ST" });
-            _tatlist.Add(new TatItem() { TatStart = "B5ST" });
-            _tatlist.Add(new TatItem() { TatStart = "PG_IN" });
+            ////Tat시작점 설정정보 - 하드코딩
+            //_tatlist.Add(new TatItem() { TatStart = "B1ST" });
+            //_tatlist.Add(new TatItem() { TatStart = "B2ST" });
+            //_tatlist.Add(new TatItem() { TatStart = "B3ST" });
+            //_tatlist.Add(new TatItem() { TatStart = "B4ST" });
+            //_tatlist.Add(new TatItem() { TatStart = "B5ST" });
+            //_tatlist.Add(new TatItem() { TatStart = "PG_IN" });
         }
 
         private void GridPu_CellValueChanged(object? sender, DataGridViewCellEventArgs e)
@@ -98,7 +95,7 @@ namespace CeDev.DataMng
         {
             try
             {
-                await GetSectInfo();
+                await GetCoinInfo();
             }
             catch (Exception ex)
             {
@@ -130,49 +127,34 @@ namespace CeDev.DataMng
             }
         }
 
-        private async Task GetSectInfo()
-        {
-            MessageBox.Show("개발중");
+        private async Task GetCoinInfo()
+        {            
+            //-------------------------------------------------------------------------------------------
+            // Declare and initialize variables
+            //-------------------------------------------------------------------------------------------
+            PuSearchModel model = new PuSearchModel();
+            string baseUrl = "http://localhost:9081/api/basemng-coin-info";            
+            var queryString = HttpUtility.ParseQueryString(string.Empty);
+            string url = $"{baseUrl}?{queryString}";
 
-            ////-------------------------------------------------------------------------------------------
-            //// Declare and initialize variables
-            ////-------------------------------------------------------------------------------------------
-            //PuSearchModel model = new PuSearchModel();
+            //-------------------------------------------------------------------------------------------
+            // Processing
+            //-------------------------------------------------------------------------------------------            
+            HttpClient client = new HttpClient();
+            string json = await client.GetStringAsync(url);            
+            _coinlist = JsonConvert.DeserializeObject<List<CoinItem>>(json);
 
-            ////string year = txtYear.Text.Trim();
-            ////model.Sido = cboSido.Text == "전체" ? "" : cboSido.Text.Trim();
+            //-------------------------------------------------------------------------------------------
+            // Output
+            //-------------------------------------------------------------------------------------------                        
+            if (_coinlist == null || _coinlist.Count == 0)
+            {
+                gridCoin.DataSource = null;
+                MessageBox.Show("조회된 데이터가 없습니다.");
+                return;
+            }
 
-            //string baseUrl = "http://localhost:9081/api/basemng-section-info";
-
-            ////string queryString = BuildQueryString(model);
-            //var queryString = HttpUtility.ParseQueryString(string.Empty);
-
-            ////query["sido"] = model.Sido;
-            ////query["sigungu"] = model.Sigungu;
-
-            //string url = $"{baseUrl}?{queryString}";
-
-            ////-------------------------------------------------------------------------------------------
-            //// Processing
-            ////-------------------------------------------------------------------------------------------            
-            //HttpClient client = new HttpClient();
-            //string json = await client.GetStringAsync(url);
-
-            ////List<SectItem> list = JsonConvert.DeserializeObject<List<SectItem>>(json);
-            //_sectlist = JsonConvert.DeserializeObject<List<SectItem>>(json);
-
-            ////-------------------------------------------------------------------------------------------
-            //// Output
-            ////-------------------------------------------------------------------------------------------            
-            ////if (list == null || list.Count == 0)
-            //if (_sectlist == null || _sectlist.Count == 0)
-            //{
-            //    gridSect.DataSource = null;
-            //    MessageBox.Show("조회된 데이터가 없습니다.");
-            //    return;
-            //}
-
-            //gridSect.DataSource = _sectlist;
+            gridCoin.DataSource = _coinlist;
         }
 
         private async Task GetPuInfo()

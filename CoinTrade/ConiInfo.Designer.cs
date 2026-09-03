@@ -28,19 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            gridSect = new DataGridView();
+            gridCoin = new DataGridView();
             label2 = new Label();
             btnSectSearch = new Button();
-            ((System.ComponentModel.ISupportInitialize)gridSect).BeginInit();
+            coinPicture = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)gridCoin).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)coinPicture).BeginInit();
             SuspendLayout();
             // 
-            // gridSect
+            // gridCoin
             // 
-            gridSect.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            gridSect.Location = new Point(12, 39);
-            gridSect.Name = "gridSect";
-            gridSect.Size = new Size(1089, 579);
-            gridSect.TabIndex = 40;
+            gridCoin.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            gridCoin.Location = new Point(12, 39);
+            gridCoin.Name = "gridCoin";
+            gridCoin.Size = new Size(370, 579);
+            gridCoin.TabIndex = 40;
             // 
             // label2
             // 
@@ -62,25 +64,36 @@
             btnSectSearch.UseVisualStyleBackColor = true;
             btnSectSearch.Click += btnSectSearch_Click;
             // 
+            // coinPicture
+            // 
+            coinPicture.Location = new Point(388, 39);
+            coinPicture.Name = "coinPicture";
+            coinPicture.Size = new Size(342, 227);
+            coinPicture.TabIndex = 50;
+            coinPicture.TabStop = false;
+            // 
             // ConiInfo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1124, 630);
+            Controls.Add(coinPicture);
             Controls.Add(btnSectSearch);
-            Controls.Add(gridSect);
+            Controls.Add(gridCoin);
             Controls.Add(label2);
             Name = "ConiInfo";
             Text = "업비트 코인목록";
             Load += SeriesMng_Load;
-            ((System.ComponentModel.ISupportInitialize)gridSect).EndInit();
+            ((System.ComponentModel.ISupportInitialize)gridCoin).EndInit();
+            ((System.ComponentModel.ISupportInitialize)coinPicture).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-        private DataGridView gridSect;
+        private DataGridView gridCoin;
         private Label label2;
         private Button btnSectSearch;
+        private PictureBox coinPicture;
     }
 }
