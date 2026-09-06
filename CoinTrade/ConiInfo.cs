@@ -29,7 +29,7 @@ namespace CeDev.DataMng
         public ConiInfo()
         {
             InitializeComponent();
-            //InitEvents();
+            InitEvents();
             //InitControls();
         }
 
@@ -37,6 +37,63 @@ namespace CeDev.DataMng
         {
             //gridPu.CellValueChanged += GridPu_CellValueChanged;
             //gridPu.CurrentCellDirtyStateChanged += GridPu_CurrentCellDirtyStateChanged;
+            
+            
+            gridCoin.SelectionChanged += GridCoin_SelectionChanged;
+        }
+
+        private void GridCoin_SelectionChanged(object? sender, EventArgs e)
+        {
+            GetCoinDetailInfo();
+        }
+
+        private void GetCoinDetailInfo()
+        {
+            //-------------------------------------------------------------------------------------------
+            //Declare and initialize variables
+            //-------------------------------------------------------------------------------------------
+            if (gridCoin.CurrentRow == null)
+            {
+                return;
+            }
+
+            CoinItem item = gridCoin.CurrentRow.DataBoundItem as CoinItem;
+
+            if (item == null)
+            {
+                return;
+            }
+
+            //-------------------------------------------------------------------------------------------
+            //Processing
+            //-------------------------------------------------------------------------------------------
+            txtCoinCd.Text = item.cd;
+            txtCoinKrNm.Text = item.krNm;
+            txtCoinEnNm.Text = item.enNm;
+
+
+            //-------------------------------------------------------------------------------------------
+            //Output
+            //-------------------------------------------------------------------------------------------
+            string imgPathStr = string.Empty;
+            imgPathStr = @"C:\dev\WinformDev\CeDev\Img\simbol\" + item.cd + ".png";
+
+            if (System.IO.File.Exists(imgPathStr))
+            {
+                coinPicture.Image?.Dispose();
+
+                using (var stream = new System.IO.FileStream(imgPathStr, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+                {
+                    coinPicture.Image = Image.FromStream(stream);
+                }
+
+                //coinPicture.SizeMode = PictureBoxSizeMode.StretchImage;
+                coinPicture.SizeMode = PictureBoxSizeMode.Zoom;
+            }
+            else
+            {
+                coinPicture.Image = null;
+            }                                        
         }
 
         private void InitControls()
@@ -84,11 +141,9 @@ namespace CeDev.DataMng
         }
 
 
-        private async void SeriesMng_Load(object sender, EventArgs e)
+        private async void CoinInfo_Load(object sender, EventArgs e)
         {
-            //await GetSectInfo();
-            //await GetPuInfo();
-            //await GetWaveInfo();
+            await GetCoinInfo();
         }
 
         private async void btnSectSearch_Click(object sender, EventArgs e)

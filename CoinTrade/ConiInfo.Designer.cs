@@ -32,6 +32,10 @@
             label2 = new Label();
             btnSectSearch = new Button();
             coinPicture = new PictureBox();
+            lblCoinNm = new Label();
+            txtCoinKrNm = new TextBox();
+            txtCoinCd = new TextBox();
+            txtCoinEnNm = new TextBox();
             ((System.ComponentModel.ISupportInitialize)gridCoin).BeginInit();
             ((System.ComponentModel.ISupportInitialize)coinPicture).BeginInit();
             SuspendLayout();
@@ -39,7 +43,7 @@
             // gridCoin
             // 
             gridCoin.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            gridCoin.Location = new Point(12, 39);
+            gridCoin.Location = new Point(24, 40);
             gridCoin.Name = "gridCoin";
             gridCoin.Size = new Size(370, 579);
             gridCoin.TabIndex = 40;
@@ -49,9 +53,9 @@
             label2.AutoSize = true;
             label2.Location = new Point(12, 9);
             label2.Name = "label2";
-            label2.Size = new Size(83, 15);
+            label2.Size = new Size(55, 15);
             label2.TabIndex = 39;
-            label2.Text = "상장코인 목록";
+            label2.Text = "코인목록";
             label2.TextAlign = ContentAlignment.TopRight;
             // 
             // btnSectSearch
@@ -66,24 +70,59 @@
             // 
             // coinPicture
             // 
-            coinPicture.Location = new Point(388, 39);
+            coinPicture.Location = new Point(431, 75);
             coinPicture.Name = "coinPicture";
-            coinPicture.Size = new Size(342, 227);
+            coinPicture.Size = new Size(344, 246);
             coinPicture.TabIndex = 50;
             coinPicture.TabStop = false;
+            // 
+            // lblCoinNm
+            // 
+            lblCoinNm.AutoSize = true;
+            lblCoinNm.Location = new Point(431, 40);
+            lblCoinNm.Name = "lblCoinNm";
+            lblCoinNm.Size = new Size(43, 15);
+            lblCoinNm.TabIndex = 51;
+            lblCoinNm.Text = "코인명";
+            lblCoinNm.TextAlign = ContentAlignment.TopRight;
+            // 
+            // txtCoinKrNm
+            // 
+            txtCoinKrNm.Location = new Point(610, 37);
+            txtCoinKrNm.Name = "txtCoinKrNm";
+            txtCoinKrNm.Size = new Size(272, 23);
+            txtCoinKrNm.TabIndex = 53;
+            // 
+            // txtCoinCd
+            // 
+            txtCoinCd.Location = new Point(480, 37);
+            txtCoinCd.Name = "txtCoinCd";
+            txtCoinCd.Size = new Size(124, 23);
+            txtCoinCd.TabIndex = 54;
+            // 
+            // txtCoinEnNm
+            // 
+            txtCoinEnNm.Location = new Point(888, 37);
+            txtCoinEnNm.Name = "txtCoinEnNm";
+            txtCoinEnNm.Size = new Size(213, 23);
+            txtCoinEnNm.TabIndex = 55;
             // 
             // ConiInfo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1124, 630);
+            Controls.Add(txtCoinEnNm);
+            Controls.Add(txtCoinCd);
+            Controls.Add(txtCoinKrNm);
+            Controls.Add(lblCoinNm);
             Controls.Add(coinPicture);
             Controls.Add(btnSectSearch);
             Controls.Add(gridCoin);
             Controls.Add(label2);
             Name = "ConiInfo";
             Text = "업비트 코인목록";
-            Load += SeriesMng_Load;
+            Load += CoinInfo_Load;
             ((System.ComponentModel.ISupportInitialize)gridCoin).EndInit();
             ((System.ComponentModel.ISupportInitialize)coinPicture).EndInit();
             ResumeLayout(false);
@@ -95,5 +134,9 @@
         private Label label2;
         private Button btnSectSearch;
         private PictureBox coinPicture;
+        private Label lblCoinNm;
+        private TextBox txtCoinKrNm;
+        private TextBox txtCoinCd;
+        private TextBox txtCoinEnNm;
     }
 }
