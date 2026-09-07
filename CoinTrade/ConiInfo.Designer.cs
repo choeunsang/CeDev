@@ -36,6 +36,8 @@
             txtCoinKrNm = new TextBox();
             txtCoinCd = new TextBox();
             txtCoinEnNm = new TextBox();
+            txtDesc = new TextBox();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)gridCoin).BeginInit();
             ((System.ComponentModel.ISupportInitialize)coinPicture).BeginInit();
             SuspendLayout();
@@ -107,11 +109,30 @@
             txtCoinEnNm.Size = new Size(213, 23);
             txtCoinEnNm.TabIndex = 55;
             // 
+            // txtDesc
+            // 
+            txtDesc.Location = new Point(480, 333);
+            txtDesc.Name = "txtDesc";
+            txtDesc.Size = new Size(621, 23);
+            txtDesc.TabIndex = 57;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(431, 336);
+            label1.Name = "label1";
+            label1.Size = new Size(31, 15);
+            label1.TabIndex = 56;
+            label1.Text = "설명";
+            label1.TextAlign = ContentAlignment.TopRight;
+            // 
             // ConiInfo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1124, 630);
+            Controls.Add(txtDesc);
+            Controls.Add(label1);
             Controls.Add(txtCoinEnNm);
             Controls.Add(txtCoinCd);
             Controls.Add(txtCoinKrNm);
@@ -138,5 +159,7 @@
         private TextBox txtCoinKrNm;
         private TextBox txtCoinCd;
         private TextBox txtCoinEnNm;
+        private TextBox txtDesc;
+        private Label label1;
     }
 }

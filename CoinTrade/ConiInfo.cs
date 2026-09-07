@@ -70,6 +70,7 @@ namespace CeDev.DataMng
             txtCoinCd.Text = item.cd;
             txtCoinKrNm.Text = item.krNm;
             txtCoinEnNm.Text = item.enNm;
+            txtDesc.Text = item.description;
 
 
             //-------------------------------------------------------------------------------------------

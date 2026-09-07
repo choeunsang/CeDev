@@ -4,8 +4,8 @@
     {
         public string cd { get; set; }
         public string krNm { get; set; }
-
         public string enNm { get; set; }
+        public string description { get; set; }
     }
 }
 
