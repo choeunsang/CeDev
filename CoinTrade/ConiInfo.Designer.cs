@@ -38,6 +38,12 @@
             txtCoinEnNm = new TextBox();
             txtDesc = new TextBox();
             label1 = new Label();
+            txtPrice = new TextBox();
+            lblPrice = new Label();
+            txtPriceDt = new TextBox();
+            label4 = new Label();
+            txtCntry = new TextBox();
+            label5 = new Label();
             ((System.ComponentModel.ISupportInitialize)gridCoin).BeginInit();
             ((System.ComponentModel.ISupportInitialize)coinPicture).BeginInit();
             SuspendLayout();
@@ -126,11 +132,69 @@
             label1.Text = "설명";
             label1.TextAlign = ContentAlignment.TopRight;
             // 
+            // txtPrice
+            // 
+            txtPrice.Location = new Point(844, 75);
+            txtPrice.Name = "txtPrice";
+            txtPrice.Size = new Size(160, 23);
+            txtPrice.TabIndex = 59;
+            // 
+            // lblPrice
+            // 
+            lblPrice.AutoSize = true;
+            lblPrice.Location = new Point(795, 78);
+            lblPrice.Name = "lblPrice";
+            lblPrice.RightToLeft = RightToLeft.No;
+            lblPrice.Size = new Size(31, 15);
+            lblPrice.TabIndex = 58;
+            lblPrice.Text = "가격";
+            lblPrice.TextAlign = ContentAlignment.TopRight;
+            // 
+            // txtPriceDt
+            // 
+            txtPriceDt.Location = new Point(844, 104);
+            txtPriceDt.Name = "txtPriceDt";
+            txtPriceDt.Size = new Size(160, 23);
+            txtPriceDt.TabIndex = 61;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(795, 107);
+            label4.Name = "label4";
+            label4.Size = new Size(31, 15);
+            label4.TabIndex = 60;
+            label4.Text = "일자";
+            label4.TextAlign = ContentAlignment.TopRight;
+            // 
+            // txtCntry
+            // 
+            txtCntry.Location = new Point(844, 133);
+            txtCntry.Name = "txtCntry";
+            txtCntry.Size = new Size(160, 23);
+            txtCntry.TabIndex = 63;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(795, 136);
+            label5.Name = "label5";
+            label5.Size = new Size(43, 15);
+            label5.TabIndex = 62;
+            label5.Text = "발행국";
+            label5.TextAlign = ContentAlignment.TopRight;
+            // 
             // ConiInfo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1124, 630);
+            Controls.Add(txtCntry);
+            Controls.Add(label5);
+            Controls.Add(txtPriceDt);
+            Controls.Add(label4);
+            Controls.Add(txtPrice);
+            Controls.Add(lblPrice);
             Controls.Add(txtDesc);
             Controls.Add(label1);
             Controls.Add(txtCoinEnNm);
@@ -161,5 +225,11 @@
         private TextBox txtCoinEnNm;
         private TextBox txtDesc;
         private Label label1;
+        private TextBox txtPrice;
+        private Label lblPrice;
+        private TextBox txtPriceDt;
+        private Label label4;
+        private TextBox txtCntry;
+        private Label label5;
     }
 }

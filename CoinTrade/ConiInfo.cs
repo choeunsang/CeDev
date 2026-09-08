@@ -72,6 +72,9 @@ namespace CeDev.DataMng
             txtCoinEnNm.Text = item.enNm;
             txtDesc.Text = item.description;
 
+            txtPrice.Text = Math.Round(Convert.ToDecimal(item.price), 2).ToString();
+            txtPriceDt.Text = item.priceDt;
+            txtCntry.Text = item.issueCntryNm;
 
             //-------------------------------------------------------------------------------------------
             //Output
@@ -159,29 +162,6 @@ namespace CeDev.DataMng
             }
         }
 
-        private async void btnPuSearch_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                await GetPuInfo();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
-
-        private async void btnWaveSearch_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                await GetWaveInfo();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-        }
 
         private async Task GetCoinInfo()
         {            
@@ -199,6 +179,8 @@ namespace CeDev.DataMng
             HttpClient client = new HttpClient();
             string json = await client.GetStringAsync(url);            
             _coinlist = JsonConvert.DeserializeObject<List<CoinItem>>(json);
+
+            _coinlist = _coinlist.Where(x => x.useYn == "Y").ToList();
 
             //-------------------------------------------------------------------------------------------
             // Output
