@@ -44,8 +44,11 @@
             label4 = new Label();
             txtCntry = new TextBox();
             label5 = new Label();
+            gridPrice = new DataGridView();
+            label3 = new Label();
             ((System.ComponentModel.ISupportInitialize)gridCoin).BeginInit();
             ((System.ComponentModel.ISupportInitialize)coinPicture).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)gridPrice).BeginInit();
             SuspendLayout();
             // 
             // gridCoin
@@ -184,11 +187,31 @@
             label5.Text = "발행국";
             label5.TextAlign = ContentAlignment.TopRight;
             // 
+            // gridPrice
+            // 
+            gridPrice.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            gridPrice.Location = new Point(431, 384);
+            gridPrice.Name = "gridPrice";
+            gridPrice.Size = new Size(670, 221);
+            gridPrice.TabIndex = 64;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(431, 366);
+            label3.Name = "label3";
+            label3.Size = new Size(71, 15);
+            label3.TabIndex = 65;
+            label3.Text = "일자별 가격";
+            label3.TextAlign = ContentAlignment.TopRight;
+            // 
             // ConiInfo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1124, 630);
+            Controls.Add(label3);
+            Controls.Add(gridPrice);
             Controls.Add(txtCntry);
             Controls.Add(label5);
             Controls.Add(txtPriceDt);
@@ -210,6 +233,7 @@
             Load += CoinInfo_Load;
             ((System.ComponentModel.ISupportInitialize)gridCoin).EndInit();
             ((System.ComponentModel.ISupportInitialize)coinPicture).EndInit();
+            ((System.ComponentModel.ISupportInitialize)gridPrice).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -231,5 +255,7 @@
         private Label label4;
         private TextBox txtCntry;
         private Label label5;
+        private DataGridView gridPrice;
+        private Label label3;
     }
 }

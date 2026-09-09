@@ -47,7 +47,7 @@ namespace CeDev.DataMng
             GetCoinDetailInfo();
         }
 
-        private void GetCoinDetailInfo()
+        private async void GetCoinDetailInfo()
         {
             //-------------------------------------------------------------------------------------------
             //Declare and initialize variables
@@ -97,7 +97,56 @@ namespace CeDev.DataMng
             else
             {
                 coinPicture.Image = null;
-            }                                        
+            }
+
+            await GetCoinDetail(item);
+        }
+
+        private async Task GetCoinDetail(CoinItem pItem)
+        {
+            //=================================================================================================================
+            // Declare and initialize variables
+            //=================================================================================================================
+            //CoinSearchModel model = new CoinSearchModel();
+            var queryString = HttpUtility.ParseQueryString(string.Empty);
+            queryString["cd"] = pItem.cd;
+            
+            string baseUrl = "http://localhost:9081/api/basemng-coin-detail-info";
+            string url = $"{baseUrl}?{queryString}";
+
+            //=================================================================================================================
+            // Processing
+            //=================================================================================================================
+            HttpClient client = new HttpClient();
+
+            string json = await client.GetStringAsync(url);
+            List<CoinDetailItem> list = JsonConvert.DeserializeObject<List<CoinDetailItem>>(json);
+
+            //txtPrice.Text = Math.Round(Convert.ToDecimal(item.price), 2).ToString();
+            list.ForEach(x => x.price = Math.Round(Convert.ToDecimal(x.price), 2).ToString());
+
+            if (list == null || list.Count == 0)
+            {
+                MessageBox.Show("조회된 데이터가 없습니다.");
+                gridPrice.DataSource = null;
+                //chart1.Series.Clear();
+                return;
+            }
+
+            gridPrice.DataSource = list;
+            gridPrice.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            //Color chgColorY = Color.MistyRose;
+            //Color chgColorN = Color.White;
+
+            //=================================================================================================================
+            // Output 
+            //=================================================================================================================
+            //if ((_templist == null) || (_templist.Count == 0))
+            //{
+            //    return;
+            //}
+
         }
 
         private void InitControls()
