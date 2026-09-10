@@ -41,11 +41,18 @@
             txtPrice = new TextBox();
             lblPrice = new Label();
             txtPriceDt = new TextBox();
-            label4 = new Label();
             txtCntry = new TextBox();
             label5 = new Label();
             gridPrice = new DataGridView();
             label3 = new Label();
+            txtMaxPrice = new TextBox();
+            label6 = new Label();
+            txtMinPrice = new TextBox();
+            label7 = new Label();
+            txtMaxPriceDt = new TextBox();
+            txtMinPriceDt = new TextBox();
+            txtShotCnt = new TextBox();
+            label4 = new Label();
             ((System.ComponentModel.ISupportInitialize)gridCoin).BeginInit();
             ((System.ComponentModel.ISupportInitialize)coinPicture).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gridPrice).BeginInit();
@@ -137,7 +144,7 @@
             // 
             // txtPrice
             // 
-            txtPrice.Location = new Point(844, 75);
+            txtPrice.Location = new Point(844, 104);
             txtPrice.Name = "txtPrice";
             txtPrice.Size = new Size(160, 23);
             txtPrice.TabIndex = 59;
@@ -145,7 +152,7 @@
             // lblPrice
             // 
             lblPrice.AutoSize = true;
-            lblPrice.Location = new Point(795, 78);
+            lblPrice.Location = new Point(795, 107);
             lblPrice.Name = "lblPrice";
             lblPrice.RightToLeft = RightToLeft.No;
             lblPrice.Size = new Size(31, 15);
@@ -155,24 +162,14 @@
             // 
             // txtPriceDt
             // 
-            txtPriceDt.Location = new Point(844, 104);
+            txtPriceDt.Location = new Point(1010, 104);
             txtPriceDt.Name = "txtPriceDt";
-            txtPriceDt.Size = new Size(160, 23);
+            txtPriceDt.Size = new Size(91, 23);
             txtPriceDt.TabIndex = 61;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(795, 107);
-            label4.Name = "label4";
-            label4.Size = new Size(31, 15);
-            label4.TabIndex = 60;
-            label4.Text = "일자";
-            label4.TextAlign = ContentAlignment.TopRight;
             // 
             // txtCntry
             // 
-            txtCntry.Location = new Point(844, 133);
+            txtCntry.Location = new Point(844, 292);
             txtCntry.Name = "txtCntry";
             txtCntry.Size = new Size(160, 23);
             txtCntry.TabIndex = 63;
@@ -180,7 +177,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(795, 136);
+            label5.Location = new Point(795, 295);
             label5.Name = "label5";
             label5.Size = new Size(43, 15);
             label5.TabIndex = 62;
@@ -205,17 +202,89 @@
             label3.Text = "일자별 가격";
             label3.TextAlign = ContentAlignment.TopRight;
             // 
+            // txtMaxPrice
+            // 
+            txtMaxPrice.Location = new Point(844, 75);
+            txtMaxPrice.Name = "txtMaxPrice";
+            txtMaxPrice.Size = new Size(160, 23);
+            txtMaxPrice.TabIndex = 67;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(795, 78);
+            label6.Name = "label6";
+            label6.Size = new Size(43, 15);
+            label6.TabIndex = 66;
+            label6.Text = "최고가";
+            label6.TextAlign = ContentAlignment.TopRight;
+            // 
+            // txtMinPrice
+            // 
+            txtMinPrice.Location = new Point(844, 133);
+            txtMinPrice.Name = "txtMinPrice";
+            txtMinPrice.Size = new Size(160, 23);
+            txtMinPrice.TabIndex = 69;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(795, 136);
+            label7.Name = "label7";
+            label7.Size = new Size(43, 15);
+            label7.TabIndex = 68;
+            label7.Text = "최저가";
+            label7.TextAlign = ContentAlignment.TopRight;
+            // 
+            // txtMaxPriceDt
+            // 
+            txtMaxPriceDt.Location = new Point(1010, 75);
+            txtMaxPriceDt.Name = "txtMaxPriceDt";
+            txtMaxPriceDt.Size = new Size(91, 23);
+            txtMaxPriceDt.TabIndex = 70;
+            // 
+            // txtMinPriceDt
+            // 
+            txtMinPriceDt.Location = new Point(1010, 133);
+            txtMinPriceDt.Name = "txtMinPriceDt";
+            txtMinPriceDt.Size = new Size(91, 23);
+            txtMinPriceDt.TabIndex = 71;
+            // 
+            // txtShotCnt
+            // 
+            txtShotCnt.Location = new Point(844, 184);
+            txtShotCnt.Name = "txtShotCnt";
+            txtShotCnt.Size = new Size(160, 23);
+            txtShotCnt.TabIndex = 73;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(783, 187);
+            label4.Name = "label4";
+            label4.Size = new Size(55, 15);
+            label4.TabIndex = 72;
+            label4.Text = "슈팅횟수";
+            label4.TextAlign = ContentAlignment.TopRight;
+            // 
             // ConiInfo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1124, 630);
+            ClientSize = new Size(1115, 630);
+            Controls.Add(txtShotCnt);
+            Controls.Add(label4);
+            Controls.Add(txtMinPriceDt);
+            Controls.Add(txtMaxPriceDt);
+            Controls.Add(txtMinPrice);
+            Controls.Add(label7);
+            Controls.Add(txtMaxPrice);
+            Controls.Add(label6);
             Controls.Add(label3);
             Controls.Add(gridPrice);
             Controls.Add(txtCntry);
             Controls.Add(label5);
             Controls.Add(txtPriceDt);
-            Controls.Add(label4);
             Controls.Add(txtPrice);
             Controls.Add(lblPrice);
             Controls.Add(txtDesc);
@@ -252,10 +321,17 @@
         private TextBox txtPrice;
         private Label lblPrice;
         private TextBox txtPriceDt;
-        private Label label4;
         private TextBox txtCntry;
         private Label label5;
         private DataGridView gridPrice;
         private Label label3;
+        private TextBox txtMaxPrice;
+        private Label label6;
+        private TextBox txtMinPrice;
+        private Label label7;
+        private TextBox txtMaxPriceDt;
+        private TextBox txtMinPriceDt;
+        private TextBox txtShotCnt;
+        private Label label4;
     }
 }

@@ -133,20 +133,30 @@ namespace CeDev.DataMng
                 return;
             }
 
-            gridPrice.DataSource = list;
-            gridPrice.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-
-            //Color chgColorY = Color.MistyRose;
-            //Color chgColorN = Color.White;
-
             //=================================================================================================================
             // Output 
             //=================================================================================================================
-            //if ((_templist == null) || (_templist.Count == 0))
-            //{
-            //    return;
-            //}
+            //txtMaxPrice.Text = list.Max(x => x.price).ToString();
+            //txtMinPrice.Text = list.Min(x => x.price).ToString();
 
+            var maxPriceItem = list.OrderByDescending(x => x.price).FirstOrDefault();
+            var minPriceItem = list.OrderBy(x => x.price).FirstOrDefault();
+
+            if(maxPriceItem != null)
+            {
+                txtMaxPrice.Text = maxPriceItem.price.ToString();
+                txtMaxPriceDt.Text = maxPriceItem.priceDt.ToString();
+            }
+
+            if (minPriceItem != null)
+            {
+                txtMinPrice.Text = minPriceItem.price.ToString();
+                txtMinPriceDt.Text = minPriceItem.priceDt.ToString();
+            }
+
+
+            gridPrice.DataSource = list;
+            gridPrice.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
         private void InitControls()
