@@ -208,7 +208,21 @@ namespace CeDev
 
         private void 업비트코인목록ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ConiInfo form = new ConiInfo();
+            CoinInfo form = new CoinInfo();
+            form.MdiParent = this;
+
+            form.StartPosition = FormStartPosition.Manual;
+            form.Location = new Point(
+                (this.ClientSize.Width - form.Width) / 2,
+                (this.ClientSize.Height - form.Height) / 2
+            );
+
+            form.Show();
+        }
+
+        private void 변동성코인목록ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CoinChk form = new CoinChk();
             form.MdiParent = this;
 
             form.StartPosition = FormStartPosition.Manual;
@@ -221,5 +235,7 @@ namespace CeDev
         }
 
         #endregion
+
+
     }
 }

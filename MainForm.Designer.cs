@@ -55,6 +55,7 @@
             대쉬보드ToolStripMenuItem = new ToolStripMenuItem();
             코인매매ToolStripMenuItem = new ToolStripMenuItem();
             업비트코인목록ToolStripMenuItem = new ToolStripMenuItem();
+            변동성코인목록ToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -236,7 +237,7 @@
             // 
             // 코인매매ToolStripMenuItem
             // 
-            코인매매ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { 업비트코인목록ToolStripMenuItem });
+            코인매매ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { 업비트코인목록ToolStripMenuItem, 변동성코인목록ToolStripMenuItem });
             코인매매ToolStripMenuItem.Name = "코인매매ToolStripMenuItem";
             코인매매ToolStripMenuItem.Size = new Size(67, 20);
             코인매매ToolStripMenuItem.Text = "코인매매";
@@ -247,6 +248,13 @@
             업비트코인목록ToolStripMenuItem.Size = new Size(180, 22);
             업비트코인목록ToolStripMenuItem.Text = "업비트 코인목록";
             업비트코인목록ToolStripMenuItem.Click += 업비트코인목록ToolStripMenuItem_Click;
+            // 
+            // 변동성코인목록ToolStripMenuItem
+            // 
+            변동성코인목록ToolStripMenuItem.Name = "변동성코인목록ToolStripMenuItem";
+            변동성코인목록ToolStripMenuItem.Size = new Size(180, 22);
+            변동성코인목록ToolStripMenuItem.Text = "변동성 코인목록";
+            변동성코인목록ToolStripMenuItem.Click += 변동성코인목록ToolStripMenuItem_Click;
             // 
             // MainForm
             // 
@@ -293,5 +301,6 @@
         private ToolStripMenuItem 대쉬보드ToolStripMenuItem;
         private ToolStripMenuItem 코인매매ToolStripMenuItem;
         private ToolStripMenuItem 업비트코인목록ToolStripMenuItem;
+        private ToolStripMenuItem 변동성코인목록ToolStripMenuItem;
     }
 }

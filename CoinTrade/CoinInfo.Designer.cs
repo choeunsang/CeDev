@@ -1,6 +1,6 @@
 ﻿namespace CeDev.DataMng
 {
-    partial class ConiInfo
+    partial class CoinInfo
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             gridCoin = new DataGridView();
-            label2 = new Label();
             btnSectSearch = new Button();
             coinPicture = new PictureBox();
             lblCoinNm = new Label();
@@ -53,6 +52,8 @@
             txtMinPriceDt = new TextBox();
             txtShotCnt = new TextBox();
             label4 = new Label();
+            txtSearchCoinNm = new TextBox();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)gridCoin).BeginInit();
             ((System.ComponentModel.ISupportInitialize)coinPicture).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gridPrice).BeginInit();
@@ -65,16 +66,6 @@
             gridCoin.Name = "gridCoin";
             gridCoin.Size = new Size(370, 579);
             gridCoin.TabIndex = 40;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(12, 9);
-            label2.Name = "label2";
-            label2.Size = new Size(55, 15);
-            label2.TabIndex = 39;
-            label2.Text = "코인목록";
-            label2.TextAlign = ContentAlignment.TopRight;
             // 
             // btnSectSearch
             // 
@@ -267,11 +258,30 @@
             label4.Text = "슈팅횟수";
             label4.TextAlign = ContentAlignment.TopRight;
             // 
-            // ConiInfo
+            // txtSearchCoinNm
+            // 
+            txtSearchCoinNm.Location = new Point(106, 9);
+            txtSearchCoinNm.Name = "txtSearchCoinNm";
+            txtSearchCoinNm.Size = new Size(124, 23);
+            txtSearchCoinNm.TabIndex = 75;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(25, 13);
+            label2.Name = "label2";
+            label2.Size = new Size(75, 15);
+            label2.TabIndex = 74;
+            label2.Text = "검색어(코인)";
+            label2.TextAlign = ContentAlignment.TopRight;
+            // 
+            // CoinInfo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1115, 630);
+            Controls.Add(txtSearchCoinNm);
+            Controls.Add(label2);
             Controls.Add(txtShotCnt);
             Controls.Add(label4);
             Controls.Add(txtMinPriceDt);
@@ -296,8 +306,7 @@
             Controls.Add(coinPicture);
             Controls.Add(btnSectSearch);
             Controls.Add(gridCoin);
-            Controls.Add(label2);
-            Name = "ConiInfo";
+            Name = "CoinInfo";
             Text = "업비트 코인목록";
             Load += CoinInfo_Load;
             ((System.ComponentModel.ISupportInitialize)gridCoin).EndInit();
@@ -309,7 +318,6 @@
 
         #endregion
         private DataGridView gridCoin;
-        private Label label2;
         private Button btnSectSearch;
         private PictureBox coinPicture;
         private Label lblCoinNm;
@@ -333,5 +341,7 @@
         private TextBox txtMinPriceDt;
         private TextBox txtShotCnt;
         private Label label4;
+        private TextBox txtSearchCoinNm;
+        private Label label2;
     }
 }

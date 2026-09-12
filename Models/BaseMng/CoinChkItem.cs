@@ -1,6 +1,6 @@
 ﻿namespace CeDev.Models.BaseMng
 {
-    public class CoinDetailItem
+    public class CoinChkItem
     {
         public string cd { get; set; }
 
@@ -13,12 +13,8 @@
         public string lowPrice { get; set; }
         public string volume { get; set; }
 
+        public string dailyRange { get; set; }
 
-
-        public string marketCap { get; set; }
-
-
-        public string etc { get; set; }
 
     }
 }

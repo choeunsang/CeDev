@@ -21,12 +21,12 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CeDev.DataMng
 {
-    public partial class ConiInfo : Form
+    public partial class CoinInfo : Form
     {
         private List<CoinItem> _coinlist = new List<CoinItem>();
 
 
-        public ConiInfo()
+        public CoinInfo()
         {
             InitializeComponent();
             InitEvents();
@@ -124,6 +124,11 @@ namespace CeDev.DataMng
 
             //txtPrice.Text = Math.Round(Convert.ToDecimal(item.price), 2).ToString();
             list.ForEach(x => x.price = Math.Round(Convert.ToDecimal(x.price), 2).ToString());
+
+            list.ForEach(x => x.openingPrice = Math.Round(Convert.ToDecimal(x.openingPrice), 2).ToString());
+            list.ForEach(x => x.highPrice = Math.Round(Convert.ToDecimal(x.highPrice), 2).ToString());
+            list.ForEach(x => x.lowPrice = Math.Round(Convert.ToDecimal(x.lowPrice), 2).ToString());
+            list.ForEach(x => x.volume = Math.Round(Convert.ToDecimal(x.volume), 2).ToString());
 
             if (list == null || list.Count == 0)
             {
@@ -230,6 +235,8 @@ namespace CeDev.DataMng
             PuSearchModel model = new PuSearchModel();
             string baseUrl = "http://localhost:9081/api/basemng-coin-info";            
             var queryString = HttpUtility.ParseQueryString(string.Empty);
+            queryString["krNm"] = txtSearchCoinNm.Text;
+
             string url = $"{baseUrl}?{queryString}";
 
             //-------------------------------------------------------------------------------------------
