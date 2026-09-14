@@ -54,6 +54,8 @@
             label4 = new Label();
             txtDt = new TextBox();
             label8 = new Label();
+            txtShotLastDt = new TextBox();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)gridCoin).BeginInit();
             ((System.ComponentModel.ISupportInitialize)coinPicture).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gridPrice).BeginInit();
@@ -135,9 +137,9 @@
             // 
             // txtPrice
             // 
-            txtPrice.Location = new Point(844, 104);
+            txtPrice.Location = new Point(854, 104);
             txtPrice.Name = "txtPrice";
-            txtPrice.Size = new Size(160, 23);
+            txtPrice.Size = new Size(150, 23);
             txtPrice.TabIndex = 59;
             // 
             // lblPrice
@@ -160,9 +162,9 @@
             // 
             // txtCntry
             // 
-            txtCntry.Location = new Point(844, 292);
+            txtCntry.Location = new Point(854, 292);
             txtCntry.Name = "txtCntry";
-            txtCntry.Size = new Size(160, 23);
+            txtCntry.Size = new Size(150, 23);
             txtCntry.TabIndex = 63;
             // 
             // label5
@@ -195,9 +197,9 @@
             // 
             // txtMaxPrice
             // 
-            txtMaxPrice.Location = new Point(844, 75);
+            txtMaxPrice.Location = new Point(854, 75);
             txtMaxPrice.Name = "txtMaxPrice";
-            txtMaxPrice.Size = new Size(160, 23);
+            txtMaxPrice.Size = new Size(150, 23);
             txtMaxPrice.TabIndex = 67;
             // 
             // label6
@@ -212,9 +214,9 @@
             // 
             // txtMinPrice
             // 
-            txtMinPrice.Location = new Point(844, 133);
+            txtMinPrice.Location = new Point(854, 133);
             txtMinPrice.Name = "txtMinPrice";
-            txtMinPrice.Size = new Size(160, 23);
+            txtMinPrice.Size = new Size(150, 23);
             txtMinPrice.TabIndex = 69;
             // 
             // label7
@@ -243,15 +245,15 @@
             // 
             // txtShotCnt
             // 
-            txtShotCnt.Location = new Point(844, 184);
+            txtShotCnt.Location = new Point(854, 191);
             txtShotCnt.Name = "txtShotCnt";
-            txtShotCnt.Size = new Size(160, 23);
+            txtShotCnt.Size = new Size(150, 23);
             txtShotCnt.TabIndex = 73;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(783, 187);
+            label4.Location = new Point(793, 194);
             label4.Name = "label4";
             label4.Size = new Size(55, 15);
             label4.TabIndex = 72;
@@ -275,11 +277,30 @@
             label8.Text = "날짜";
             label8.TextAlign = ContentAlignment.TopRight;
             // 
+            // txtShotLastDt
+            // 
+            txtShotLastDt.Location = new Point(854, 220);
+            txtShotLastDt.Name = "txtShotLastDt";
+            txtShotLastDt.Size = new Size(150, 23);
+            txtShotLastDt.TabIndex = 77;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(781, 223);
+            label2.Name = "label2";
+            label2.Size = new Size(67, 15);
+            label2.TabIndex = 76;
+            label2.Text = "최근슈팅일";
+            label2.TextAlign = ContentAlignment.TopRight;
+            // 
             // CoinChk
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1115, 630);
+            Controls.Add(txtShotLastDt);
+            Controls.Add(label2);
             Controls.Add(txtDt);
             Controls.Add(label8);
             Controls.Add(txtShotCnt);
@@ -343,5 +364,7 @@
         private Label label4;
         private TextBox txtDt;
         private Label label8;
+        private TextBox txtShotLastDt;
+        private Label label2;
     }
 }

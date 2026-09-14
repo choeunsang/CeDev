@@ -54,6 +54,8 @@
             label4 = new Label();
             txtSearchCoinNm = new TextBox();
             label2 = new Label();
+            txtShotLastDt = new TextBox();
+            label8 = new Label();
             ((System.ComponentModel.ISupportInitialize)gridCoin).BeginInit();
             ((System.ComponentModel.ISupportInitialize)coinPicture).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gridPrice).BeginInit();
@@ -275,11 +277,30 @@
             label2.Text = "검색어(코인)";
             label2.TextAlign = ContentAlignment.TopRight;
             // 
+            // txtShotLastDt
+            // 
+            txtShotLastDt.Location = new Point(844, 213);
+            txtShotLastDt.Name = "txtShotLastDt";
+            txtShotLastDt.Size = new Size(160, 23);
+            txtShotLastDt.TabIndex = 79;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(775, 218);
+            label8.Name = "label8";
+            label8.Size = new Size(67, 15);
+            label8.TabIndex = 78;
+            label8.Text = "최근슈팅일";
+            label8.TextAlign = ContentAlignment.TopRight;
+            // 
             // CoinInfo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1115, 630);
+            Controls.Add(txtShotLastDt);
+            Controls.Add(label8);
             Controls.Add(txtSearchCoinNm);
             Controls.Add(label2);
             Controls.Add(txtShotCnt);
@@ -343,5 +364,7 @@
         private Label label4;
         private TextBox txtSearchCoinNm;
         private Label label2;
+        private TextBox txtShotLastDt;
+        private Label label8;
     }
 }

@@ -146,6 +146,12 @@ namespace CeDev.DataMng
             //txtMaxPrice.Text = list.Max(x => x.price).ToString();
             //txtMinPrice.Text = list.Min(x => x.price).ToString();
 
+
+            //var ddd = list
+            //         .Where(x => Convert.ToDecimal(x.highPrice) - Convert.ToDecimal(x.lowPrice) >= 10)
+            //         .ToList();
+                     
+
             var maxPriceItem = list.OrderByDescending(x => x.price).FirstOrDefault();
             var minPriceItem = list.OrderBy(x => x.price).FirstOrDefault();
 
