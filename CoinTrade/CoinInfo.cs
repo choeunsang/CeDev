@@ -141,8 +141,6 @@ namespace CeDev.DataMng
             //=================================================================================================================
             // Output 
             //=================================================================================================================
-
-
             var volaList = list
                      .Where(x => (Convert.ToDecimal(x.highPrice) - Convert.ToDecimal(x.lowPrice)) / Convert.ToDecimal(x.lowPrice) >= 0.1m)
                      .ToList();
@@ -151,7 +149,6 @@ namespace CeDev.DataMng
 
             var lastItem = volaList.OrderByDescending(x => x.priceDt).FirstOrDefault();
             txtShotLastDt.Text = lastItem?.priceDt?.ToString() ?? "데이터 없음";
-
 
             var maxPriceItem = list.OrderByDescending(x => x.price).FirstOrDefault();
             var minPriceItem = list.OrderBy(x => x.price).FirstOrDefault();
@@ -262,12 +259,14 @@ namespace CeDev.DataMng
             //-------------------------------------------------------------------------------------------                        
             if (_coinlist == null || _coinlist.Count == 0)
             {
+                lblCnt.Text = "0 건";
                 gridCoin.DataSource = null;
                 MessageBox.Show("조회된 데이터가 없습니다.");
                 return;
             }
 
             gridCoin.DataSource = _coinlist;
+            lblCnt.Text = $"{_coinlist.Count:N0} 건";
         }
 
         //private string BuildQueryString(PuSearchModel model)

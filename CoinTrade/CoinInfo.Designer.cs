@@ -56,6 +56,7 @@
             label2 = new Label();
             txtShotLastDt = new TextBox();
             label8 = new Label();
+            lblCnt = new Label();
             ((System.ComponentModel.ISupportInitialize)gridCoin).BeginInit();
             ((System.ComponentModel.ISupportInitialize)coinPicture).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gridPrice).BeginInit();
@@ -66,7 +67,7 @@
             gridCoin.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             gridCoin.Location = new Point(24, 40);
             gridCoin.Name = "gridCoin";
-            gridCoin.Size = new Size(370, 579);
+            gridCoin.Size = new Size(370, 565);
             gridCoin.TabIndex = 40;
             // 
             // btnSectSearch
@@ -294,11 +295,22 @@
             label8.Text = "최근슈팅일";
             label8.TextAlign = ContentAlignment.TopRight;
             // 
+            // lblCnt
+            // 
+            lblCnt.AutoSize = true;
+            lblCnt.Location = new Point(24, 608);
+            lblCnt.Name = "lblCnt";
+            lblCnt.Size = new Size(47, 15);
+            lblCnt.TabIndex = 80;
+            lblCnt.Text = "총 건수";
+            lblCnt.TextAlign = ContentAlignment.TopRight;
+            // 
             // CoinInfo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1115, 630);
+            Controls.Add(lblCnt);
             Controls.Add(txtShotLastDt);
             Controls.Add(label8);
             Controls.Add(txtSearchCoinNm);
@@ -366,5 +378,6 @@
         private Label label2;
         private TextBox txtShotLastDt;
         private Label label8;
+        private Label lblCnt;
     }
 }

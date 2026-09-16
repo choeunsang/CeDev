@@ -30,8 +30,9 @@ namespace CeDev.DataMng
         public CoinChk()
         {
             InitializeComponent();
+            InitEvents();            
             InitControls();
-            //InitEvents();            
+            
         }
 
         private void InitControls()
@@ -59,7 +60,7 @@ namespace CeDev.DataMng
                 return;
             }
 
-            CoinItem item = gridCoin.CurrentRow.DataBoundItem as CoinItem;
+            CoinChkItem item = gridCoin.CurrentRow.DataBoundItem as CoinChkItem;
 
             if (item == null)
             {
@@ -104,7 +105,7 @@ namespace CeDev.DataMng
             await GetCoinDetail(item);
         }
 
-        private async Task GetCoinDetail(CoinItem pItem)
+        private async Task GetCoinDetail(CoinChkItem pItem)
         {
             //=================================================================================================================
             // Declare and initialize variables
@@ -143,29 +144,38 @@ namespace CeDev.DataMng
             //=================================================================================================================
             // Output 
             //=================================================================================================================
-            //txtMaxPrice.Text = list.Max(x => x.price).ToString();
-            //txtMinPrice.Text = list.Min(x => x.price).ToString();
+            var volaList = list
+                     .Where(x => (Convert.ToDecimal(x.highPrice) - Convert.ToDecimal(x.lowPrice)) / Convert.ToDecimal(x.lowPrice) >= 0.1m)
+                     .ToList();
+
+            txtShotCnt.Text = volaList.Count.ToString();
+
+            var lastItem = volaList.OrderByDescending(x => x.priceDt).FirstOrDefault();
+            txtShotLastDt.Text = lastItem?.priceDt?.ToString() ?? "데이터 없음";
 
 
-            //var ddd = list
-            //         .Where(x => Convert.ToDecimal(x.highPrice) - Convert.ToDecimal(x.lowPrice) >= 10)
-            //         .ToList();
-                     
+            
+            txtMaxPrice.Text = lastItem?.highPrice?.ToString() ?? "데이터 없음";
+            txtMaxPriceDt.Text = lastItem?.priceDt?.ToString() ?? "데이터 없음";
+            
+            txtMinPrice.Text = lastItem?.lowPrice?.ToString() ?? "데이터 없음";
+            txtMinPriceDt.Text = lastItem?.priceDt?.ToString() ?? "데이터 없음";
 
-            var maxPriceItem = list.OrderByDescending(x => x.price).FirstOrDefault();
-            var minPriceItem = list.OrderBy(x => x.price).FirstOrDefault();
 
-            if(maxPriceItem != null)
-            {
-                txtMaxPrice.Text = maxPriceItem.price.ToString();
-                txtMaxPriceDt.Text = maxPriceItem.priceDt.ToString();
-            }
+            //var maxPriceItem = list.OrderByDescending(x => x.price).FirstOrDefault();
+            //var minPriceItem = list.OrderBy(x => x.price).FirstOrDefault();
 
-            if (minPriceItem != null)
-            {
-                txtMinPrice.Text = minPriceItem.price.ToString();
-                txtMinPriceDt.Text = minPriceItem.priceDt.ToString();
-            }
+            //if (maxPriceItem != null)
+            //{
+            //    txtMaxPrice.Text = maxPriceItem.price.ToString();
+            //    txtMaxPriceDt.Text = maxPriceItem.priceDt.ToString();
+            //}
+
+            //if (minPriceItem != null)
+            //{
+            //    txtMinPrice.Text = minPriceItem.price.ToString();
+            //    txtMinPriceDt.Text = minPriceItem.priceDt.ToString();
+            //}
 
 
             gridPrice.DataSource = list;
@@ -203,8 +213,6 @@ namespace CeDev.DataMng
             queryString["priceDt"] = txtDt.Text;
             string url = $"{baseUrl}?{queryString}";
 
-
-
             //-------------------------------------------------------------------------------------------
             // Processing
             //-------------------------------------------------------------------------------------------            
@@ -220,24 +228,61 @@ namespace CeDev.DataMng
             _coinChklist.ForEach(x => x.openingPrice = Math.Round(Convert.ToDecimal(x.openingPrice), 2).ToString());
             _coinChklist.ForEach(x => x.highPrice = Math.Round(Convert.ToDecimal(x.highPrice), 2).ToString());
             _coinChklist.ForEach(x => x.lowPrice = Math.Round(Convert.ToDecimal(x.lowPrice), 2).ToString());
-            _coinChklist.ForEach(x => x.volume = Math.Round(Convert.ToDecimal(x.volume), 2).ToString());
-            _coinChklist.ForEach(x => x.dailyRange = Math.Round(Convert.ToDecimal(x.dailyRange), 2).ToString());
+            _coinChklist.ForEach(x => x.volume = Math.Round(Convert.ToDecimal(x.volume), 2).ToString("#,##0"));
+            _coinChklist.ForEach(x => x.dailyRange = Math.Round(Convert.ToDecimal(x.dailyRange), 2).ToString() + "%");
 
             //-------------------------------------------------------------------------------------------
             // Output
             //-------------------------------------------------------------------------------------------                        
             if (_coinChklist == null || _coinChklist.Count == 0)
             {
+                lblCnt.Text = "0 건";
                 gridCoin.DataSource = null;
                 MessageBox.Show("조회된 데이터가 없습니다.");
                 return;
             }
 
-            gridCoin.DataSource = _coinChklist;
+            gridCoin.DataSource = _coinChklist;            
+            lblCnt.Text = $"{_coinChklist.Count:N0} 건";
+
+            SetGridHeader();
+
+
         }
 
 
+        private void SetGridHeader()
+        {
+            gridCoin.Columns["cd"].HeaderText = "코드";
+            gridCoin.Columns["krNm"].HeaderText = "코인명";
+            gridCoin.Columns["priceDt"].HeaderText = "일자";
+            gridCoin.Columns["price"].HeaderText = "가격";
+            gridCoin.Columns["openingPrice"].HeaderText = "시초가";
+            gridCoin.Columns["highPrice"].HeaderText = "최고가";
+            gridCoin.Columns["lowPrice"].HeaderText = "최저가";
+            gridCoin.Columns["volume"].HeaderText = "거래량";
+            gridCoin.Columns["dailyRange"].HeaderText = "변동폭";
 
+            gridCoin.Columns["cd"].Visible = true;
+            gridCoin.Columns["krNm"].Visible = true;
+            gridCoin.Columns["priceDt"].Visible = false;
+            gridCoin.Columns["price"].Visible = false;
+            gridCoin.Columns["openingPrice"].Visible = false;
+            gridCoin.Columns["highPrice"].Visible = false;
+            gridCoin.Columns["lowPrice"].Visible = false;
+            gridCoin.Columns["volume"].Visible = false;
+            gridCoin.Columns["dailyRange"].Visible = true;
 
+            gridCoin.Columns["cd"].DisplayIndex = 0;
+            gridCoin.Columns["krNm"].DisplayIndex = 1;
+            gridCoin.Columns["priceDt"].DisplayIndex = 2;
+            gridCoin.Columns["price"].DisplayIndex = 3;
+            gridCoin.Columns["openingPrice"].DisplayIndex = 4;
+            gridCoin.Columns["highPrice"].DisplayIndex = 5;
+            gridCoin.Columns["lowPrice"].DisplayIndex = 6;
+            gridCoin.Columns["volume"].DisplayIndex = 8;
+            gridCoin.Columns["dailyRange"].DisplayIndex = 7;
+        }
     }
 }
+

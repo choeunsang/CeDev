@@ -56,6 +56,7 @@
             label8 = new Label();
             txtShotLastDt = new TextBox();
             label2 = new Label();
+            lblCnt = new Label();
             ((System.ComponentModel.ISupportInitialize)gridCoin).BeginInit();
             ((System.ComponentModel.ISupportInitialize)coinPicture).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gridPrice).BeginInit();
@@ -66,7 +67,7 @@
             gridCoin.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             gridCoin.Location = new Point(24, 40);
             gridCoin.Name = "gridCoin";
-            gridCoin.Size = new Size(370, 579);
+            gridCoin.Size = new Size(370, 565);
             gridCoin.TabIndex = 40;
             // 
             // btnSectSearch
@@ -145,12 +146,12 @@
             // lblPrice
             // 
             lblPrice.AutoSize = true;
-            lblPrice.Location = new Point(795, 107);
+            lblPrice.Location = new Point(777, 107);
             lblPrice.Name = "lblPrice";
             lblPrice.RightToLeft = RightToLeft.No;
             lblPrice.Size = new Size(31, 15);
             lblPrice.TabIndex = 58;
-            lblPrice.Text = "가격";
+            lblPrice.Text = "종가";
             lblPrice.TextAlign = ContentAlignment.TopRight;
             // 
             // txtPriceDt
@@ -205,11 +206,11 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(795, 78);
+            label6.Location = new Point(777, 78);
             label6.Name = "label6";
-            label6.Size = new Size(43, 15);
+            label6.Size = new Size(71, 15);
             label6.TabIndex = 66;
-            label6.Text = "최고가";
+            label6.Text = "장중 최고가";
             label6.TextAlign = ContentAlignment.TopRight;
             // 
             // txtMinPrice
@@ -222,11 +223,11 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(795, 136);
+            label7.Location = new Point(777, 136);
             label7.Name = "label7";
-            label7.Size = new Size(43, 15);
+            label7.Size = new Size(71, 15);
             label7.TabIndex = 68;
-            label7.Text = "최저가";
+            label7.Text = "장중 최저가";
             label7.TextAlign = ContentAlignment.TopRight;
             // 
             // txtMaxPriceDt
@@ -294,11 +295,22 @@
             label2.Text = "최근슈팅일";
             label2.TextAlign = ContentAlignment.TopRight;
             // 
+            // lblCnt
+            // 
+            lblCnt.AutoSize = true;
+            lblCnt.Location = new Point(24, 608);
+            lblCnt.Name = "lblCnt";
+            lblCnt.Size = new Size(47, 15);
+            lblCnt.TabIndex = 78;
+            lblCnt.Text = "총 건수";
+            lblCnt.TextAlign = ContentAlignment.TopRight;
+            // 
             // CoinChk
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1115, 630);
+            Controls.Add(lblCnt);
             Controls.Add(txtShotLastDt);
             Controls.Add(label2);
             Controls.Add(txtDt);
@@ -366,5 +378,6 @@
         private Label label8;
         private TextBox txtShotLastDt;
         private Label label2;
+        private Label lblCnt;
     }
 }
