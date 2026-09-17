@@ -31,13 +31,17 @@ namespace CeDev.DataMng
         {
             InitializeComponent();
             InitEvents();            
-            InitControls();
-            
+            InitControls();            
         }
 
         private void InitControls()
         {
             txtDt.Text = System.DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
+
+            txtStartPriceDt.Visible = false;
+            txtPriceDt.Visible = false;
+            txtMinPriceDt.Visible = false;
+            txtMaxPriceDt.Visible = false;
         }
 
         private void InitEvents()
@@ -152,12 +156,13 @@ namespace CeDev.DataMng
 
             var lastItem = volaList.OrderByDescending(x => x.priceDt).FirstOrDefault();
             txtShotLastDt.Text = lastItem?.priceDt?.ToString() ?? "데이터 없음";
-
-
             
+            txtStartPrice.Text = lastItem?.openingPrice?.ToString() ?? "데이터 없음";
+            txtStartPriceDt.Text = lastItem?.priceDt?.ToString() ?? "데이터 없음";
+
             txtMaxPrice.Text = lastItem?.highPrice?.ToString() ?? "데이터 없음";
             txtMaxPriceDt.Text = lastItem?.priceDt?.ToString() ?? "데이터 없음";
-            
+
             txtMinPrice.Text = lastItem?.lowPrice?.ToString() ?? "데이터 없음";
             txtMinPriceDt.Text = lastItem?.priceDt?.ToString() ?? "데이터 없음";
 
