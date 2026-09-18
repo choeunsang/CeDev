@@ -60,6 +60,9 @@
             txtMaxPriceDt = new TextBox();
             txtMaxPrice = new TextBox();
             label9 = new Label();
+            chkBoxUpDown = new CheckBox();
+            txtChangeRate = new TextBox();
+            label10 = new Label();
             ((System.ComponentModel.ISupportInitialize)gridCoin).BeginInit();
             ((System.ComponentModel.ISupportInitialize)coinPicture).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gridPrice).BeginInit();
@@ -70,7 +73,7 @@
             gridCoin.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             gridCoin.Location = new Point(24, 40);
             gridCoin.Name = "gridCoin";
-            gridCoin.Size = new Size(370, 565);
+            gridCoin.Size = new Size(393, 565);
             gridCoin.TabIndex = 40;
             // 
             // btnSectSearch
@@ -249,7 +252,7 @@
             // 
             // txtShotCnt
             // 
-            txtShotCnt.Location = new Point(854, 210);
+            txtShotCnt.Location = new Point(854, 229);
             txtShotCnt.Name = "txtShotCnt";
             txtShotCnt.Size = new Size(150, 23);
             txtShotCnt.TabIndex = 73;
@@ -257,7 +260,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(793, 213);
+            label4.Location = new Point(793, 232);
             label4.Name = "label4";
             label4.Size = new Size(55, 15);
             label4.TabIndex = 72;
@@ -283,7 +286,7 @@
             // 
             // txtShotLastDt
             // 
-            txtShotLastDt.Location = new Point(854, 239);
+            txtShotLastDt.Location = new Point(854, 258);
             txtShotLastDt.Name = "txtShotLastDt";
             txtShotLastDt.Size = new Size(150, 23);
             txtShotLastDt.TabIndex = 77;
@@ -291,7 +294,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(781, 242);
+            label2.Location = new Point(781, 261);
             label2.Name = "label2";
             label2.Size = new Size(67, 15);
             label2.TabIndex = 76;
@@ -332,11 +335,41 @@
             label9.Text = "장중 최고가";
             label9.TextAlign = ContentAlignment.TopRight;
             // 
+            // chkBoxUpDown
+            // 
+            chkBoxUpDown.AutoSize = true;
+            chkBoxUpDown.Location = new Point(287, 11);
+            chkBoxUpDown.Name = "chkBoxUpDown";
+            chkBoxUpDown.Size = new Size(102, 19);
+            chkBoxUpDown.TabIndex = 82;
+            chkBoxUpDown.Text = "등락률 하락만";
+            chkBoxUpDown.UseVisualStyleBackColor = true;
+            // 
+            // txtChangeRate
+            // 
+            txtChangeRate.Location = new Point(854, 190);
+            txtChangeRate.Name = "txtChangeRate";
+            txtChangeRate.Size = new Size(150, 23);
+            txtChangeRate.TabIndex = 84;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(777, 190);
+            label10.Name = "label10";
+            label10.Size = new Size(43, 15);
+            label10.TabIndex = 83;
+            label10.Text = "등락률";
+            label10.TextAlign = ContentAlignment.TopRight;
+            // 
             // CoinChk
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1115, 630);
+            Controls.Add(txtChangeRate);
+            Controls.Add(label10);
+            Controls.Add(chkBoxUpDown);
             Controls.Add(txtMaxPriceDt);
             Controls.Add(txtMaxPrice);
             Controls.Add(label9);
@@ -412,5 +445,8 @@
         private TextBox txtMaxPriceDt;
         private TextBox txtMaxPrice;
         private Label label9;
+        private CheckBox chkBoxUpDown;
+        private TextBox txtChangeRate;
+        private Label label10;
     }
 }

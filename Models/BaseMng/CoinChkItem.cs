@@ -22,6 +22,8 @@
 
         public string dailyRange { get; set; }
 
+        public string changeRate { get; set; }
+
 
     }
 }

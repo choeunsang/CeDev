@@ -42,6 +42,8 @@ namespace CeDev.DataMng
             txtPriceDt.Visible = false;
             txtMinPriceDt.Visible = false;
             txtMaxPriceDt.Visible = false;
+
+            chkBoxUpDown.Checked = true;            
         }
 
         private void InitEvents()
@@ -166,6 +168,8 @@ namespace CeDev.DataMng
             txtMinPrice.Text = lastItem?.lowPrice?.ToString() ?? "데이터 없음";
             txtMinPriceDt.Text = lastItem?.priceDt?.ToString() ?? "데이터 없음";
 
+            txtChangeRate.Text = pItem.changeRate;
+
 
             //var maxPriceItem = list.OrderByDescending(x => x.price).FirstOrDefault();
             //var minPriceItem = list.OrderBy(x => x.price).FirstOrDefault();
@@ -225,6 +229,11 @@ namespace CeDev.DataMng
             string json = await client.GetStringAsync(url);            
             _coinChklist = JsonConvert.DeserializeObject<List<CoinChkItem>>(json);
 
+            if(chkBoxUpDown.Checked)
+            {
+                _coinChklist = _coinChklist.Where(x => Convert.ToDecimal(x.changeRate) <= 0).ToList();
+            }
+
 
             //_coinChklist = _coinChklist.Where(x => x.useYn == "Y").ToList();
 
@@ -235,6 +244,8 @@ namespace CeDev.DataMng
             _coinChklist.ForEach(x => x.lowPrice = Math.Round(Convert.ToDecimal(x.lowPrice), 2).ToString());
             _coinChklist.ForEach(x => x.volume = Math.Round(Convert.ToDecimal(x.volume), 2).ToString("#,##0"));
             _coinChklist.ForEach(x => x.dailyRange = Math.Round(Convert.ToDecimal(x.dailyRange), 2).ToString() + "%");
+
+            _coinChklist.ForEach(x => x.changeRate = Math.Round(Convert.ToDecimal(x.changeRate), 2).ToString() + "%");
 
             //-------------------------------------------------------------------------------------------
             // Output
@@ -267,6 +278,7 @@ namespace CeDev.DataMng
             gridCoin.Columns["lowPrice"].HeaderText = "최저가";
             gridCoin.Columns["volume"].HeaderText = "거래량";
             gridCoin.Columns["dailyRange"].HeaderText = "변동폭";
+            gridCoin.Columns["changeRate"].HeaderText = "등락률";
 
             gridCoin.Columns["cd"].Visible = true;
             gridCoin.Columns["krNm"].Visible = true;
@@ -277,6 +289,7 @@ namespace CeDev.DataMng
             gridCoin.Columns["lowPrice"].Visible = false;
             gridCoin.Columns["volume"].Visible = false;
             gridCoin.Columns["dailyRange"].Visible = true;
+            gridCoin.Columns["changeRate"].Visible = true;
 
             gridCoin.Columns["cd"].DisplayIndex = 0;
             gridCoin.Columns["krNm"].DisplayIndex = 1;
@@ -285,8 +298,12 @@ namespace CeDev.DataMng
             gridCoin.Columns["openingPrice"].DisplayIndex = 4;
             gridCoin.Columns["highPrice"].DisplayIndex = 5;
             gridCoin.Columns["lowPrice"].DisplayIndex = 6;
-            gridCoin.Columns["volume"].DisplayIndex = 8;
+            gridCoin.Columns["volume"].DisplayIndex = 9;
             gridCoin.Columns["dailyRange"].DisplayIndex = 7;
+            gridCoin.Columns["changeRate"].DisplayIndex = 8;
+
+            gridCoin.Columns["dailyRange"].Width = 70;
+            gridCoin.Columns["changeRate"].Width = 70;
         }
     }
 }
