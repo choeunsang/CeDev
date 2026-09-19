@@ -63,6 +63,7 @@
             chkBoxUpDown = new CheckBox();
             txtChangeRate = new TextBox();
             label10 = new Label();
+            chkBoxOldCoinYn = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)gridCoin).BeginInit();
             ((System.ComponentModel.ISupportInitialize)coinPicture).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gridPrice).BeginInit();
@@ -338,7 +339,7 @@
             // chkBoxUpDown
             // 
             chkBoxUpDown.AutoSize = true;
-            chkBoxUpDown.Location = new Point(287, 11);
+            chkBoxUpDown.Location = new Point(315, 11);
             chkBoxUpDown.Name = "chkBoxUpDown";
             chkBoxUpDown.Size = new Size(102, 19);
             chkBoxUpDown.TabIndex = 82;
@@ -362,11 +363,22 @@
             label10.Text = "등락률";
             label10.TextAlign = ContentAlignment.TopRight;
             // 
+            // chkBoxOldCoinYn
+            // 
+            chkBoxOldCoinYn.AutoSize = true;
+            chkBoxOldCoinYn.Location = new Point(207, 11);
+            chkBoxOldCoinYn.Name = "chkBoxOldCoinYn";
+            chkBoxOldCoinYn.Size = new Size(102, 19);
+            chkBoxOldCoinYn.TabIndex = 85;
+            chkBoxOldCoinYn.Text = "신규코인 제외";
+            chkBoxOldCoinYn.UseVisualStyleBackColor = true;
+            // 
             // CoinChk
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1115, 630);
+            Controls.Add(chkBoxOldCoinYn);
             Controls.Add(txtChangeRate);
             Controls.Add(label10);
             Controls.Add(chkBoxUpDown);
@@ -448,5 +460,6 @@
         private CheckBox chkBoxUpDown;
         private TextBox txtChangeRate;
         private Label label10;
+        private CheckBox chkBoxOldCoinYn;
     }
 }

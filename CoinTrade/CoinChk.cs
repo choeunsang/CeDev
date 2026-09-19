@@ -43,6 +43,7 @@ namespace CeDev.DataMng
             txtMinPriceDt.Visible = false;
             txtMaxPriceDt.Visible = false;
 
+            chkBoxOldCoinYn.Checked = true;
             chkBoxUpDown.Checked = true;            
         }
 
@@ -212,27 +213,48 @@ namespace CeDev.DataMng
 
 
         private async Task GetCoinInfo()
-        {            
-            //-------------------------------------------------------------------------------------------
+        {
+            //==================================================================================================================
             // Declare and initialize variables
-            //-------------------------------------------------------------------------------------------            
+            //==================================================================================================================
             string baseUrl = "http://localhost:9081/api/basemng-coin-chk-info";            
             var queryString = HttpUtility.ParseQueryString(string.Empty);
 
             queryString["priceDt"] = txtDt.Text;
             string url = $"{baseUrl}?{queryString}";
 
-            //-------------------------------------------------------------------------------------------
+            //==================================================================================================================
             // Processing
-            //-------------------------------------------------------------------------------------------            
+            //==================================================================================================================
             HttpClient client = new HttpClient();
             string json = await client.GetStringAsync(url);            
             _coinChklist = JsonConvert.DeserializeObject<List<CoinChkItem>>(json);
 
-            if(chkBoxUpDown.Checked)
+            ////(1).신규코인 제외
+            //if (chkBoxOldCoinYn.Checked)
+            //{
+            //    //DateTime oneYearsAgo = DateTime.Now.AddYears(-1);
+            //    string oneYearsAgo = DateTime.Now.AddYears(-1).ToString("yyyy-MM-dd");
+
+            //    //_coinChklist = _coinChklist.Where(x => x.cd == "KRW-LSK").ToList();
+
+            //    //_coinChklist = _coinChklist.Where(x => DateTime.Parse(x.priceDt) <= oneYearsAgo).ToList();
+            //    _coinChklist = _coinChklist.Where(x => string.Compare(x.priceDt, oneYearsAgo) <= 0).ToList();
+            //}
+
+            //(2).종가기준 마이너스 
+            if (chkBoxUpDown.Checked)
             {
                 _coinChklist = _coinChklist.Where(x => Convert.ToDecimal(x.changeRate) <= 0).ToList();
+                //_coinChklist = _coinChklist.Where(x => double.TryParse(x.changeRate, System.Globalization.NumberStyles.Float, null, out double parsedRate) 
+                //                                  && parsedRate <= 0).ToList();
             }
+
+            //(2-2).변동폭 10% 이상만 
+            _coinChklist = _coinChklist.Where(x => Convert.ToDecimal(x.dailyRange) >= 10).ToList();
+
+            ////(3).오늘날짜만 
+            //_coinChklist = _coinChklist.Where(x => x.priceDt == txtDt.Text).ToList();
 
 
             //_coinChklist = _coinChklist.Where(x => x.useYn == "Y").ToList();
@@ -247,9 +269,9 @@ namespace CeDev.DataMng
 
             _coinChklist.ForEach(x => x.changeRate = Math.Round(Convert.ToDecimal(x.changeRate), 2).ToString() + "%");
 
-            //-------------------------------------------------------------------------------------------
+            //==================================================================================================================
             // Output
-            //-------------------------------------------------------------------------------------------                        
+            //================================================================================================================== 
             if (_coinChklist == null || _coinChklist.Count == 0)
             {
                 lblCnt.Text = "0 건";
