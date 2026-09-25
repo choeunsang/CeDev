@@ -37,8 +37,8 @@ namespace CeDev.DataMng
         {
             //gridPu.CellValueChanged += GridPu_CellValueChanged;
             //gridPu.CurrentCellDirtyStateChanged += GridPu_CurrentCellDirtyStateChanged;
-            
-            
+
+
             gridCoin.SelectionChanged += GridCoin_SelectionChanged;
         }
 
@@ -76,6 +76,8 @@ namespace CeDev.DataMng
             txtPriceDt.Text = item.priceDt;
             txtCntry.Text = item.issueCntryNm;
 
+            txtLaunchDt.Text = item.launchDt;
+
             //-------------------------------------------------------------------------------------------
             //Output
             //-------------------------------------------------------------------------------------------
@@ -110,7 +112,7 @@ namespace CeDev.DataMng
             //CoinSearchModel model = new CoinSearchModel();
             var queryString = HttpUtility.ParseQueryString(string.Empty);
             queryString["cd"] = pItem.cd;
-            
+
             string baseUrl = "http://localhost:9081/api/basemng-coin-detail-info";
             string url = $"{baseUrl}?{queryString}";
 
@@ -145,7 +147,7 @@ namespace CeDev.DataMng
                      .Where(x => (Convert.ToDecimal(x.highPrice) - Convert.ToDecimal(x.lowPrice)) / Convert.ToDecimal(x.lowPrice) >= 0.1m)
                      .ToList();
 
-            txtShotCnt.Text  = volaList.Count.ToString();
+            txtShotCnt.Text = volaList.Count.ToString();
 
             var lastItem = volaList.OrderByDescending(x => x.priceDt).FirstOrDefault();
             txtShotLastDt.Text = lastItem?.priceDt?.ToString() ?? "데이터 없음";
@@ -153,7 +155,7 @@ namespace CeDev.DataMng
             var maxPriceItem = list.OrderByDescending(x => x.price).FirstOrDefault();
             var minPriceItem = list.OrderBy(x => x.price).FirstOrDefault();
 
-            if(maxPriceItem != null)
+            if (maxPriceItem != null)
             {
                 txtMaxPrice.Text = maxPriceItem.price.ToString();
                 txtMaxPriceDt.Text = maxPriceItem.priceDt.ToString();
@@ -234,12 +236,12 @@ namespace CeDev.DataMng
 
 
         private async Task GetCoinInfo()
-        {            
+        {
             //-------------------------------------------------------------------------------------------
             // Declare and initialize variables
             //-------------------------------------------------------------------------------------------
             PuSearchModel model = new PuSearchModel();
-            string baseUrl = "http://localhost:9081/api/basemng-coin-info";            
+            string baseUrl = "http://localhost:9081/api/basemng-coin-info";
             var queryString = HttpUtility.ParseQueryString(string.Empty);
             queryString["krNm"] = txtSearchCoinNm.Text;
 
@@ -249,7 +251,7 @@ namespace CeDev.DataMng
             // Processing
             //-------------------------------------------------------------------------------------------            
             HttpClient client = new HttpClient();
-            string json = await client.GetStringAsync(url);            
+            string json = await client.GetStringAsync(url);
             _coinlist = JsonConvert.DeserializeObject<List<CoinItem>>(json);
 
             _coinlist = _coinlist.Where(x => x.useYn == "Y").ToList();
@@ -267,6 +269,11 @@ namespace CeDev.DataMng
 
             gridCoin.DataSource = _coinlist;
             lblCnt.Text = $"{_coinlist.Count:N0} 건";
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
         }
 
         //private string BuildQueryString(PuSearchModel model)

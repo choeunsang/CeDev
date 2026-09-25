@@ -86,6 +86,8 @@ namespace CeDev.DataMng
             txtPriceDt.Text = item.priceDt;
             txtCntry.Text = item.issueCntryNm;
 
+            txtLaunchDt.Text = item.launchDt;
+
             //-------------------------------------------------------------------------------------------
             //Output
             //-------------------------------------------------------------------------------------------
@@ -230,24 +232,23 @@ namespace CeDev.DataMng
             string json = await client.GetStringAsync(url);            
             _coinChklist = JsonConvert.DeserializeObject<List<CoinChkItem>>(json);
 
-            ////(1).신규코인 제외
-            //if (chkBoxOldCoinYn.Checked)
-            //{
-            //    //DateTime oneYearsAgo = DateTime.Now.AddYears(-1);
-            //    string oneYearsAgo = DateTime.Now.AddYears(-1).ToString("yyyy-MM-dd");
+            //(1).신규코인 제외(상장 1년 이내)
+            if (chkBoxOldCoinYn.Checked)
+            {
+                //DateTime oneYearsAgo = DateTime.Now.AddYears(-1);
+                string oneYearsAgo = DateTime.Now.AddYears(-1).ToString("yyyy-MM-dd");
 
-            //    //_coinChklist = _coinChklist.Where(x => x.cd == "KRW-LSK").ToList();
+                //_coinChklist = _coinChklist.Where(x => x.cd == "KRW-LSK").ToList();
 
-            //    //_coinChklist = _coinChklist.Where(x => DateTime.Parse(x.priceDt) <= oneYearsAgo).ToList();
-            //    _coinChklist = _coinChklist.Where(x => string.Compare(x.priceDt, oneYearsAgo) <= 0).ToList();
-            //}
+                //_coinChklist = _coinChklist.Where(x => DateTime.Parse(x.priceDt) <= oneYearsAgo).ToList();
+                _coinChklist = _coinChklist.Where(x => string.Compare(x.launchDt, oneYearsAgo) <= 0).ToList();
+            }
 
             //(2).종가기준 마이너스 
             if (chkBoxUpDown.Checked)
             {
-                _coinChklist = _coinChklist.Where(x => Convert.ToDecimal(x.changeRate) <= 0).ToList();
-                //_coinChklist = _coinChklist.Where(x => double.TryParse(x.changeRate, System.Globalization.NumberStyles.Float, null, out double parsedRate) 
-                //                                  && parsedRate <= 0).ToList();
+                //_coinChklist = _coinChklist.Where(x => Convert.ToDecimal(x.changeRate) <= 0).ToList();
+                _coinChklist = _coinChklist.Where(x => decimal.TryParse(x.changeRate, out decimal rate) && rate <= 0).ToList();
             }
 
             //(2-2).변동폭 10% 이상만 

@@ -25,6 +25,9 @@
         public string changeRate { get; set; }
 
 
+        public string launchDt { get; set; }
+
+
     }
 }
 

@@ -16,6 +16,8 @@
         public string marketCap { get; set; }
 
         public string useYn { get; set; }
+
+        public string launchDt { get; set; }
     }
 }
 

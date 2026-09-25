@@ -64,6 +64,8 @@
             txtChangeRate = new TextBox();
             label10 = new Label();
             chkBoxOldCoinYn = new CheckBox();
+            txtLaunchDt = new TextBox();
+            label11 = new Label();
             ((System.ComponentModel.ISupportInitialize)gridCoin).BeginInit();
             ((System.ComponentModel.ISupportInitialize)coinPicture).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gridPrice).BeginInit();
@@ -170,7 +172,7 @@
             // 
             // txtCntry
             // 
-            txtCntry.Location = new Point(854, 292);
+            txtCntry.Location = new Point(854, 275);
             txtCntry.Name = "txtCntry";
             txtCntry.Size = new Size(150, 23);
             txtCntry.TabIndex = 63;
@@ -178,7 +180,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(795, 295);
+            label5.Location = new Point(783, 278);
             label5.Name = "label5";
             label5.Size = new Size(43, 15);
             label5.TabIndex = 62;
@@ -253,7 +255,7 @@
             // 
             // txtShotCnt
             // 
-            txtShotCnt.Location = new Point(854, 229);
+            txtShotCnt.Location = new Point(854, 219);
             txtShotCnt.Name = "txtShotCnt";
             txtShotCnt.Size = new Size(150, 23);
             txtShotCnt.TabIndex = 73;
@@ -261,7 +263,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(793, 232);
+            label4.Location = new Point(783, 222);
             label4.Name = "label4";
             label4.Size = new Size(55, 15);
             label4.TabIndex = 72;
@@ -287,7 +289,7 @@
             // 
             // txtShotLastDt
             // 
-            txtShotLastDt.Location = new Point(854, 258);
+            txtShotLastDt.Location = new Point(854, 248);
             txtShotLastDt.Name = "txtShotLastDt";
             txtShotLastDt.Size = new Size(150, 23);
             txtShotLastDt.TabIndex = 77;
@@ -295,7 +297,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(781, 261);
+            label2.Location = new Point(781, 253);
             label2.Name = "label2";
             label2.Size = new Size(67, 15);
             label2.TabIndex = 76;
@@ -373,11 +375,30 @@
             chkBoxOldCoinYn.Text = "신규코인 제외";
             chkBoxOldCoinYn.UseVisualStyleBackColor = true;
             // 
+            // txtLaunchDt
+            // 
+            txtLaunchDt.Location = new Point(867, 306);
+            txtLaunchDt.Name = "txtLaunchDt";
+            txtLaunchDt.Size = new Size(150, 23);
+            txtLaunchDt.TabIndex = 87;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(780, 311);
+            label11.Name = "label11";
+            label11.Size = new Size(83, 15);
+            label11.TabIndex = 86;
+            label11.Text = "업비트 상장일";
+            label11.TextAlign = ContentAlignment.TopRight;
+            // 
             // CoinChk
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1115, 630);
+            Controls.Add(txtLaunchDt);
+            Controls.Add(label11);
             Controls.Add(chkBoxOldCoinYn);
             Controls.Add(txtChangeRate);
             Controls.Add(label10);
@@ -461,5 +482,7 @@
         private TextBox txtChangeRate;
         private Label label10;
         private CheckBox chkBoxOldCoinYn;
+        private TextBox txtLaunchDt;
+        private Label label11;
     }
 }

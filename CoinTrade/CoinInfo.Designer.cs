@@ -57,6 +57,8 @@
             txtShotLastDt = new TextBox();
             label8 = new Label();
             lblCnt = new Label();
+            txtLaunchDt = new TextBox();
+            label11 = new Label();
             ((System.ComponentModel.ISupportInitialize)gridCoin).BeginInit();
             ((System.ComponentModel.ISupportInitialize)coinPicture).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gridPrice).BeginInit();
@@ -163,20 +165,21 @@
             // 
             // txtCntry
             // 
-            txtCntry.Location = new Point(844, 292);
+            txtCntry.Location = new Point(868, 261);
             txtCntry.Name = "txtCntry";
-            txtCntry.Size = new Size(160, 23);
+            txtCntry.Size = new Size(150, 23);
             txtCntry.TabIndex = 63;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(795, 295);
+            label5.Location = new Point(783, 264);
             label5.Name = "label5";
             label5.Size = new Size(43, 15);
             label5.TabIndex = 62;
             label5.Text = "발행국";
             label5.TextAlign = ContentAlignment.TopRight;
+            label5.Click += label5_Click;
             // 
             // gridPrice
             // 
@@ -246,7 +249,7 @@
             // 
             // txtShotCnt
             // 
-            txtShotCnt.Location = new Point(844, 184);
+            txtShotCnt.Location = new Point(858, 180);
             txtShotCnt.Name = "txtShotCnt";
             txtShotCnt.Size = new Size(160, 23);
             txtShotCnt.TabIndex = 73;
@@ -254,7 +257,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(783, 187);
+            label4.Location = new Point(783, 183);
             label4.Name = "label4";
             label4.Size = new Size(55, 15);
             label4.TabIndex = 72;
@@ -280,7 +283,7 @@
             // 
             // txtShotLastDt
             // 
-            txtShotLastDt.Location = new Point(844, 213);
+            txtShotLastDt.Location = new Point(858, 209);
             txtShotLastDt.Name = "txtShotLastDt";
             txtShotLastDt.Size = new Size(160, 23);
             txtShotLastDt.TabIndex = 79;
@@ -288,7 +291,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(775, 218);
+            label8.Location = new Point(781, 212);
             label8.Name = "label8";
             label8.Size = new Size(67, 15);
             label8.TabIndex = 78;
@@ -305,11 +308,30 @@
             lblCnt.Text = "총 건수";
             lblCnt.TextAlign = ContentAlignment.TopRight;
             // 
+            // txtLaunchDt
+            // 
+            txtLaunchDt.Location = new Point(868, 290);
+            txtLaunchDt.Name = "txtLaunchDt";
+            txtLaunchDt.Size = new Size(150, 23);
+            txtLaunchDt.TabIndex = 89;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(781, 295);
+            label11.Name = "label11";
+            label11.Size = new Size(83, 15);
+            label11.TabIndex = 88;
+            label11.Text = "업비트 상장일";
+            label11.TextAlign = ContentAlignment.TopRight;
+            // 
             // CoinInfo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1115, 630);
+            Controls.Add(txtLaunchDt);
+            Controls.Add(label11);
             Controls.Add(lblCnt);
             Controls.Add(txtShotLastDt);
             Controls.Add(label8);
@@ -379,5 +401,7 @@
         private TextBox txtShotLastDt;
         private Label label8;
         private Label lblCnt;
+        private TextBox txtLaunchDt;
+        private Label label11;
     }
 }
