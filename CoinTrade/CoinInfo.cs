@@ -143,7 +143,13 @@ namespace CeDev.DataMng
             //=================================================================================================================
             // Output 
             //=================================================================================================================
-            var volaList = list
+            string oneYearsAgo = DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd");
+            string threeMonthAgo = DateTime.Now.AddMonths(-3).ToString("yyyy-MM-dd");
+
+            var volaList = list.Where(x => string.Compare(x.priceDt, threeMonthAgo) <= 0).ToList();
+            //var volaList = list.Where(x => string.Compare(x.priceDt, oneYearsAgo) <= 0).ToList();
+
+            volaList = volaList
                      .Where(x => (Convert.ToDecimal(x.highPrice) - Convert.ToDecimal(x.lowPrice)) / Convert.ToDecimal(x.lowPrice) >= 0.1m)
                      .ToList();
 
@@ -167,9 +173,10 @@ namespace CeDev.DataMng
                 txtMinPriceDt.Text = minPriceItem.priceDt.ToString();
             }
 
-
             gridPrice.DataSource = list;
             gridPrice.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            SetGridHeader2();
         }
 
         private void InitControls()
@@ -256,6 +263,9 @@ namespace CeDev.DataMng
 
             _coinlist = _coinlist.Where(x => x.useYn == "Y").ToList();
 
+
+            _coinlist.ForEach(x => x.price = Math.Round(Convert.ToDecimal(x.price), 2).ToString());
+
             //-------------------------------------------------------------------------------------------
             // Output
             //-------------------------------------------------------------------------------------------                        
@@ -269,30 +279,74 @@ namespace CeDev.DataMng
 
             gridCoin.DataSource = _coinlist;
             lblCnt.Text = $"{_coinlist.Count:N0} 건";
+
+            SetGridHeader();
         }
 
-        private void label5_Click(object sender, EventArgs e)
+        private void SetGridHeader()
         {
+            gridCoin.Columns["cd"].HeaderText = "코드";
+            gridCoin.Columns["krNm"].HeaderText = "코인명";
+            gridCoin.Columns["enNm"].HeaderText = "코인명(영문)";
+            gridCoin.Columns["description"].HeaderText = "설명";
+            gridCoin.Columns["issueCntryNm"].HeaderText = "발행국";
+            gridCoin.Columns["price"].HeaderText = "가격";
+            gridCoin.Columns["priceDt"].HeaderText = "가격일자";
+            gridCoin.Columns["marketCap"].HeaderText = "시총";
+            gridCoin.Columns["useYn"].HeaderText = "사용여부";
+            gridCoin.Columns["launchDt"].HeaderText = "상장일";
 
+            gridCoin.Columns["cd"].Visible = true;
+            gridCoin.Columns["krNm"].Visible = true;
+            gridCoin.Columns["enNm"].Visible = false;
+            gridCoin.Columns["description"].Visible = false;
+            gridCoin.Columns["issueCntryNm"].Visible = false;
+            gridCoin.Columns["price"].Visible = true;
+            gridCoin.Columns["priceDt"].Visible = true;
+            gridCoin.Columns["marketCap"].Visible = false;
+            gridCoin.Columns["useYn"].Visible = false;
+            gridCoin.Columns["launchDt"].Visible = false;
+
+
+            gridCoin.Columns["cd"].DisplayIndex = 0;
+            gridCoin.Columns["krNm"].DisplayIndex = 1;
+            gridCoin.Columns["enNm"].DisplayIndex = 2;
+            gridCoin.Columns["description"].DisplayIndex = 3;
+            gridCoin.Columns["issueCntryNm"].DisplayIndex = 4;
+            gridCoin.Columns["price"].DisplayIndex = 5;
+            gridCoin.Columns["priceDt"].DisplayIndex = 6;
+            gridCoin.Columns["marketCap"].DisplayIndex = 7;
+            gridCoin.Columns["useYn"].DisplayIndex = 8;
+            gridCoin.Columns["launchDt"].DisplayIndex = 9;
+
+            //gridCoin.Columns["dailyRange"].Width = 70;
+            //gridCoin.Columns["changeRate"].Width = 70;
         }
 
-        //private string BuildQueryString(PuSearchModel model)
-        //{
-        //    //-------------------------------------------------------------------------------------------
-        //    // Declare and initialize variables
-        //    //-------------------------------------------------------------------------------------------
-        //    var query = HttpUtility.ParseQueryString(string.Empty);
+        private void SetGridHeader2()
+        {
+            gridPrice.Columns["cd"].HeaderText = "코드";
+            gridPrice.Columns["priceDt"].HeaderText = "가격일자";
+            gridPrice.Columns["price"].HeaderText = "가격";            
+            gridPrice.Columns["openingPrice"].HeaderText = "시초가";
+            gridPrice.Columns["highPrice"].HeaderText = "최고가";
+            gridPrice.Columns["lowPrice"].HeaderText = "최저가";
+            gridPrice.Columns["volume"].HeaderText = "거래량";
+            gridPrice.Columns["marketCap"].HeaderText = "시총";
+            gridPrice.Columns["etc"].HeaderText = "etc";
 
-        //    //-------------------------------------------------------------------------------------------
-        //    // Processing
-        //    //-------------------------------------------------------------------------------------------
-        //    //query["sido"] = model.Sido;
-        //    //query["sigungu"] = model.Sigungu;
+            gridPrice.Columns["cd"].Visible = false;
+            gridPrice.Columns["priceDt"].Visible = true;
+            gridPrice.Columns["price"].Visible = true;
+            gridPrice.Columns["openingPrice"].Visible = true;
+            gridPrice.Columns["highPrice"].Visible = true;
+            gridPrice.Columns["lowPrice"].Visible = true;
+            gridPrice.Columns["volume"].Visible = true;
+            gridPrice.Columns["marketCap"].Visible = false;
+            gridPrice.Columns["etc"].Visible = false;
 
-
-        //    return query.ToString();
-        //}
-
-
+            //gridPrice.Columns["cd"].Width = 70;
+            //gridPrice.Columns["krNm"].Width = 70;
+        }
     }
 }

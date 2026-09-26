@@ -59,6 +59,7 @@
             lblCnt = new Label();
             txtLaunchDt = new TextBox();
             label11 = new Label();
+            label9 = new Label();
             ((System.ComponentModel.ISupportInitialize)gridCoin).BeginInit();
             ((System.ComponentModel.ISupportInitialize)coinPicture).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gridPrice).BeginInit();
@@ -179,7 +180,6 @@
             label5.TabIndex = 62;
             label5.Text = "발행국";
             label5.TextAlign = ContentAlignment.TopRight;
-            label5.Click += label5_Click;
             // 
             // gridPrice
             // 
@@ -325,11 +325,22 @@
             label11.Text = "업비트 상장일";
             label11.TextAlign = ContentAlignment.TopRight;
             // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(1024, 183);
+            label9.Name = "label9";
+            label9.Size = new Size(74, 15);
+            label9.TabIndex = 90;
+            label9.Text = "(3 개월이내)";
+            label9.TextAlign = ContentAlignment.TopRight;
+            // 
             // CoinInfo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1115, 630);
+            Controls.Add(label9);
             Controls.Add(txtLaunchDt);
             Controls.Add(label11);
             Controls.Add(lblCnt);
@@ -403,5 +414,6 @@
         private Label lblCnt;
         private TextBox txtLaunchDt;
         private Label label11;
+        private Label label9;
     }
 }

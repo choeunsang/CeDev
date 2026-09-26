@@ -189,9 +189,10 @@ namespace CeDev.DataMng
             //    txtMinPriceDt.Text = minPriceItem.priceDt.ToString();
             //}
 
-
             gridPrice.DataSource = list;
             gridPrice.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            SetGridHeader2();
         }
 
 
@@ -285,8 +286,6 @@ namespace CeDev.DataMng
             lblCnt.Text = $"{_coinChklist.Count:N0} 건";
 
             SetGridHeader();
-
-
         }
 
 
@@ -294,6 +293,11 @@ namespace CeDev.DataMng
         {
             gridCoin.Columns["cd"].HeaderText = "코드";
             gridCoin.Columns["krNm"].HeaderText = "코인명";
+
+            gridCoin.Columns["enNm"].HeaderText = "코인명(영문)";
+            gridCoin.Columns["description"].HeaderText = "설명";
+            gridCoin.Columns["issueCntryNm"].HeaderText = "발행국";
+
             gridCoin.Columns["priceDt"].HeaderText = "일자";
             gridCoin.Columns["price"].HeaderText = "가격";
             gridCoin.Columns["openingPrice"].HeaderText = "시초가";
@@ -302,9 +306,13 @@ namespace CeDev.DataMng
             gridCoin.Columns["volume"].HeaderText = "거래량";
             gridCoin.Columns["dailyRange"].HeaderText = "변동폭";
             gridCoin.Columns["changeRate"].HeaderText = "등락률";
+            gridCoin.Columns["launchDt"].HeaderText = "상장일";
 
             gridCoin.Columns["cd"].Visible = true;
             gridCoin.Columns["krNm"].Visible = true;
+            gridCoin.Columns["enNm"].Visible = false;
+            gridCoin.Columns["description"].Visible = false;
+            gridCoin.Columns["issueCntryNm"].Visible = false;
             gridCoin.Columns["priceDt"].Visible = false;
             gridCoin.Columns["price"].Visible = false;
             gridCoin.Columns["openingPrice"].Visible = false;
@@ -313,9 +321,13 @@ namespace CeDev.DataMng
             gridCoin.Columns["volume"].Visible = false;
             gridCoin.Columns["dailyRange"].Visible = true;
             gridCoin.Columns["changeRate"].Visible = true;
+            gridCoin.Columns["launchDt"].Visible = false;
 
             gridCoin.Columns["cd"].DisplayIndex = 0;
             gridCoin.Columns["krNm"].DisplayIndex = 1;
+            //gridCoin.Columns["enNm"].DisplayIndex = 0;
+            //gridCoin.Columns["description"].DisplayIndex = 0;
+            //gridCoin.Columns["issueCntryNm"].DisplayIndex = 0;
             gridCoin.Columns["priceDt"].DisplayIndex = 2;
             gridCoin.Columns["price"].DisplayIndex = 3;
             gridCoin.Columns["openingPrice"].DisplayIndex = 4;
@@ -324,9 +336,36 @@ namespace CeDev.DataMng
             gridCoin.Columns["volume"].DisplayIndex = 9;
             gridCoin.Columns["dailyRange"].DisplayIndex = 7;
             gridCoin.Columns["changeRate"].DisplayIndex = 8;
+            //gridCoin.Columns["launchDt"].DisplayIndex = 0;
 
             gridCoin.Columns["dailyRange"].Width = 70;
             gridCoin.Columns["changeRate"].Width = 70;
+        }
+
+        private void SetGridHeader2()
+        {
+            gridPrice.Columns["cd"].HeaderText = "코드";
+            gridPrice.Columns["priceDt"].HeaderText = "가격일자";
+            gridPrice.Columns["price"].HeaderText = "가격";
+            gridPrice.Columns["openingPrice"].HeaderText = "시초가";
+            gridPrice.Columns["highPrice"].HeaderText = "최고가";
+            gridPrice.Columns["lowPrice"].HeaderText = "최저가";
+            gridPrice.Columns["volume"].HeaderText = "거래량";
+            gridPrice.Columns["marketCap"].HeaderText = "시총";
+            gridPrice.Columns["etc"].HeaderText = "etc";
+
+            gridPrice.Columns["cd"].Visible = false;
+            gridPrice.Columns["priceDt"].Visible = true;
+            gridPrice.Columns["price"].Visible = true;
+            gridPrice.Columns["openingPrice"].Visible = true;
+            gridPrice.Columns["highPrice"].Visible = true;
+            gridPrice.Columns["lowPrice"].Visible = true;
+            gridPrice.Columns["volume"].Visible = true;
+            gridPrice.Columns["marketCap"].Visible = false;
+            gridPrice.Columns["etc"].Visible = false;
+
+            //gridPrice.Columns["cd"].Width = 70;
+            //gridPrice.Columns["krNm"].Width = 70;
         }
     }
 }
