@@ -146,7 +146,7 @@ namespace CeDev.DataMng
             string oneYearsAgo = DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd");
             string threeMonthAgo = DateTime.Now.AddMonths(-3).ToString("yyyy-MM-dd");
 
-            var volaList = list.Where(x => string.Compare(x.priceDt, threeMonthAgo) <= 0).ToList();
+            var volaList = list.Where(x => string.Compare(x.priceDt, threeMonthAgo) >= 0).ToList();
             //var volaList = list.Where(x => string.Compare(x.priceDt, oneYearsAgo) <= 0).ToList();
 
             volaList = volaList
